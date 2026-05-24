@@ -438,17 +438,14 @@
                 <button onclick="toggleKeyConfig()" id="toggleKeyConfigBtn" title="Cấu hình API Key"
                     class="relative bg-slate-700 hover:bg-slate-600 text-brand-400 text-sm px-3 py-2 rounded-lg font-medium transition-all flex items-center gap-2 shrink-0">
                     <i class="fa-solid fa-key"></i>
-                    <span id="activeKeyCountBadge"
-                        class="absolute -top-1.5 -right-1.5 bg-brand-500 text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full border border-slate-800 shadow-sm hidden">0</span>
+                    <span id="activeKeyCountBadge" class="absolute -top-1.5 -right-1.5 bg-brand-500 text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full border border-slate-800 shadow-sm hidden">0</span>
                 </button>
 
                 <!-- Absolute Dropdown Panel -->
-                <div id="keyConfigSection"
-                    class="hidden absolute top-full right-0 mt-3 bg-slate-800 border border-slate-700 p-4 rounded-xl shadow-2xl flex flex-col gap-4 transition-all duration-300 z-50 w-[320px] origin-top-right">
+                <div id="keyConfigSection" class="hidden absolute top-full right-0 mt-3 bg-slate-800 border border-slate-700 p-4 rounded-xl shadow-2xl flex flex-col gap-4 transition-all duration-300 z-50 w-[320px] origin-top-right">
                     <div class="flex items-center justify-between">
                         <label class="text-xs text-slate-300 font-semibold">Số lượng Key:</label>
-                        <div
-                            class="flex items-center gap-1 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 shadow-inner">
+                        <div class="flex items-center gap-1 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 shadow-inner">
                             <button onclick="changeKeyCount(-1)"
                                 class="text-slate-400 hover:text-white px-1.5 py-1 rounded hover:bg-slate-800 transition-colors"><i
                                     class="fa-solid fa-minus text-[10px]"></i></button>
@@ -466,8 +463,7 @@
                     </div>
 
                     <div class="flex items-center justify-between pt-3 border-t border-slate-700/60 mt-1">
-                        <a id="getKeyLink" href="https://aistudio.google.com/app/apikey" target="_blank"
-                            title="Trang lấy khóa API của Google (Miễn phí)"
+                        <a id="getKeyLink" href="https://aistudio.google.com/app/apikey" target="_blank" title="Trang lấy khóa API của Google (Miễn phí)"
                             class="text-xs text-brand-400 hover:text-brand-300 underline decoration-brand-500/30 hover:decoration-brand-300 underline-offset-4 flex items-center gap-1 transition-all">
                             <i class="fa-solid fa-link text-[10px]"></i> Lấy API Key
                         </a>
@@ -871,26 +867,23 @@
 
                             <!-- AI Q&A CHATBOT SECTION -->
                             <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-4">
-                                <div
-                                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-brand-400 font-bold text-sm border-b border-slate-800 pb-2">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-brand-400 font-bold text-sm border-b border-slate-800 pb-2">
                                     <div class="flex items-center gap-2">
                                         <i class="fa-solid fa-comments text-lg"></i>
                                         <span>Hỏi Đáp Trực Tiếp Với Giáo Viên AI</span>
                                     </div>
-                                    <select id="chatModelSelect" title="Chọn AI riêng cho chatbot"
-                                        class="bg-slate-950/60 border border-slate-700 text-brand-400 text-[10px] font-bold rounded-lg focus:ring-1 focus:ring-brand-500 focus:border-brand-500 px-2 py-1 outline-none transition-all shadow-inner uppercase tracking-wider">
+                                    <select id="chatModelSelect" title="Chọn AI riêng cho chatbot" class="bg-slate-950/60 border border-slate-700 text-brand-400 text-[10px] font-bold rounded-lg focus:ring-1 focus:ring-brand-500 focus:border-brand-500 px-2 py-1 outline-none transition-all shadow-inner uppercase tracking-wider">
                                         <option value="gemini-3.1-flash-lite">Gemini Flash Lite</option>
                                         <option value="openai/gpt-oss-120b">GPT-OSS 120B (Groq)</option>
                                     </select>
                                 </div>
-
-                                <div id="chatHistory"
-                                    class="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar text-sm">
+                                
+                                <div id="chatHistory" class="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar text-sm">
                                     <!-- Chat messages will be rendered here -->
                                 </div>
 
                                 <div class="flex gap-2 mt-2">
-                                    <input type="text" id="chatInput" placeholder="Nhập tin nhắn..."
+                                    <input type="text" id="chatInput" placeholder="Nhập tin nhắn..." 
                                         class="flex-1 bg-slate-950/60 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all"
                                         onkeypress="if(event.key === 'Enter') sendChatMessage()">
                                     <button onclick="sendChatMessage()" id="sendChatBtn"
@@ -970,7 +963,7 @@
 
         function loadApiKeyForCurrentModel() {
             const storageKey = getStorageKeyForModel();
-
+            
             // Cập nhật link lấy key tự động theo model
             const linkEl = document.getElementById('getKeyLink');
             if (linkEl) {
@@ -1553,7 +1546,7 @@
                             vocabCount = 1;
                         }
                         if (taskQCount < maxChunkSize && remainingVocabNeeded > 0) {
-                            vocabCount = remainingVocabNeeded;
+                             vocabCount = remainingVocabNeeded;
                         }
                         if (vocabCount > taskQCount) vocabCount = taskQCount;
                         remainingVocabNeeded -= vocabCount;
@@ -1616,11 +1609,11 @@
                             [availableTopics[i], availableTopics[j]] = [availableTopics[j], availableTopics[i]];
                         }
                     }
-
+                    
                     // Pop topics for this chunk
                     let selectedTopics = availableTopics.splice(0, grammarCount);
                     localStorage.setItem('toeicAvailableGrammarTopics', JSON.stringify(availableTopics));
-
+                    
                     if (grammarCount > 0) {
                         description += `YÊU CẦU ÉP BUỘC ĐỐI VỚI NGỮ PHÁP: Đối với ${grammarCount} câu ngữ pháp, TUYỆT ĐỐI KHÔNG LẶP LẠI chủ điểm. Bạn PHẢI TẠO CHÍNH XÁC CÁC CÂU LẦN LƯỢT THUỘC VÀO CÁC CHỦ ĐIỂM NGỮ PHÁP DƯỚI ĐÂY (mỗi câu chỉ test 1 chủ điểm):\n`;
                         selectedTopics.forEach((topic, idx) => {
@@ -2236,7 +2229,7 @@ LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
             deepBtn.innerHTML = `<i class="fa-solid fa-chalkboard-user"></i> Giảng Giải Sâu`;
             familyBtn.disabled = false;
             familyBtn.innerHTML = `<i class="fa-solid fa-network-wired"></i> Hệ Sinh Thái`;
-
+            
             if (selectedPart === '6' || selectedPart === '7') {
                 familyBtn.style.display = 'none';
             } else {
@@ -2667,7 +2660,7 @@ BẮT BUỘC VIẾT BẰNG TIẾNG VIỆT.`;
             const chatBox = document.getElementById('chatHistory');
             if (!chatBox) return;
             chatBox.innerHTML = '';
-
+            
             if (!q.chat_history || q.chat_history.length === 0) {
                 chatBox.innerHTML = `
                     <div class="flex gap-3 text-slate-400 text-xs italic">
@@ -2680,13 +2673,13 @@ BẮT BUỘC VIẾT BẰNG TIẾNG VIỆT.`;
             q.chat_history.forEach(msg => {
                 const div = document.createElement('div');
                 div.className = msg.role === 'user' ? "flex justify-end" : "flex justify-start";
-
+                
                 const inner = document.createElement('div');
-                inner.className = msg.role === 'user'
-                    ? "bg-brand-600/20 border border-brand-500/30 text-slate-200 p-3 rounded-xl rounded-tr-sm max-w-[85%] whitespace-pre-wrap"
+                inner.className = msg.role === 'user' 
+                    ? "bg-brand-600/20 border border-brand-500/30 text-slate-200 p-3 rounded-xl rounded-tr-sm max-w-[85%] whitespace-pre-wrap" 
                     : "bg-slate-800/60 border border-slate-700 text-slate-300 p-3 rounded-xl rounded-tl-sm max-w-[95%] leading-relaxed whitespace-pre-wrap";
-
-                inner.innerHTML = msg.content;
+                
+                inner.innerHTML = msg.content; 
                 div.appendChild(inner);
                 chatBox.appendChild(div);
             });
@@ -2697,7 +2690,7 @@ BẮT BUỘC VIẾT BẰNG TIẾNG VIỆT.`;
             const inputField = document.getElementById('chatInput');
             const btn = document.getElementById('sendChatBtn');
             const message = inputField.value.trim();
-
+            
             if (!message) return;
             if (!apiKey) {
                 alert("Vui lòng cấu hình API Key trước.");
@@ -2706,7 +2699,7 @@ BẮT BUỘC VIẾT BẰNG TIẾNG VIỆT.`;
 
             const q = flatQuestions[activeQuestionIndex];
             if (!q.chat_history) q.chat_history = [];
-
+            
             // Add user message to history
             q.chat_history.push({ role: 'user', content: message });
             inputField.value = '';
@@ -2727,7 +2720,7 @@ BẮT BUỘC VIẾT BẰNG TIẾNG VIỆT.`;
             chatBox.scrollTop = chatBox.scrollHeight;
 
             const systemPrompt = "Bạn là một Giáo viên AI dạy TOEIC siêu việt, rất thân thiện và tận tâm. Học viên đang hỏi trực tiếp bạn về một câu hỏi TOEIC. Hãy trả lời BẰNG TIẾNG VIỆT, cực kỳ súc tích, đi thẳng vào trọng tâm, giải thích dễ hiểu. BẮT BUỘC dùng định dạng HTML cơ bản (<b>, <i>, <br>, <ul><li>) để trình bày thật đẹp, xuống dòng rõ ràng, dễ nhìn. KHÔNG dùng markdown.";
-
+            
             let convo = q.chat_history.map(m => (m.role === 'user' ? 'Học viên: ' : 'Giáo viên AI: ') + m.content).join('\\n\\n');
             const userPrompt = "THÔNG TIN CÂU HỎI:\\nCâu hỏi: " + q.question_text + "\\nA. " + q.options.A + " | B. " + q.options.B + " | C. " + q.options.C + " | D. " + q.options.D + "\\nĐáp án đúng: " + q.correct_answer + "\\n\\nLỊCH SỬ CHAT:\\n" + convo + "\\n\\nHãy tiếp tục đóng vai Giáo viên AI và trả lời thắc mắc mới nhất của Học viên ở trên.";
 
@@ -2743,7 +2736,7 @@ BẮT BUỘC VIẾT BẰNG TIẾNG VIỆT.`;
 
             document.getElementById('chatLoadingIndic')?.remove();
             renderChatHistory();
-
+            
             inputField.disabled = false;
             btn.disabled = false;
             btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Gửi';
