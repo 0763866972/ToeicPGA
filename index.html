@@ -1,0 +1,2761 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-slate-900 text-slate-100">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOEIC AI Masterclass - Hệ Thống Luyện Thi Thông Minh</title>
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom scrollbar for premium look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        /* Highlight styles for reading passage */
+        .hl-yellow {
+            background-color: rgba(253, 224, 71, 0.35);
+            color: #fff;
+            border-bottom: 2px solid rgba(253, 224, 71, 0.8);
+        }
+
+        .hl-green {
+            background-color: rgba(74, 222, 128, 0.35);
+            color: #fff;
+            border-bottom: 2px solid rgba(74, 222, 128, 0.8);
+        }
+
+        .hl-pink {
+            background-color: rgba(244, 114, 182, 0.35);
+            color: #fff;
+            border-bottom: 2px solid rgba(244, 114, 182, 0.8);
+        }
+
+        /* Hide number input arrows */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        /* ===== LIGHT MODE OVERRIDES ===== */
+        html.light-mode {
+            background: #f1f5f9 !important;
+            color: #1e293b !important;
+        }
+
+        html.light-mode body,
+        html.light-mode header,
+        html.light-mode main,
+        html.light-mode section {
+            color: #1e293b;
+        }
+
+        /* Header */
+        html.light-mode header {
+            background: #ffffff !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        /* Sidebar */
+        html.light-mode .bg-slate-900\/50,
+        html.light-mode [class*="bg-slate-9"] {
+            background-color: #f8fafc !important;
+        }
+
+        html.light-mode [class*="bg-slate-8"] {
+            background-color: #f1f5f9 !important;
+        }
+
+        html.light-mode [class*="bg-slate-95"] {
+            background-color: #e2e8f0 !important;
+        }
+
+        html.light-mode [class*="border-slate-7"] {
+            border-color: #cbd5e1 !important;
+        }
+
+        html.light-mode [class*="border-slate-8"] {
+            border-color: #e2e8f0 !important;
+        }
+
+        html.light-mode [class*="text-slate-4"] {
+            color: #64748b !important;
+        }
+
+        html.light-mode [class*="bg-slate-7"] {
+            background-color: #e2e8f0 !important;
+        }
+
+        html.light-mode [class*="text-slate-3"] {
+            color: #475569 !important;
+        }
+
+        html.light-mode [class*="text-slate-2"] {
+            color: #334155 !important;
+        }
+
+        html.light-mode [class*="text-slate-1"] {
+            color: #1e293b !important;
+        }
+
+        html.light-mode [class*="text-white"] {
+            color: #1e293b !important;
+        }
+
+        html.light-mode h1,
+        html.light-mode h2,
+        html.light-mode h3,
+        html.light-mode h4,
+        html.light-mode h5 {
+            color: #1e293b !important;
+        }
+
+        /* Cards & panels */
+        html.light-mode .bg-slate-800,
+        html.light-mode [class*="bg-slate-800"] {
+            background-color: #f1f5f9 !important;
+        }
+
+        html.light-mode .bg-slate-950,
+        html.light-mode [class*="bg-slate-950"] {
+            background-color: #e2e8f0 !important;
+        }
+
+        html.light-mode [class*="bg-indigo-950"] {
+            background-color: #ede9fe !important;
+        }
+
+        html.light-mode [class*="bg-emerald-950"] {
+            background-color: #d1fae5 !important;
+        }
+
+        html.light-mode [class*="bg-amber-950"] {
+            background-color: #fef3c7 !important;
+        }
+
+        html.light-mode [class*="bg-rose-950"] {
+            background-color: #ffe4e6 !important;
+        }
+
+        /* Explanation board */
+        html.light-mode #explanationBoard {
+            background: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        /* Option buttons */
+        html.light-mode .option-btn {
+            background: #f8fafc !important;
+            border-color: #cbd5e1 !important;
+        }
+
+        html.light-mode .option-btn:hover {
+            border-color: #94a3b8 !important;
+        }
+
+        /* Scrollbar */
+        html.light-mode ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+        }
+
+        html.light-mode ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+        }
+
+        /* Select & input */
+        html.light-mode select,
+        html.light-mode input {
+            background: #f1f5f9 !important;
+            color: #1e293b !important;
+            border-color: #cbd5e1 !important;
+        }
+
+        /* API key input */
+        html.light-mode input[type="password"],
+        html.light-mode input[type="text"] {
+            background: #f1f5f9 !important;
+            color: #1e293b !important;
+        }
+
+        /* Deep explain output */
+        html.light-mode #deepExplainOutput code {
+            background: #e2e8f0 !important;
+        }
+
+        /* ===== LIGHT MODE: TEXT CONTRAST IN COLORED PANELS ===== */
+        /* Amber / trap warning */
+        html.light-mode [class*="text-amber-4"] {
+            color: #92400e !important;
+        }
+
+        html.light-mode [class*="text-amber-3"] {
+            color: #78350f !important;
+        }
+
+        html.light-mode [class*="bg-amber-5"] {
+            background-color: #fef3c7 !important;
+        }
+
+        html.light-mode [class*="border-amber-5"] {
+            border-color: #f59e0b !important;
+        }
+
+        /* Indigo panels */
+        html.light-mode [class*="text-indigo-4"] {
+            color: #3730a3 !important;
+        }
+
+        html.light-mode [class*="text-indigo-3"] {
+            color: #312e81 !important;
+        }
+
+        html.light-mode [class*="text-brand-4"] {
+            color: #1d4ed8 !important;
+        }
+
+        html.light-mode [class*="text-brand-3"] {
+            color: #1e40af !important;
+        }
+
+        html.light-mode [class*="border-indigo-5"] {
+            border-color: #6366f1 !important;
+        }
+
+        /* Emerald panels */
+        html.light-mode [class*="text-emerald-4"] {
+            color: #065f46 !important;
+        }
+
+        html.light-mode [class*="text-emerald-3"] {
+            color: #064e3b !important;
+        }
+
+        html.light-mode [class*="border-emerald-5"] {
+            border-color: #10b981 !important;
+        }
+
+        /* Rose / error panels */
+        html.light-mode [class*="text-rose-4"] {
+            color: #9f1239 !important;
+        }
+
+        html.light-mode [class*="text-rose-3"] {
+            color: #881337 !important;
+        }
+
+        html.light-mode [class*="border-rose-5"] {
+            border-color: #f43f5e !important;
+        }
+
+        /* Syntax token badges [S][V][O][M] */
+        html.light-mode [class*="bg-blue-5"] {
+            background-color: #dbeafe !important;
+        }
+
+        html.light-mode [class*="text-blue-3"] {
+            color: #1e40af !important;
+        }
+
+        html.light-mode [class*="bg-emerald-5"] {
+            background-color: #d1fae5 !important;
+        }
+
+        html.light-mode [class*="bg-amber-5"] {
+            background-color: #fef3c7 !important;
+        }
+
+        html.light-mode [class*="bg-purple-5"] {
+            background-color: #ede9fe !important;
+        }
+
+        html.light-mode [class*="text-purple-3"] {
+            color: #5b21b6 !important;
+        }
+
+        /* Status banner */
+        html.light-mode [class*="text-amber-4"] {
+            color: #92400e !important;
+        }
+
+        /* Keyword badge */
+        html.light-mode [class*="bg-indigo-9"] {
+            background-color: #e0e7ff !important;
+        }
+
+        html.light-mode [class*="text-indigo-3"] {
+            color: #3730a3 !important;
+        }
+
+        /* General: any colored text that might be invisible */
+        html.light-mode [class*="text-fuchsia"] {
+            color: #7e22ce !important;
+        }
+
+        html.light-mode [class*="text-cyan"] {
+            color: #0e7490 !important;
+        }
+
+        html.light-mode [class*="text-sky"] {
+            color: #0369a1 !important;
+        }
+
+        html.light-mode [class*="text-teal"] {
+            color: #0f766e !important;
+        }
+
+        /* Fix opacity-based colors (text-amber-200/90, text-slate-200, etc.) */
+        html.light-mode #trapWarningText {
+            color: #78350f !important;
+        }
+
+        html.light-mode #structureAnalysisBox {
+            color: #1e293b !important;
+            background: #e2e8f0 !important;
+        }
+
+        html.light-mode #deepExplainOutput {
+            color: #1e293b !important;
+            background: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        html.light-mode [id^="text_"] {
+            color: #1e293b !important;
+        }
+
+        html.light-mode #vietnameseTranslationBox {
+            color: #1e293b !important;
+        }
+
+        html.light-mode #grammarRule,
+        html.light-mode #grammarKeywords,
+        html.light-mode #whyCorrectExplanation {
+            color: #1e293b !important;
+        }
+
+        html.light-mode [class*="text-amber-2"] {
+            color: #92400e !important;
+        }
+
+        html.light-mode [class*="text-slate-2"] {
+            color: #334155 !important;
+        }
+
+        html.light-mode [class*="text-indigo-2"] {
+            color: #3730a3 !important;
+        }
+
+        html.light-mode [class*="text-emerald-2"] {
+            color: #065f46 !important;
+        }
+
+        html.light-mode [class*="divide-slate"] {
+            border-color: #e2e8f0 !important;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f5f7ff',
+                            100: '#ebf0ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="h-full flex flex-col overflow-hidden">
+
+    <!-- TOP NAVIGATION BAR -->
+    <header
+        class="bg-slate-800 border-b border-slate-700 px-6 py-4 flex flex-wrap items-center justify-between gap-4 z-40 shrink-0 relative">
+        <div class="flex items-center space-x-3 cursor-pointer group" onclick="returnToHome()"
+            title="Về trang chủ thiết lập">
+            <div
+                class="bg-gradient-to-tr from-brand-600 to-indigo-600 p-2.5 rounded-xl shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">
+                <i class="fa-solid fa-graduation-cap text-2xl text-white"></i>
+            </div>
+            <div>
+                <h1
+                    class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent group-hover:from-blue-300 group-hover:to-indigo-200 transition-colors">
+                    TOEIC AI MASTERCLASS</h1>
+                <p class="text-xs text-slate-400 font-medium tracking-wide">Design by <span
+                        class="text-brand-400 font-bold">Phan Gia An</span></p>
+            </div>
+        </div>
+
+        <!-- API KEY & CONFIGURATION FORM -->
+        <div class="flex flex-wrap items-center gap-3">
+            <select id="aiModelSelect" onchange="handleModelChange()"
+                class="bg-slate-900 border border-slate-700 text-brand-400 text-xs font-bold rounded-lg focus:ring-1 focus:ring-brand-500 focus:border-brand-500 block px-3 py-1.5 transition-all duration-200 shadow-inner">
+                <option value="gemini-3.1-flash-lite">Gemini 3.1 Flash Lite</option>
+                <option value="openai/gpt-oss-120b">GPT-OSS 120B (Groq)</option>
+            </select>
+            <div class="relative flex items-center">
+                <button onclick="toggleKeyConfig()" id="toggleKeyConfigBtn" title="Cấu hình API Key"
+                    class="relative bg-slate-700 hover:bg-slate-600 text-brand-400 text-sm px-3 py-2 rounded-lg font-medium transition-all flex items-center gap-2 shrink-0">
+                    <i class="fa-solid fa-key"></i>
+                    <span id="activeKeyCountBadge" class="absolute -top-1.5 -right-1.5 bg-brand-500 text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full border border-slate-800 shadow-sm hidden">0</span>
+                </button>
+
+                <!-- Absolute Dropdown Panel -->
+                <div id="keyConfigSection" class="hidden absolute top-full right-0 mt-3 bg-slate-800 border border-slate-700 p-4 rounded-xl shadow-2xl flex flex-col gap-4 transition-all duration-300 z-50 w-[320px] origin-top-right">
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs text-slate-300 font-semibold">Số lượng Key:</label>
+                        <div class="flex items-center gap-1 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 shadow-inner">
+                            <button onclick="changeKeyCount(-1)"
+                                class="text-slate-400 hover:text-white px-1.5 py-1 rounded hover:bg-slate-800 transition-colors"><i
+                                    class="fa-solid fa-minus text-[10px]"></i></button>
+                            <input type="number" id="keyCountInput" value="1" min="1" max="10" readonly
+                                class="bg-transparent text-sm text-brand-400 font-bold outline-none w-6 text-center select-none pointer-events-none">
+                            <button onclick="changeKeyCount(1)"
+                                class="text-slate-400 hover:text-white px-1.5 py-1 rounded hover:bg-slate-800 transition-colors"><i
+                                    class="fa-solid fa-plus text-[10px]"></i></button>
+                        </div>
+                    </div>
+
+                    <div id="keyInputsContainer"
+                        class="flex flex-col gap-2 max-h-[250px] overflow-y-auto pr-1 scrollbar-thin">
+                        <!-- Dynamically populated inputs -->
+                    </div>
+
+                    <div class="flex items-center justify-between pt-3 border-t border-slate-700/60 mt-1">
+                        <a id="getKeyLink" href="https://aistudio.google.com/app/apikey" target="_blank" title="Trang lấy khóa API của Google (Miễn phí)"
+                            class="text-xs text-brand-400 hover:text-brand-300 underline decoration-brand-500/30 hover:decoration-brand-300 underline-offset-4 flex items-center gap-1 transition-all">
+                            <i class="fa-solid fa-link text-[10px]"></i> Lấy API Key
+                        </a>
+                        <button onclick="saveApiKey()"
+                            class="bg-brand-600 hover:bg-brand-500 text-white text-xs px-4 py-2 rounded-lg font-bold transition-all flex items-center gap-2 shadow-lg shadow-brand-500/20">
+                            <i class="fa-solid fa-floppy-disk"></i> Lưu
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LIGHT/DARK TOGGLE -->
+            <button onclick="toggleTheme()" id="themeToggleBtn" title="Chuyển chế độ sáng/tối"
+                class="bg-slate-700 hover:bg-slate-600 text-slate-100 text-sm px-3 py-2 rounded-lg font-medium transition-all flex items-center gap-2 shrink-0">
+                <i id="themeIcon" class="fa-solid fa-sun"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT FRAME -->
+    <main class="flex-1 flex overflow-hidden">
+
+        <!-- SIDEBAR CONTROLS -->
+        <section id="sidebar"
+            class="w-80 bg-slate-850 border-r border-slate-800 p-6 flex flex-col justify-between overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] shrink-0 bg-slate-900/50 transition-all duration-300">
+            <div class="space-y-6">
+                <!-- PANEL TITLE -->
+                <div>
+                    <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400">Thiết Lập Đề Luyện Tập
+                    </h2>
+                </div>
+
+                <!-- PART SELECTOR -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-slate-300">Chọn Part Đề Thi</label>
+                    <div class="grid grid-cols-1 gap-2">
+                        <button onclick="selectPart('5')" id="partBtn_5"
+                            class="part-btn border border-brand-400 bg-brand-500/15 shadow-[0_0_15px_rgba(99,102,241,0.15)] ring-1 ring-brand-400 text-left px-4 py-3.5 rounded-xl transition-all duration-300 flex items-center justify-between group">
+                            <div>
+                                <span
+                                    class="font-bold text-brand-300 block text-sm group-hover:text-brand-200 transition-colors">Part
+                                    5</span>
+                                <span class="text-xs text-slate-400">Incomplete Sentences</span>
+                            </div>
+                            <span
+                                class="bg-slate-900/80 border border-slate-700 text-slate-300 text-[10px] uppercase tracking-wider px-2 py-1 rounded-md font-bold">Độc
+                                lập</span>
+                        </button>
+                        <button onclick="selectPart('6')" id="partBtn_6"
+                            class="part-btn border border-slate-700/60 bg-slate-800/30 hover:bg-slate-700/40 text-left px-4 py-3.5 rounded-xl transition-all duration-300 flex items-center justify-between group shadow-sm">
+                            <div>
+                                <span
+                                    class="font-bold text-brand-300 block text-sm group-hover:text-brand-200 transition-colors">Part
+                                    6</span>
+                                <span class="text-xs text-slate-400">Text Completion</span>
+                            </div>
+                            <span
+                                class="bg-slate-900/80 border border-slate-700 text-slate-300 text-[10px] uppercase tracking-wider px-2 py-1 rounded-md font-bold">Đoạn
+                                văn</span>
+                        </button>
+                        <button onclick="selectPart('7')" id="partBtn_7"
+                            class="part-btn border border-slate-700/60 bg-slate-800/30 hover:bg-slate-700/40 text-left px-4 py-3.5 rounded-xl transition-all duration-300 flex items-center justify-between group shadow-sm">
+                            <div>
+                                <span
+                                    class="font-bold text-brand-300 block text-sm group-hover:text-brand-200 transition-colors">Part
+                                    7</span>
+                                <span class="text-xs text-slate-400">Reading Comprehension</span>
+                            </div>
+                            <span
+                                class="bg-slate-900/80 border border-slate-700 text-slate-300 text-[10px] uppercase tracking-wider px-2 py-1 rounded-md font-bold">Đa
+                                đoạn</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TEST SIZE CONFIGURATION -->
+                <div id="testSizeContainer" class="space-y-2 mt-2">
+                    <label class="block text-sm font-semibold text-slate-300">Quy Mô Đề Thi</label>
+                    <div
+                        class="grid grid-cols-2 gap-1.5 bg-slate-900/80 p-1.5 rounded-xl border border-slate-700/50 shadow-inner">
+                        <button onclick="setTestSize('mini')" id="sizeBtn_mini"
+                            class="size-btn py-2.5 text-xs font-bold rounded-lg text-center transition-all duration-200 bg-brand-500 text-white shadow-md shadow-brand-500/20">
+                            Luyện Thêm (Mini)
+                        </button>
+                        <button onclick="setTestSize('full')" id="sizeBtn_full"
+                            class="size-btn py-2.5 text-xs font-semibold rounded-lg text-center transition-all duration-200 text-slate-400 hover:text-slate-200 hover:bg-slate-700/50">
+                            Chuẩn TOEIC
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- GENERATE BUTTON AREA -->
+            <div class="pt-6 border-t border-slate-800/60 mt-4">
+                <button onclick="generateExam()" id="generateBtn"
+                    class="w-full relative overflow-hidden group bg-brand-600 hover:bg-brand-500 text-white font-bold py-4 px-4 rounded-xl shadow-[0_0_20px_rgba(99,102,241,0.25)] hover:shadow-[0_0_30px_rgba(99,102,241,0.4)] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-brand-400/30">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> <span class="tracking-wide">Tạo Đề Luyện Thi</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- WORKSPACE AREA -->
+        <section class="flex-1 flex flex-col overflow-hidden bg-slate-950 relative z-30">
+            <!-- TOGGLE SIDEBAR BUTTON -->
+            <button onclick="toggleSidebar()"
+                class="absolute top-1/2 -translate-y-1/2 left-0 z-50 w-6 h-16 bg-slate-800 hover:bg-brand-500 hover:text-white text-slate-400 rounded-r-md border-y border-r border-slate-700 shadow-lg flex items-center justify-center transition-all cursor-pointer opacity-80 hover:opacity-100"
+                title="Ẩn/Hiện thanh thiết lập">
+                <i class="fa-solid fa-chevron-left text-[10px]" id="sidebarToggleIcon"></i>
+            </button>
+            <!-- NOTIFICATION & STATE BANNER -->
+            <div id="statusBanner"
+                class="hidden shrink-0 bg-amber-500/10 border-b border-amber-500/20 px-6 py-2 flex items-center justify-between text-xs text-amber-400">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span id="statusMessage">Vui lòng nhập API Key để kích hoạt dịch vụ của Giáo viên AI.</span>
+                </div>
+            </div>
+
+            <!-- WELCOME SCREEN (When no data loaded) -->
+            <div id="welcomeScreen"
+                class="flex-1 overflow-y-auto p-12 flex flex-col items-center justify-center text-center space-y-6">
+                <div
+                    class="w-24 h-24 bg-indigo-900/40 rounded-3xl border border-indigo-500/30 flex items-center justify-center text-5xl text-brand-400 shadow-2xl animate-pulse">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <div class="max-w-xl">
+                    <h2 class="text-3xl font-extrabold text-white">Bắt Đầu Học TOEIC Cùng Siêu Trí Tuệ AI</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl w-full pt-6">
+                    <div class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-2xl text-left space-y-2">
+                        <span class="text-brand-400 text-xl"><i class="fa-solid fa-bolt"></i></span>
+                        <h4 class="font-bold text-white text-sm">Luyện Đề Nhanh Chóng</h4>
+                        <p class="text-xs text-slate-400">Tạo đề luyện tập bám sát cấu trúc đề thi thật của ETS chỉ
+                            trong vài giây, giúp bạn tối ưu hóa thời gian ôn luyện mỗi ngày.</p>
+                    </div>
+                    <div class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-2xl text-left space-y-2">
+                        <span class="text-brand-400 text-xl"><i class="fa-solid fa-chalkboard-user"></i></span>
+                        <h4 class="font-bold text-white text-sm">Giải Thích Cặn Kẽ</h4>
+                        <p class="text-xs text-slate-400">Phân tích chi tiết từng điểm ngữ pháp, cấu trúc câu và dịch
+                            nghĩa, giúp bạn hiểu rõ bản chất vấn đề thay vì học vẹt.</p>
+                    </div>
+                    <div class="bg-slate-800/40 border border-slate-700/60 p-5 rounded-2xl text-left space-y-2">
+                        <span class="text-brand-400 text-xl"><i class="fa-solid fa-shield-halved"></i></span>
+                        <h4 class="font-bold text-white text-sm">Vạch Trần Bẫy TOEIC</h4>
+                        <p class="text-xs text-slate-400">Phát hiện và chỉ ra các bẫy đồng âm, từ vựng dễ nhầm lẫn
+                            thường gặp trong bài thi, giúp bạn tự tin đạt điểm cao.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LOADING SCREEN -->
+            <div id="loadingScreen" class="hidden flex-1 flex flex-col items-center justify-center p-8 space-y-6">
+                <div class="relative w-20 h-20">
+                    <div class="absolute inset-0 rounded-full border-4 border-slate-800"></div>
+                    <div
+                        class="absolute inset-0 rounded-full border-4 border-t-brand-500 border-r-indigo-500 animate-spin">
+                    </div>
+                </div>
+                <div class="text-center space-y-3 max-w-md">
+                    <h3 class="text-lg font-bold text-white" id="loadingStage">Đang khởi động Giáo viên AI...</h3>
+                    <p id="loadingSubText" class="text-xs text-slate-400 leading-relaxed">
+                        Hệ thống đang soạn thảo đề và xây dựng đáp án phân tích chi tiết. Xin vui lòng chờ trong giây
+                        lát.
+                    </p>
+                    <!-- PROGRESS BAR -->
+                    <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden mt-2">
+                        <div id="loadingProgress" class="bg-gradient-to-r from-brand-500 to-indigo-500 h-full w-[10%]"
+                            style="transition: width 0.4s ease-in-out;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXAM ENVIRONMENT (Two-panel split view) -->
+            <div id="examContainer" class="hidden flex-1 flex overflow-hidden h-full">
+
+                <!-- LEFT PANEL: Reading Passage (Part 6 & 7 only) -->
+                <div id="passagePanel"
+                    class="w-1/2 border-r border-slate-800 flex flex-col bg-slate-900/30 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between shrink-0">
+                        <span class="text-sm font-bold text-slate-300 flex items-center gap-2">
+                            <i class="fa-solid fa-file-invoice text-brand-400"></i> Reading Passage (Tài Liệu Đọc)
+                        </span>
+                        <!-- HIGHLIGHTER TOOLBAR -->
+                        <div
+                            class="flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 text-xs">
+                            <span class="text-slate-400 font-medium">Bút dạ quang:</span>
+                            <button onclick="setHighlighter('yellow')" id="hlBtn_yellow"
+                                class="w-5 h-5 rounded-full bg-yellow-300/60 hover:bg-yellow-300/80 border border-yellow-300 ring-4 ring-indigo-400 transition-all"></button>
+                            <button onclick="setHighlighter('green')" id="hlBtn_green"
+                                class="w-5 h-5 rounded-full bg-green-400/60 hover:bg-green-400/80 border border-green-400 transition-all"></button>
+                            <button onclick="setHighlighter('pink')" id="hlBtn_pink"
+                                class="w-5 h-5 rounded-full bg-pink-400/60 hover:bg-pink-400/80 border border-pink-400 transition-all"></button>
+                            <button onclick="clearHighlights()" class="text-slate-400 hover:text-slate-200 ml-1"
+                                title="Xóa đánh dấu">
+                                <i class="fa-solid fa-eraser text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Passage text area -->
+                    <div id="passageContent"
+                        class="flex-1 overflow-y-auto p-8 leading-relaxed text-slate-300 select-text text-base whitespace-pre-line font-serif">
+                        <!-- Passage injected dynamically here -->
+                    </div>
+                </div>
+
+                <!-- RIGHT PANEL: Question List & Navigation -->
+                <div id="questionPanel" class="flex-1 flex flex-col overflow-hidden">
+
+                    <!-- EXAM STATUS HEADER (Navigation bar inside the test) -->
+                    <div
+                        class="px-6 py-4 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between shrink-0">
+                        <div class="flex items-center gap-4">
+                            <span
+                                class="text-xs bg-brand-900/50 text-brand-300 px-3 py-1.5 border border-brand-500/30 rounded-lg font-bold"
+                                id="partBadge">
+                                PART 5
+                            </span>
+                            <span class="text-sm text-slate-400 font-medium" id="questionCounter">
+                                Câu hỏi: 1 / 30
+                            </span>
+                        </div>
+
+                        <!-- Mini Question Grid Navigator -->
+                        <div class="flex items-center gap-2">
+                            <button onclick="navigateQuestion('prev')" id="prevBtn"
+                                class="bg-slate-800 hover:bg-slate-700 text-slate-300 p-2 rounded-lg transition-all">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            <div class="max-w-[200px] overflow-x-auto whitespace-nowrap py-1 px-2 flex gap-1.5 scrollbar-thin"
+                                id="navGrid">
+                                <!-- Navigation buttons injected dynamically -->
+                            </div>
+                            <button onclick="navigateQuestion('next')" id="nextBtn"
+                                class="bg-slate-800 hover:bg-slate-700 text-slate-300 p-2 rounded-lg transition-all">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                            <button onclick="downloadExamAsHTML()" title="Tải đề về dạng HTML"
+                                class="bg-emerald-700 hover:bg-emerald-600 text-white px-3 py-2 rounded-lg transition-all flex items-center gap-1.5 text-xs font-bold ml-1">
+                                <i class="fa-solid fa-file-arrow-down"></i> Tải HTML
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- EXAM BODY (Single focused question viewer) -->
+                    <div class="flex-1 overflow-y-auto p-8 space-y-6" id="examBodyContainer">
+
+                        <!-- Question Card -->
+                        <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+                            <h3 class="text-lg font-bold text-white flex items-start gap-3">
+                                <span
+                                    class="bg-brand-500/20 text-brand-400 px-2.5 py-0.5 rounded-lg text-sm font-extrabold shrink-0"
+                                    id="activeQNum">1</span>
+                                <span id="activeQText">Loading question text...</span>
+                            </h3>
+
+                            <!-- Interactive Options Area -->
+                            <div id="optionsGridContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+                                <button onclick="selectAnswer('A')" id="optionBtn_A"
+                                    class="option-btn border border-slate-800 bg-slate-950/40 hover:border-slate-600 px-5 py-4 rounded-xl text-left flex items-center gap-4 group transition-all duration-200">
+                                    <span
+                                        class="w-8 h-8 rounded-lg bg-slate-800 group-hover:bg-brand-500/20 group-hover:text-brand-400 flex items-center justify-center font-bold text-slate-400 transition-all shadow-inner font-mono text-sm shrink-0">A</span>
+                                    <span id="text_A" class="text-slate-200 font-medium text-sm">Option A text</span>
+                                </button>
+                                <button onclick="selectAnswer('B')" id="optionBtn_B"
+                                    class="option-btn border border-slate-800 bg-slate-950/40 hover:border-slate-600 px-5 py-4 rounded-xl text-left flex items-center gap-4 group transition-all duration-200">
+                                    <span
+                                        class="w-8 h-8 rounded-lg bg-slate-800 group-hover:bg-brand-500/20 group-hover:text-brand-400 flex items-center justify-center font-bold text-slate-400 transition-all shadow-inner font-mono text-sm shrink-0">B</span>
+                                    <span id="text_B" class="text-slate-200 font-medium text-sm">Option B text</span>
+                                </button>
+                                <button onclick="selectAnswer('C')" id="optionBtn_C"
+                                    class="option-btn border border-slate-800 bg-slate-950/40 hover:border-slate-600 px-5 py-4 rounded-xl text-left flex items-center gap-4 group transition-all duration-200">
+                                    <span
+                                        class="w-8 h-8 rounded-lg bg-slate-800 group-hover:bg-brand-500/20 group-hover:text-brand-400 flex items-center justify-center font-bold text-slate-400 transition-all shadow-inner font-mono text-sm shrink-0">C</span>
+                                    <span id="text_C" class="text-slate-200 font-medium text-sm">Option C text</span>
+                                </button>
+                                <button onclick="selectAnswer('D')" id="optionBtn_D"
+                                    class="option-btn border border-slate-800 bg-slate-950/40 hover:border-slate-600 px-5 py-4 rounded-xl text-left flex items-center gap-4 group transition-all duration-200">
+                                    <span
+                                        class="w-8 h-8 rounded-lg bg-slate-800 group-hover:bg-brand-500/20 group-hover:text-brand-400 flex items-center justify-center font-bold text-slate-400 transition-all shadow-inner font-mono text-sm shrink-0">D</span>
+                                    <span id="text_D" class="text-slate-200 font-medium text-sm">Option D text</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- AI TEACHER EXPLANATION BOARD (Initially hidden) -->
+                        <div id="explanationBoard" class="hidden transition-all duration-500 space-y-4">
+
+                            <!-- Main Section Title -->
+                            <div class="flex items-center gap-2 text-slate-400 border-b border-slate-800 pb-2">
+                                <i class="fa-solid fa-graduation-cap text-lg text-indigo-400"></i>
+                                <h4 class="text-sm font-bold uppercase tracking-wider">Phân Tích Sâu Từ Giáo Viên AI
+                                </h4>
+                            </div>
+
+                            <!-- Sentence Structure Breakdown Component -->
+                            <div
+                                class="bg-indigo-950/30 border border-indigo-500/20 rounded-2xl p-6 shadow-lg space-y-4">
+                                <div class="flex items-center gap-2">
+                                    <span id="label_CuPhap"
+                                        class="px-2 py-0.5 bg-indigo-500/20 text-indigo-300 text-[10px] uppercase font-bold tracking-wider rounded border border-indigo-500/30">Cú
+                                        pháp & Ngữ pháp</span>
+                                    <h5 id="label_MoXe" class="font-bold text-white text-sm">Mổ Xẻ Cấu Trúc Câu</h5>
+                                </div>
+                                <div id="structureAnalysisBox"
+                                    class="text-sm text-slate-300 leading-relaxed space-y-2 font-mono bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+                                    <!-- Dynamic syntax breakdown here -->
+                                </div>
+                                <div id="vietnameseTranslationBox"
+                                    class="mt-4 text-sm text-slate-200 leading-relaxed italic border-l-4 border-indigo-500 bg-indigo-950/40 p-4 rounded-r-xl">
+                                    <!-- Dynamic translation here -->
+                                </div>
+                            </div>
+
+                            <!-- Detailed Option Analysis Layout -->
+                            <div id="analysisGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Grammar core rule and Why correct card -->
+                                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-3">
+                                    <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                        <span>Vì Sao Đáp Án Đúng?</span>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <div class="text-xs font-semibold text-slate-400">
+                                            <span id="label_Chudiem">Chủ điểm:</span> <span id="grammarRule"
+                                                class="text-slate-200 font-bold">Verb
+                                                Agreement</span>
+                                        </div>
+                                        <div id="dauhieuContainer" class="text-xs font-semibold text-slate-400">
+                                            <span id="label_Dauhieu">Dấu hiệu/Từ khóa:</span> <span id="grammarKeywords"
+                                                class="text-brand-300 font-bold">N/A</span>
+                                        </div>
+                                        <p id="whyCorrectExplanation"
+                                            class="text-sm text-slate-300 leading-relaxed pt-1">
+                                            Loading explanation...
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Trap warning & memo card -->
+                                <div id="trapWarningCard"
+                                    class="bg-amber-950/20 border border-amber-500/20 rounded-2xl p-6 space-y-3">
+                                    <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                        <span>Bẫy TOEIC Cần Tránh</span>
+                                    </div>
+                                    <p id="trapWarningText" class="text-sm text-amber-200/90 leading-relaxed italic">
+                                        Loading trap warning...
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Wrong options analysis list card -->
+                            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-4">
+                                <div class="flex items-center gap-2 text-rose-400 font-bold text-sm">
+                                    <i class="fa-solid fa-circle-xmark"></i>
+                                    <span>Vạch Trần Bản Chất Các Đáp Án Sai</span>
+                                </div>
+                                <div class="divide-y divide-slate-800/80 space-y-4" id="wrongOptionsContainer">
+                                    <!-- Dynamic list of wrong options analysis -->
+                                </div>
+                            </div>
+
+                            <!-- DEEP DIVE AI TUTOR SECTION -->
+                            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-4">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                    <div class="flex items-center gap-2 text-brand-400">
+                                        <i class="fa-solid fa-graduation-cap text-xl animate-pulse"></i>
+                                        <div>
+                                            <h5 class="font-bold text-white text-sm">Vẫn chưa hiểu cặn kẽ?</h5>
+                                            <p class="text-xs text-slate-400">Yêu cầu Giáo viên AI giảng giải sâu thêm
+                                                từng ngõ ngách ngữ nghĩa và cấu trúc câu</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-row gap-2 justify-end mt-3 sm:mt-0 w-full sm:w-auto">
+                                        <button id="familyGrammarBtn" onclick="requestFamilyGrammar()"
+                                            class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold py-2.5 px-3 rounded-xl shadow-lg shadow-emerald-500/10 active:scale-[0.97] transition-all flex items-center justify-center gap-2 shrink-0 flex-1 sm:flex-none">
+                                            <i class="fa-solid fa-network-wired"></i> Hệ Sinh Thái
+                                        </button>
+                                        <button id="deepExplainBtn" onclick="requestDeepExplanation()"
+                                            class="bg-gradient-to-r from-indigo-600 to-brand-600 hover:from-indigo-500 hover:to-brand-500 text-white text-xs font-bold py-2.5 px-3 rounded-xl shadow-lg shadow-indigo-500/10 active:scale-[0.97] transition-all flex items-center justify-center gap-2 shrink-0 flex-1 sm:flex-none">
+                                            <i class="fa-solid fa-chalkboard-user"></i> Giảng Giải Sâu
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Loading & Result Container -->
+                                <div id="deepExplainContainer" class="hidden mt-4 border-t border-slate-800/60 pt-4">
+                                    <div id="deepExplainLoading"
+                                        class="hidden flex items-center gap-3 text-slate-400 text-xs py-4 justify-center bg-slate-950/40 rounded-xl border border-slate-900">
+                                        <i class="fa-solid fa-spinner animate-spin text-brand-500 text-lg"></i>
+                                        <span>Giáo viên AI đang phân tích toàn bộ cú pháp, dịch nghĩa từ vựng và thiết
+                                            lập ví dụ thực tế...</span>
+                                    </div>
+                                    <div id="deepExplainOutput"
+                                        class="text-sm text-slate-300 leading-relaxed bg-slate-950 p-6 rounded-xl border border-slate-900 space-y-4 hidden">
+                                        <!-- Deeper dynamic HTML response from Gemini -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- AI Q&A CHATBOT SECTION -->
+                            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-4">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-brand-400 font-bold text-sm border-b border-slate-800 pb-2">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-comments text-lg"></i>
+                                        <span>Hỏi Đáp Trực Tiếp Với Giáo Viên AI</span>
+                                    </div>
+                                    <select id="chatModelSelect" title="Chọn AI riêng cho chatbot" class="bg-slate-950/60 border border-slate-700 text-brand-400 text-[10px] font-bold rounded-lg focus:ring-1 focus:ring-brand-500 focus:border-brand-500 px-2 py-1 outline-none transition-all shadow-inner uppercase tracking-wider">
+                                        <option value="gemini-3.1-flash-lite">Gemini Flash Lite</option>
+                                        <option value="openai/gpt-oss-120b">GPT-OSS 120B (Groq)</option>
+                                    </select>
+                                </div>
+                                
+                                <div id="chatHistory" class="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar text-sm">
+                                    <!-- Chat messages will be rendered here -->
+                                </div>
+
+                                <div class="flex gap-2 mt-2">
+                                    <input type="text" id="chatInput" placeholder="Nhập tin nhắn..." 
+                                        class="flex-1 bg-slate-950/60 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all"
+                                        onkeypress="if(event.key === 'Enter') sendChatMessage()">
+                                    <button onclick="sendChatMessage()" id="sendChatBtn"
+                                        class="bg-brand-600 hover:bg-brand-500 text-white px-4 py-2 rounded-xl shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2 shrink-0">
+                                        <i class="fa-solid fa-paper-plane"></i> Gửi
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div> <!-- /Explanation board -->
+
+                    </div> <!-- /Exam body -->
+                </div> <!-- /Right panel -->
+
+            </div> <!-- /Exam container -->
+        </section>
+    </main>
+
+    <script>
+        /* STATE VARIABLES */
+        let apiKey = '';
+        let selectedPart = '5';
+        let testSize = 'mini'; // 'mini' or 'full'
+        let flatQuestions = []; // Flat array of questions containing passage details for easy iteration
+        let activeQuestionIndex = 0; // Current navigated global question index
+        let userAnswers = {}; // { question_global_index: 'A'|'B'|'C'|'D' }
+        let currentHighlightColor = 'yellow';
+
+        /* LIGHT / DARK MODE TOGGLE */
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            const isLight = html.classList.toggle('light-mode');
+            icon.className = isLight ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+            localStorage.setItem('toeic_theme', isLight ? 'light' : 'dark');
+        }
+
+        function applyStoredTheme() {
+            const saved = localStorage.getItem('toeic_theme');
+            if (saved === 'light') {
+                document.documentElement.classList.add('light-mode');
+                const icon = document.getElementById('themeIcon');
+                if (icon) icon.className = 'fa-solid fa-moon';
+            }
+        }
+
+        /* ON LOAD INITIALIZATION */
+        window.onload = function () {
+            applyStoredTheme();
+            const savedModel = localStorage.getItem('toeic_ai_model');
+            if (savedModel && document.querySelector(`#aiModelSelect option[value="${savedModel}"]`)) {
+                document.getElementById('aiModelSelect').value = savedModel;
+            }
+            loadApiKeyForCurrentModel();
+
+            // Sync initial state of part selector buttons
+            selectPart('5');
+            setTestSize('mini');
+
+            // Close API Key dropdown when clicking outside
+            document.addEventListener('click', function (event) {
+                const section = document.getElementById('keyConfigSection');
+                const btn = document.getElementById('toggleKeyConfigBtn');
+                if (section && !section.classList.contains('hidden') && btn) {
+                    if (!section.contains(event.target) && !btn.contains(event.target)) {
+                        hideKeyConfig();
+                    }
+                }
+            });
+        };
+
+        function getStorageKeyForModel() {
+            const val = document.getElementById('aiModelSelect').value;
+            if (val.includes('gpt-oss')) return 'toeic_ai_apikey_groq';
+            return 'toeic_ai_apikey'; // Keep legacy key for Gemini
+        }
+
+        function loadApiKeyForCurrentModel() {
+            const storageKey = getStorageKeyForModel();
+            
+            // Cập nhật link lấy key tự động theo model
+            const linkEl = document.getElementById('getKeyLink');
+            if (linkEl) {
+                if (storageKey === 'toeic_ai_apikey_groq') {
+                    linkEl.href = 'https://console.groq.com/keys';
+                    linkEl.title = 'Trang lấy khóa API của Groq (Miễn phí)';
+                } else {
+                    linkEl.href = 'https://aistudio.google.com/app/apikey';
+                    linkEl.title = 'Trang lấy khóa API của Google (Miễn phí)';
+                }
+            }
+
+            const savedKey = localStorage.getItem(storageKey);
+            if (savedKey) {
+                apiKey = savedKey;
+                const keysArray = savedKey.split(',').filter(k => k.trim());
+                if (keysArray.length > 0) {
+                    const countInput = document.getElementById('keyCountInput');
+                    countInput.value = Math.min(keysArray.length, 10);
+                    renderKeyInputs();
+                    for (let i = 0; i < keysArray.length; i++) {
+                        const el = document.getElementById('apiKeyInput_' + i);
+                        if (el) el.value = keysArray[i].trim();
+                    }
+                    updateKeyBadge(keysArray.length);
+                    hideKeyConfig();
+                } else {
+                    renderKeyInputs();
+                    updateKeyBadge(0);
+                    showKeyConfig();
+                }
+                hideBanner();
+            } else {
+                apiKey = '';
+                document.getElementById('keyCountInput').value = 1;
+                renderKeyInputs();
+                updateKeyBadge(0);
+                showKeyConfig();
+                showBanner(`Vui lòng cấu hình API Key cho ${storageKey === 'toeic_ai_apikey' ? 'Gemini' : 'Groq'}.`);
+            }
+        }
+
+        function updateKeyBadge(count) {
+            const badge = document.getElementById('activeKeyCountBadge');
+            if (!badge) return;
+            if (count > 0) {
+                badge.innerText = count;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function toggleKeyConfig() {
+            const section = document.getElementById('keyConfigSection');
+            if (section.classList.contains('hidden')) {
+                showKeyConfig();
+            } else {
+                hideKeyConfig();
+            }
+        }
+
+        function showKeyConfig() {
+            const section = document.getElementById('keyConfigSection');
+            section.classList.remove('hidden');
+            section.classList.add('flex');
+            // Do not hide the button anymore since it is the anchor
+        }
+
+        function hideKeyConfig() {
+            const section = document.getElementById('keyConfigSection');
+            section.classList.add('hidden');
+            section.classList.remove('flex');
+        }
+
+        function handleModelChange() {
+            const val = document.getElementById('aiModelSelect').value;
+            localStorage.setItem('toeic_ai_model', val);
+            loadApiKeyForCurrentModel();
+        }
+
+        /* UI UTILITIES & INTERACTION ACTIONS */
+        function changeKeyCount(delta) {
+            const input = document.getElementById('keyCountInput');
+            let val = parseInt(input.value) || 1;
+            val += delta;
+            if (val < 1) val = 1;
+            if (val > 10) val = 10;
+            input.value = val;
+            renderKeyInputs();
+        }
+
+        function renderKeyInputs() {
+            const count = parseInt(document.getElementById('keyCountInput').value) || 1;
+            const container = document.getElementById('keyInputsContainer');
+
+            // Try to preserve existing values
+            let existingVals = [];
+            for (let i = 0; i < 10; i++) {
+                const el = document.getElementById('apiKeyInput_' + i);
+                if (el) existingVals.push(el.value);
+            }
+
+            container.innerHTML = '';
+            for (let i = 0; i < count; i++) {
+                const val = existingVals[i] || '';
+                container.innerHTML += `
+                    <div class="relative shrink-0">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-2 text-slate-400">
+                            <i class="fa-solid fa-key text-xs"></i>
+                        </span>
+                        <input type="password" id="apiKeyInput_${i}" value="${val}" placeholder="Key ${i + 1}..."
+                            class="bg-slate-900 border border-slate-700 text-slate-200 placeholder-slate-500 text-xs rounded-lg focus:ring-1 focus:ring-brand-500 focus:border-brand-500 block w-[150px] pl-7 pr-7 py-2 transition-all duration-200">
+                        <button onclick="toggleApiKeyVisibility(${i})"
+                            class="absolute inset-y-0 right-0 flex items-center pr-2 text-slate-400 hover:text-slate-200">
+                            <i id="apiKeyToggleIcon_${i}" class="fa-solid fa-eye text-xs"></i>
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function toggleApiKeyVisibility(index) {
+            const input = document.getElementById('apiKeyInput_' + index);
+            const icon = document.getElementById('apiKeyToggleIcon_' + index);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-solid fa-eye-slash text-xs';
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-solid fa-eye text-xs';
+            }
+        }
+
+        function returnToHome() {
+            document.getElementById('examContainer').classList.add('hidden');
+            document.getElementById('loadingScreen').classList.add('hidden');
+            document.getElementById('welcomeScreen').classList.remove('hidden');
+            // Dọn dẹp dữ liệu bài test hiện tại
+            flatQuestions = [];
+            userAnswers = {};
+            activeQuestionIndex = 0;
+            // KHÔNG reset keyIndex để giữ vòng lặp API mượt mà
+        }
+
+        function saveApiKey() {
+            const count = parseInt(document.getElementById('keyCountInput').value) || 1;
+            let keys = [];
+            for (let i = 0; i < count; i++) {
+                const val = document.getElementById('apiKeyInput_' + i).value.trim();
+                if (val) keys.push(val);
+            }
+
+            if (keys.length === 0) {
+                alert("Vui lòng nhập ít nhất 1 API Key hợp lệ.");
+                return;
+            }
+
+            const keyStr = keys.join(',');
+            const storageKey = getStorageKeyForModel();
+            localStorage.setItem(storageKey, keyStr);
+            apiKey = keyStr;
+            updateKeyBadge(keys.length);
+            hideBanner();
+            hideKeyConfig();
+            showNotice("Đã lưu " + keys.length + " API Key thành công!");
+        }
+
+        function showBanner(msg) {
+            const banner = document.getElementById('statusBanner');
+            const bannerMsg = document.getElementById('statusMessage');
+            bannerMsg.innerText = msg;
+            banner.classList.remove('hidden');
+        }
+
+        function hideBanner() {
+            document.getElementById('statusBanner').classList.add('hidden');
+        }
+
+        function showNotice(msg) {
+            const tempNotice = document.createElement('div');
+            tempNotice.className = "fixed bottom-5 right-5 bg-emerald-600 text-white font-bold py-3 px-6 rounded-xl shadow-2xl z-50 flex items-center gap-2 transform translate-y-10 opacity-0 transition-all duration-300";
+            tempNotice.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${msg}`;
+            document.body.appendChild(tempNotice);
+            setTimeout(() => {
+                tempNotice.classList.remove('translate-y-10', 'opacity-0');
+            }, 50);
+            setTimeout(() => {
+                tempNotice.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => tempNotice.remove(), 300);
+            }, 3000);
+        }
+
+        function selectPart(partNum) {
+            selectedPart = partNum;
+            // Update UI buttons
+            document.querySelectorAll('.part-btn').forEach(btn => {
+                btn.classList.remove('border-brand-400', 'bg-brand-500/15', 'shadow-[0_0_15px_rgba(99,102,241,0.15)]', 'ring-1', 'ring-brand-400');
+                btn.classList.add('border-slate-700/60', 'bg-slate-800/30', 'hover:bg-slate-700/40');
+            });
+            const activeBtn = document.getElementById(`partBtn_${partNum}`);
+            activeBtn.classList.remove('border-slate-700/60', 'bg-slate-800/30', 'hover:bg-slate-700/40');
+            activeBtn.classList.add('border-brand-400', 'bg-brand-500/15', 'shadow-[0_0_15px_rgba(99,102,241,0.15)]', 'ring-1', 'ring-brand-400');
+
+            const testSizeContainer = document.getElementById('testSizeContainer');
+            if (testSizeContainer) {
+                if (partNum === '7') {
+                    testSizeContainer.style.display = 'none';
+                    setTestSize('mini');
+                } else {
+                    testSizeContainer.style.display = 'block';
+                }
+            }
+        }
+
+        function setTestSize(size) {
+            testSize = size;
+            const miniBtn = document.getElementById('sizeBtn_mini');
+            const fullBtn = document.getElementById('sizeBtn_full');
+
+            if (size === 'mini') {
+                miniBtn.className = "size-btn py-2.5 text-xs font-bold rounded-lg text-center transition-all duration-200 bg-brand-500 text-white shadow-md shadow-brand-500/20";
+                fullBtn.className = "size-btn py-2.5 text-xs font-semibold rounded-lg text-center transition-all duration-200 text-slate-400 hover:text-slate-200 hover:bg-slate-700/50";
+            } else {
+                fullBtn.className = "size-btn py-2.5 text-xs font-bold rounded-lg text-center transition-all duration-200 bg-brand-500 text-white shadow-md shadow-brand-500/20";
+                miniBtn.className = "size-btn py-2.5 text-xs font-semibold rounded-lg text-center transition-all duration-200 text-slate-400 hover:text-slate-200 hover:bg-slate-700/50";
+            }
+        }
+
+        /* HIGHLIGHTER CONTROL */
+        function setHighlighter(color) {
+            currentHighlightColor = color;
+            document.querySelectorAll('[id^="hlBtn_"]').forEach(btn => {
+                btn.classList.remove('ring-4', 'ring-indigo-400');
+            });
+            document.getElementById(`hlBtn_${color}`).classList.add('ring-4', 'ring-indigo-400');
+        }
+
+        function clearHighlights() {
+            const content = document.getElementById('passageContent');
+            content.innerHTML = content.innerHTML.replace(/<span class="hl-[a-z]+">(.*?)<\/span>/g, '$1');
+        }
+
+        // Apply highlight on text selection
+        document.getElementById('passageContent').addEventListener('mouseup', function () {
+            const selection = window.getSelection();
+            if (!selection.rangeCount || selection.isCollapsed) return;
+
+            const range = selection.getRangeAt(0);
+            const selectedText = range.toString().trim();
+            if (selectedText.length === 0) return;
+
+            // Secure that the selection belongs to passageContent
+            let parent = range.commonAncestorContainer;
+            if (parent.nodeType === 3) parent = parent.parentNode;
+
+            if (document.getElementById('passageContent').contains(parent)) {
+                const span = document.createElement('span');
+                span.className = `hl-${currentHighlightColor}`;
+                span.appendChild(range.extractContents());
+                range.insertNode(span);
+                selection.removeAllRanges();
+            }
+        });
+
+        /* DOWNLOAD EXAM AS HTML */
+        function downloadExamAsHTML() {
+            if (!flatQuestions || flatQuestions.length === 0) {
+                alert("Vui lòng tạo đề và làm bài trước khi tải xuống.");
+                return;
+            }
+
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('vi-VN');
+            const timeStr = now.toLocaleTimeString('vi-VN');
+            const modelName = document.getElementById('aiModelSelect').options[document.getElementById('aiModelSelect').selectedIndex].text;
+
+            // Chuyển đổi mã màu cho các nhãn cấu trúc câu
+            function fmtSyntax(str) {
+                if (!str) return '<em style="color:#64748b;">Không có phân tích.</em>';
+                return str
+                    .replace(/\[S\]/g, '<span class="tok tok-s">S</span>')
+                    .replace(/\[V\]/g, '<span class="tok tok-v">V</span>')
+                    .replace(/\[O\]/g, '<span class="tok tok-o">O</span>')
+                    .replace(/\[M\]/g, '<span class="tok tok-m">M</span>')
+                    .replace(/\n/g, '<br>');
+            }
+
+            let questionsHTML = '';
+
+            flatQuestions.forEach((q, index) => {
+                const uAns = userAnswers[index];
+
+                // Add passage text
+                let passageHTML = '';
+                if (selectedPart === '6' || selectedPart === '7') {
+                    if (index === 0 || q.passage_text !== flatQuestions[index - 1]?.passage_text) {
+                        passageHTML = `<div class="passage">${q.passage_text}</div>`;
+                    }
+                }
+
+                // Answer options
+                let optionsHTML = '';
+                ['A', 'B', 'C', 'D'].forEach(opt => {
+                    const isCorrect = opt === q.correct_answer;
+                    const isSelected = opt === uAns;
+
+                    let cls = 'opt-default';
+                    let indicator = '';
+
+                    if (isCorrect) {
+                        cls = 'opt-correct';
+                        indicator = ' ✓ Đúng';
+                    } else if (isSelected && !isCorrect) {
+                        cls = 'opt-wrong';
+                        indicator = ' ✗ Sai của bạn';
+                    }
+
+                    optionsHTML += `
+                        <div class="opt ${cls}">
+                            <div class="opt-letter">${opt}</div>
+                            <div>${q.options[opt]}${indicator}</div>
+                        </div>
+                    `;
+                });
+
+                // Wrong options analysis
+                let wrongHTML = '';
+                if (q.explanation?.wrong_options_grammar_analysis) {
+                    Object.entries(q.explanation.wrong_options_grammar_analysis).forEach(([k, v]) => {
+                        wrongHTML += `
+                            <div class="wrong-row">
+                                <div class="wrong-letter">${k.replace('option_', '')}</div>
+                                <div>
+                                    <div class="wrong-nature">🔬 Bản chất: <em>${v.nature || '—'}</em></div>
+                                    <div class="wrong-reason">❌ Tại sao sai: ${(v.why_faulty || '—').replace(/(Tại\s*sao\s*sai:|Sai\s*vì\b:?)/gi, '<br><strong style="color:#e11d48">Sai vì: </strong>')}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                // Status header
+                const isCorrect = uAns === q.correct_answer;
+                const statusColor = uAns ? (isCorrect ? '#6ee7b7' : '#fca5a5') : '#94a3b8';
+                const statusText = uAns
+                    ? (isCorrect ? `✅ Bạn chọn: ${uAns} — Đúng!` : `❌ Bạn chọn: ${uAns} — Sai · Đáp án đúng: ${q.correct_answer}`)
+                    : `⬜ Chưa trả lời · Đáp án đúng: ${q.correct_answer}`;
+
+                questionsHTML += `
+                <div class="qcard">
+                    <div class="qcard-header">
+                        <span class="q-num">Câu ${index + 1}</span>
+                        <span style="font-size:13px;color:${statusColor};font-weight:600;">${statusText}</span>
+                    </div>
+                    ${passageHTML}
+                    <p class="q-text">${q.question_text || ''}</p>
+                    <div class="opts">${optionsHTML}</div>
+                    
+                    <details class="analysis">
+                        <summary class="analysis-title">📖 Xem Phân Tích Chi Tiết</summary>
+                        <div class="analysis-body">
+                            
+                            ${q.sentence_structure_analysis ? `
+                            <div class="panel panel-indigo">
+                                <div class="panel-label">🔬 Cú Pháp & Ngữ Pháp · Mổ Xẻ Cấu Trúc Câu</div>
+                                <div class="syntax-box">${fmtSyntax(q.sentence_structure_analysis)}</div>
+                            </div>` : ''}
+
+                            ${q.vietnamese_translation ? `
+                            <div class="panel panel-blue">
+                                <span style="font-size:20px;">🇻🇳</span>
+                                <div><strong>Dịch nghĩa:</strong><br>${q.vietnamese_translation}</div>
+                            </div>` : ''}
+                            
+                            <div class="two-col">
+                                <div class="panel panel-green">
+                                    <div class="panel-label">✅ Vì Sao Đáp Án Đúng?</div>
+                                    ${q.explanation?.grammar_rule ? `<div class="info-row"><strong>Chủ điểm:</strong> ${q.explanation.grammar_rule}</div>` : ''}
+                                    ${q.explanation?.keywords ? `<div class="info-row"><strong>Dấu hiệu/Từ khóa:</strong> <span class="keyword-badge">${q.explanation.keywords}</span></div>` : ''}
+                                    ${q.explanation?.why_correct ? `<div class="info-row" style="margin-top:8px;">${q.explanation.why_correct}</div>` : ''}
+                                </div>
+                                ${q.explanation?.trap_warning ? `
+                                <div class="panel panel-amber">
+                                    <div class="panel-label">⚠️ Bẫy TOEIC Cần Tránh</div>
+                                    <p class="trap-text">${q.explanation.trap_warning}</p>
+                                </div>` : '<div></div>'}
+                            </div>
+
+                            ${wrongHTML ? `
+                            <div class="panel panel-rose">
+                                <div class="panel-label">❌ Vạch Trần Bản Chất Các Đáp Án Sai</div>
+                                ${wrongHTML}
+                            </div>` : ''}
+                            
+                            ${(q.deep_explanation || q.family_grammar) ? `
+                            <div class="panel panel-teal" style="background:#022c22; border:1px solid #065f46; color:#a7f3d0;">
+                                <div class="panel-label" style="color:#34d399;">🎓 Mở Rộng Hệ Sinh Thái & Giải Thích Sâu</div>
+                                <div style="margin-top:12px; font-size:14px; line-height:1.7;">
+                                    ${q.family_grammar || ''}
+                                    ${(q.family_grammar && q.deep_explanation) ? `<hr style="border:0;border-top:1px dashed #059669;margin:20px 0;">` : ''}
+                                    ${q.deep_explanation || ''}
+                                </div>
+                            </div>` : ''}
+                            
+                        </div>
+                    </details>
+                </div>`;
+            });
+
+            // Count score
+            const answered = Object.keys(userAnswers).length;
+            const correct = Object.keys(userAnswers).filter(i => userAnswers[i] === flatQuestions[i]?.correct_answer).length;
+            const scoreHTML = answered > 0
+                ? `<div class="score-box">
+                    <span style="color:#64748b;font-size:15px;">Kết quả làm bài: </span>
+                    <span style="font-size:28px;font-weight:900;color:#34d399;">${correct}/${answered}</span>
+                    <span style="color:#64748b;font-size:15px;"> câu đúng (${Math.round(correct / answered * 100)}%)</span>
+                   </div>` : '';
+
+            const htmlContent = `<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đề TOEIC Part ${selectedPart} — ${dateStr} ${timeStr}</title>
+<script src="https://cdn.tailwindcss.com"><\/script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f172a; color: #cbd5e1; font-family: 'Segoe UI', system-ui, sans-serif; padding: 32px; max-width: 960px; margin: 0 auto; line-height: 1.6; }
+  details > summary::-webkit-details-marker { display: none; }
+  
+  .site-header { text-align: center; padding: 40px 0 32px; }
+  .site-title { font-size: 32px; font-weight: 900; background: linear-gradient(90deg, #60a5fa, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.02em; }
+  .site-sub { color: #64748b; margin-top: 8px; font-size: 14px; }
+  
+  .score-box { background: rgba(15, 23, 42, 0.6); border: 1px solid #1e293b; border-radius: 16px; padding: 20px; margin-bottom: 32px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+  
+  .qcard { background: rgba(15, 23, 42, 0.6); border: 1px solid #1e293b; border-radius: 20px; padding: 32px; margin-bottom: 28px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+  .qcard-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+  .q-num { background: rgba(99, 102, 241, 0.2); color: #818cf8; font-weight: 800; padding: 6px 16px; border-radius: 24px; font-size: 14px; border: 1px solid rgba(99, 102, 241, 0.3); }
+  .q-text { color: #f1f5f9; font-size: 16px; font-weight: 600; margin-bottom: 20px; }
+  .passage { background: rgba(15, 23, 42, 0.3); border: 1px solid #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 20px; color: #94a3b8; white-space: pre-wrap; font-size: 14px; font-style: italic; line-height: 1.8; }
+  
+  .opts { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+  .opt { display: flex; align-items: center; gap: 14px; border: 1px solid #1e293b; border-radius: 12px; padding: 12px 16px; font-size: 15px; transition: all 0.2s; }
+  .opt-letter { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0; }
+  .opt-default { background: rgba(2, 6, 23, 0.4); color: #94a3b8; } .opt-default .opt-letter { background: #1e293b; color: #64748b; }
+  .opt-correct { background: rgba(16, 185, 129, 0.1); border-color: #059669; color: #34d399; font-weight: 700; } .opt-correct .opt-letter { background: #059669; color: #fff; }
+  .opt-wrong { background: rgba(225, 29, 72, 0.1); border-color: #e11d48; color: #fb7185; font-weight: 700; } .opt-wrong .opt-letter { background: #e11d48; color: #fff; }
+  
+  .analysis { margin-top: 24px; }
+  .analysis-title { cursor: pointer; background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 14px 20px; color: #818cf8; font-weight: 800; font-size: 15px; list-style: none; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
+  .analysis-title:hover { background: #334155; }
+  .analysis-body { margin-top: 16px; display: flex; flex-direction: column; gap: 16px; animation: fadeIn 0.3s ease-in-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+  
+  .panel { border-radius: 16px; padding: 20px; font-size: 14px; background: rgba(15, 23, 42, 0.6); border: 1px solid #1e293b; }
+  .panel-label { font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 12px; opacity: .9; }
+  .panel-indigo { color: #cbd5e1; } .panel-indigo .panel-label { color: #818cf8; }
+  .panel-blue { border-left: 4px solid #6366f1; background: rgba(49, 46, 129, 0.4); color: #e2e8f0; display: flex; align-items: flex-start; gap: 12px; }
+  .panel-green { color: #cbd5e1; height: 100%; } .panel-green .panel-label { color: #34d399; }
+  .panel-amber { background: rgba(120, 53, 15, 0.2); border: 1px solid rgba(245, 158, 11, 0.2); color: #fde68a; height: 100%; } .panel-amber .panel-label { color: #fbbf24; }
+  .panel-rose { color: #cbd5e1; } .panel-rose .panel-label { color: #fb7185; }
+  
+  .syntax-box { font-family: 'Courier New', monospace; font-size: 14px; background: rgba(2, 6, 23, 0.6); padding: 16px; border-radius: 10px; border: 1px solid #1e293b; line-height: 2.2; color: #cbd5e1; }
+  .tok { display: inline-block; padding: 2px 8px; border-radius: 6px; font-weight: 800; font-size: 12px; margin-right: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+  .tok-s { background: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); }
+  .tok-v { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
+  .tok-o { background: rgba(245, 158, 11, 0.2); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.3); }
+  .tok-m { background: rgba(168, 85, 247, 0.2); color: #d8b4fe; border: 1px solid rgba(168, 85, 247, 0.3); }
+  
+  .info-row { margin-bottom: 8px; line-height: 1.6; }
+  .keyword-badge { font-weight: 700; color: #818cf8; margin-left: 4px; }
+  .trap-text { font-style: italic; line-height: 1.7; }
+  
+  .two-col { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 16px; }
+  @media(max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+  
+  .wrong-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(225, 29, 72, 0.1); }
+  .wrong-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .wrong-letter { width: 32px; height: 32px; background: rgba(225, 29, 72, 0.1); border: 1px solid rgba(225, 29, 72, 0.2); color: #fb7185; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0; font-family: monospace; }
+  .wrong-nature { color: #818cf8; font-size: 13px; margin-bottom: 4px; font-weight: 600; }
+  .wrong-reason { color: #94a3b8; font-size: 13px; font-weight: 500; }
+  
+  .footer { text-align: center; color: #475569; font-size: 12px; margin-top: 48px; padding-top: 24px; border-top: 1px solid #1e293b; }
+</style>
+</head>
+<body>
+  <div class="site-header">
+    <h1 class="site-title">🎓 TOEIC AI MASTERCLASS</h1>
+    <p class="site-sub">Part ${selectedPart} · ${flatQuestions.length} câu · ${modelName} · Xuất ngày ${dateStr} lúc ${timeStr}</p>
+  </div>
+  ${scoreHTML}
+  ${questionsHTML}
+  <div class="footer">Tạo bởi TOEIC AI Masterclass · ${dateStr}</div>
+</body>
+</html>`;
+
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `TOEIC_Part${selectedPart}_${dateStr}_${timeStr}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showNotice('Đã tải đề thi xuống thành công!');
+        }
+
+        async function generateExam() {
+            if (!apiKey) {
+                alert("Vui lòng cấu hình API Key ở góc trên bên phải trước khi bắt đầu.");
+                return;
+            }
+
+            // Hide previous screens and show loader
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('examContainer').classList.add('hidden');
+            const loading = document.getElementById('loadingScreen');
+            loading.classList.remove('hidden');
+
+            const generateBtn = document.getElementById('generateBtn');
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin"></i> Đang tải đề...`;
+
+            let qCount = 5;
+            if (selectedPart === '5') {
+                qCount = (testSize === 'mini') ? 5 : 30;
+            } else if (selectedPart === '6') {
+                qCount = (testSize === 'mini') ? 1 : 4;
+            } else if (selectedPart === '7') {
+                qCount = (testSize === 'mini') ? 5 : 12; // 5 passages for mini, 12 for full
+            }
+
+            const keysArray = apiKey.split(',').map(k => k.trim()).filter(k => k);
+            const numKeys = keysArray.length;
+
+            updateLoadingProgress(`Khởi động Giáo viên AI...`, 10);
+            document.getElementById('loadingSubText').innerHTML = `Đang phân tích cấu trúc đề thi và chuẩn bị tài nguyên biên soạn.`;
+
+            const selectedModel = document.getElementById('aiModelSelect').value;
+            const isGroq = !selectedModel.includes('gemini');
+
+            let maxChunkSize = 5;
+            if (selectedPart === '5') {
+                maxChunkSize = isGroq ? 2 : 5;
+            } else if (selectedPart === '6') {
+                maxChunkSize = 1;
+            } else if (selectedPart === '7') {
+                maxChunkSize = 1;
+            }
+
+            let tasksConfig = [];
+            let remainingQ = qCount;
+            let keyIndex = 0;
+
+            let remainingVocabNeeded = 0;
+            if (selectedPart === '5') {
+                // User yêu cầu focus vào ngữ pháp: 30 câu thì 5 câu từ vựng, 5 câu thì 1 câu từ vựng (Tỉ lệ 1/6)
+                remainingVocabNeeded = Math.round(qCount / 6);
+                if (remainingVocabNeeded < 1) remainingVocabNeeded = 1; // Ít nhất 1 câu từ vựng
+            }
+
+            while (remainingQ > 0) {
+                let taskQCount = Math.min(remainingQ, maxChunkSize);
+                remainingQ -= taskQCount;
+
+                let vocabCount = 0;
+
+                let description = "";
+                if (selectedPart === '5') {
+                    if (remainingVocabNeeded > 0) {
+                        // Tính toán số câu từ vựng cho chunk này để phân bổ đều
+                        vocabCount = Math.min(remainingVocabNeeded, Math.round(taskQCount / 6));
+                        // Đảm bảo mỗi chunk lớn đều có ít nhất 1 câu nếu cần, hoặc dồn vào chunk cuối
+                        if (vocabCount === 0 && taskQCount >= 5 && remainingVocabNeeded > 0) {
+                            vocabCount = 1;
+                        }
+                        if (taskQCount < maxChunkSize && remainingVocabNeeded > 0) {
+                             vocabCount = remainingVocabNeeded;
+                        }
+                        if (vocabCount > taskQCount) vocabCount = taskQCount;
+                        remainingVocabNeeded -= vocabCount;
+                    }
+                    const grammarCount = taskQCount - vocabCount;
+                    description = `Sinh đúng ${taskQCount} câu hỏi trắc nghiệm độc lập thuộc Part 5. BẮT BUỘC phải có CHÍNH XÁC ${vocabCount} câu TỪ VỰNG (4 đáp án là các từ vựng khác nghĩa) và ${grammarCount} câu NGỮ PHÁP.\n`;
+
+                    const ALL_GRAMMAR_TOPICS = [
+                        `1. Từ loại (Parts of Speech): Cách nhận biết và vị trí của Danh từ, Động từ, Tính từ, Trạng từ trong câu.`,
+                        `2. Thì của động từ (Verb Tenses): Bao phủ TẤT CẢ các thì (Hiện tại/Quá khứ/Tương lai đơn, tiếp diễn, hoàn thành). Bẫy chia thì dựa vào ngữ cảnh (TUYỆT ĐỐI KHÔNG dùng dấu hiệu thời gian lộ liễu).`,
+                        `3. Sự hòa hợp Chủ-Vị (Subject-Verb Agreement): Bẫy along with, as well as, either... or, neither... nor...`,
+                        `4. Câu bị động (Passive Voice): Bị động của thì cơ bản, đặc biệt chú ý bị động của động từ khuyết thiếu (modal + be + V-ed/PII) (ví dụ: cannot be pursued) và bị động đặc biệt.`,
+                        `5. Đại từ (Pronouns): Chủ ngữ, tân ngữ, sở hữu, phản thân, chỉ định.`,
+                        `6. Giới từ cơ bản (Prepositions): Giới từ chỉ Thời gian (in, on, at, until, by, since, within), nơi chốn (in, on, at, among, between), sự chuyển động.`,
+                        `7. Liên từ (Conjunctions): Liên từ tương hỗ đi theo cặp bắt buộc (both...and, either...or, neither...nor, not only...but also) và liên từ phụ thuộc (because, although, whenever, whereas...).`,
+                        `8. Mệnh đề quan hệ (Relative Clauses): Đại từ/trạng từ quan hệ và đặc biệt ưu tiên Mệnh đề quan hệ rút gọn (V-ing / V-ed).`,
+                        `9. Động từ nguyên mẫu và Danh động từ (To-V & V-ing): Nhóm động từ bắt buộc theo sau là To-V hoặc V-ing.`,
+                        `10. Phân từ (Participles): Hiện tại phân từ (V-ing) chủ động và Quá khứ phân từ (V-ed) bị động đóng vai trò tính từ.`,
+                        `11. Câu điều kiện (Conditional Sentences): Loại 1, 2, 3, câu điều kiện hỗn hợp và Đảo ngữ câu điều kiện.`,
+                        `12. Cấu trúc so sánh (Comparisons): So sánh bằng, so sánh hơn, so sánh nhất và so sánh kép.`,
+                        `13. Thức giả định (Subjunctive Mood): Cấu trúc khuyên bảo, đề nghị (suggest, recommend, demand, essential, vital...).`,
+                        `14. Cấu trúc đảo ngữ (Inversion): Đảo ngữ với trạng từ phủ định (Never, Hardly, Seldom, Not only...).`,
+                        `15. Từ hạn định và Lượng từ (Determiners & Quantifiers): mạo từ (a, an, the) và lượng từ (some, any, much, many, all, a lot of...). Phân biệt lượng từ đi với danh từ đếm được số nhiều, không đếm được, và số ít (ví dụ: every, each, another).`,
+                        `16. Cụm động từ (Phrasal Verbs): Động từ đi kèm giới từ tạo thành nghĩa mới.`,
+                        `17. Từ Loại & Chủ Vị: Danh từ số nhiều đóng vai trò làm chủ ngữ hòa hợp với động từ (ví dụ: investments are).`,
+                        `18. Đại Từ nâng cao: Phân biệt 4 dạng đại từ của cùng một ngôi (ví dụ: they, them, their, themselves). Bẫy điền Tính từ sở hữu đứng trước danh từ (ví dụ: their requests, his ideas) hoặc điền Đại từ phản thân để nhấn mạnh.`,
+                        `19. Cụm Giới Từ nâng cao: Cụm giới từ đi kèm động từ/tính từ cố định (ví dụ: inform ABOUT, similar TO, make it easy FOR, on a regular basis), Giới từ chỉ mức độ thay đổi (ví dụ: drop BY 20%), và Giới từ nối hai danh từ chỉ sự sở hữu (ví dụ: the weight OF the package).`,
+                        `20. Danh Động Từ: Bẫy V-ing đứng ngay sau các Giới từ (ví dụ: in charge of IMPROVING, responsible for DOING).`,
+                        `21. Phân biệt Giới từ & Liên từ: Bẫy chọn giữa Giới từ (+ V-ing/Noun) và Liên từ (+ S+V+O) (ví dụ: During vs While, Owing to/Due to/Because of vs Because, Despite vs Although, Instead of vs Whenever, Like vs As).`,
+                        `22. Danh Từ Ghép (Compound Nouns): Bẫy điền Danh từ đứng trước Danh từ để tạo từ ghép thay vì điền Tính từ (ví dụ: lead designer, safety precautions, customer satisfaction).`,
+                        `23. Mệnh đề Rút Gọn / Thời Gian + V-ing: Bẫy điền Liên từ/Giới từ chỉ thời gian đứng trước V-ing (ví dụ: Before/After/While/When/Upon + V-ing) khi hai vế đồng chủ ngữ.`,
+                        `24. Cấu trúc Kết Quả: Bẫy cấu trúc "so...that / such...that" (ví dụ: so pleased THAT, such a good report THAT), dễ bị lừa chọn đại từ quan hệ (which/who).`,
+                        `25. Liên từ Điều Kiện Đặc Biệt: Bẫy các liên từ chỉ điều kiện mang nghĩa "Nếu/Chỉ khi" (ví dụ: only if, provided that, providing that, as long as, assuming that) thay thế cho "if" thông thường.`,
+                        `26. Đại từ vs Trạng từ Quan Hệ: Bẫy danh từ chỉ Nơi chốn/Thời gian nhưng chỗ trống đóng vai trò làm Chủ ngữ/Tân ngữ nên phải dùng "which/that" chứ KHÔNG được dùng "where/when" (ví dụ: the venue THAT hosts...).`,
+                        `27. Nhóm Đại từ Other: Phân biệt cách dùng của nhóm từ dễ nhầm lẫn (ví dụ: other + Ns, others đứng một mình, another đứng một mình hoặc + N số ít, each other / one another).`,
+                        `28. Thức giả định As if / As though: Bẫy điền liên từ mang nghĩa "cứ như thể là" đi kèm với động từ "to be" được chia là "were" cho mọi ngôi (ví dụ: treated her AS IF she WERE).`,
+                        `29. Trạng Từ Chỉ Mức Độ: Bẫy điền trạng từ chỉ mức độ (ví dụ: almost, completely, highly, fully) bổ nghĩa cho phân từ hoặc tính từ (ví dụ: almost finished, highly recommended).`,
+                        `30. Trạng Từ Liên Kết: Bẫy phân biệt các trạng từ liên kết chỉ kết quả, nguyên nhân, tương phản (ví dụ: thus, therefore, however, moreover, nevertheless) nối giữa các mệnh đề hoặc cụm từ.`,
+                        `31. Đại từ Those/Anyone chỉ người: Bẫy dùng đại từ làm chủ ngữ mang nghĩa "những người/bất cứ ai" (ví dụ: Those who wish to apply, Anyone who wishes), phân biệt số ít (Anyone) và số nhiều (Those).`,
+                        `32. Mệnh đề danh ngữ That: Bẫy điền liên từ "that" đứng sau các tính từ chỉ cảm xúc/nhận thức (ví dụ: confident that, aware that) hoặc động từ (ví dụ: report that) để nối một mệnh đề hoàn chỉnh (S+V+O).`,
+                        `33. Cụm từ cố định Collocations: Bẫy điền Động từ đi kèm Danh từ tạo thành cụm cố định (ví dụ: reach an agreement, meet the deadline, place an order, make a decision) thay vì các động từ có nghĩa tương tự nhưng không đi cùng nhau.`
+                    ];
+
+                    let availableTopics = [];
+                    try {
+                        availableTopics = JSON.parse(localStorage.getItem('toeicAvailableGrammarTopics') || "[]");
+                    } catch (e) {
+                        availableTopics = [];
+                    }
+                    if (availableTopics.length < grammarCount) {
+                        // Reset pool when running out of unused topics
+                        availableTopics = [...ALL_GRAMMAR_TOPICS];
+                        // Shuffle array
+                        for (let i = availableTopics.length - 1; i > 0; i--) {
+                            const j = Math.floor(Math.random() * (i + 1));
+                            [availableTopics[i], availableTopics[j]] = [availableTopics[j], availableTopics[i]];
+                        }
+                    }
+                    
+                    // Pop topics for this chunk
+                    let selectedTopics = availableTopics.splice(0, grammarCount);
+                    localStorage.setItem('toeicAvailableGrammarTopics', JSON.stringify(availableTopics));
+                    
+                    if (grammarCount > 0) {
+                        description += `YÊU CẦU ÉP BUỘC ĐỐI VỚI NGỮ PHÁP: Đối với ${grammarCount} câu ngữ pháp, TUYỆT ĐỐI KHÔNG LẶP LẠI chủ điểm. Bạn PHẢI TẠO CHÍNH XÁC CÁC CÂU LẦN LƯỢT THUỘC VÀO CÁC CHỦ ĐIỂM NGỮ PHÁP DƯỚI ĐÂY (mỗi câu chỉ test 1 chủ điểm):\n`;
+                        selectedTopics.forEach((topic, idx) => {
+                            description += `Câu ngữ pháp thứ ${idx + 1}: ${topic}\n`;
+                        });
+                    }
+                } else if (selectedPart === '6') {
+                    description = `BẮT BUỘC sinh đúng ${taskQCount} đoạn văn (passage) riêng biệt, mỗi đoạn văn phải có CHÍNH XÁC 4 câu hỏi điền khuyết tương ứng (Tổng cộng ${taskQCount * 4} câu hỏi) thuộc Part 6. TUYỆT ĐỐI KHÔNG ĐƯỢC LÀM THIẾU SỐ LƯỢNG NÀY.`;
+                } else if (selectedPart === '7') {
+                    // Part 7: each task is 1 passage with specific structure
+                    // passageIndex tracks which passage number this is (1-indexed)
+                    const passageIndex = qCount - remainingQ; // current passage number (after decrement)
+                    const topicPool = [
+                        'Email / Memos nội bộ: Thông báo tuyển dụng, thay đổi chính sách nhân sự hoặc thuyên chuyển công tác',
+                        'Email / Thư tín thương mại (Commerce): Đặt hàng, báo giá, hoặc xác nhận thanh toán',
+                        'Thư phàn nàn của khách hàng (Complaint) và Thư phản hồi xin lỗi/bồi thường',
+                        'Quảng cáo (Advertisements): Ra mắt sản phẩm mới, khuyến mãi giảm giá, hoặc rao vặt bất động sản',
+                        'Thông báo công cộng (Notices): Cúp điện, sửa đường, đổi giờ mở cửa dán ở thang máy/bảng tin',
+                        'Chuỗi tin nhắn (Text Message Chains / Online Chats): Đồng nghiệp chat giải quyết công việc gấp, dùng từ viết tắt',
+                        'Bài báo / Đánh giá (Articles / Reviews): Bài viết phân tích tài chính công ty, báo cáo doanh thu, hoặc review nhà hàng/dịch vụ',
+                        'Biểu mẫu / Hóa đơn / Lịch trình (Forms / Invoices / Schedules): Lịch trình chuyến bay, hóa đơn mua hàng chứa nhiều số liệu',
+                        'Đời sống / Dịch vụ (Daily Life): Đặt phòng khách sạn, thông tin tour du lịch, hoặc thẻ bảo hành',
+                        'Tài chính & Kinh doanh (Finance): Kế hoạch sáp nhập công ty, thông báo kêu gọi vốn hoặc bản cáo bạch',
+                        'Nhân sự & Giao tiếp (HR): Lịch họp, thư khen thưởng, kỷ luật, hoặc hướng dẫn sử dụng phần mềm mới',
+                        'Thư mời (Invitations): Mời tham dự hội thảo, triển lãm thương mại hoặc sự kiện công ty'
+                    ];
+                    const topic = topicPool[(passageIndex - 1) % topicPool.length];
+
+                    if (passageIndex === qCount) {
+                        // Last passage: TRIPLE passage (3 đoạn liên kết)
+                        description = `Sinh 1 bài đọc hiểu DẠNG BA (Triple Passage) gồm CHÍNH XÁC 3 ĐOẠN VĂN RIÊNG BIỆT liên kết với nhau về chủ đề "${topic}". Ba đoạn phải có nội dung bổ sung cho nhau (ví dụ: thông báo + email hỏi + email trả lời). 
+BẮT BUỘC VỀ TRÌNH BÀY: Trong trường "passage_text", bạn PHẢI phân tách 3 đoạn bằng cách thêm tiêu đề [Đoạn 1], [Đoạn 2], [Đoạn 3] trước mỗi đoạn, VÀ PHẢI sử dụng ký tự xuống dòng (\\n\\n) giữa các đoạn để tạo khoảng cách rõ ràng.
+Sinh 5 câu hỏi trắc nghiệm, trong đó ít nhất 2 câu yêu cầu đọc hiểu NHIỀU HƠN 1 ĐOẠN mới trả lời được. YÊU CẦU ĐẶC BIỆT: Các câu hỏi phải là dạng SUY LUẬN GIÁN TIẾP (Inference) và PARAPHRASE mạnh. Thí sinh KHÔNG THỂ chỉ tìm từ khóa giống hệt trong bài là ra kết quả, mà phải hiểu ý nghĩa sâu xa và tổng hợp thông tin.`;
+                    } else if (passageIndex === qCount - 1) {
+                        // Second-to-last passage: DOUBLE passage (2 đoạn liên kết)
+                        description = `Sinh 1 bài đọc hiểu DẠNG KÉP (Double Passage) gồm CHÍNH XÁC 2 ĐOẠN VĂN RIÊNG BIỆT liên kết với nhau về chủ đề "${topic}". Mỗi đoạn phải có nội dung riêng biệt nhưng có liên hệ logic (ví dụ: email hỏi + email trả lời). 
+BẮT BUỘC VỀ TRÌNH BÀY: Trong trường "passage_text", bạn PHẢI phân tách 2 đoạn bằng cách thêm tiêu đề [Đoạn 1], [Đoạn 2] trước mỗi đoạn, VÀ PHẢI sử dụng ký tự xuống dòng (\\n\\n) giữa các đoạn để tạo khoảng cách rõ ràng.
+Sinh 5 câu hỏi trắc nghiệm, trong đó ít nhất 1 câu hỏi yêu cầu đọc hiểu CẢ 2 ĐOẠN mới trả lời được. YÊU CẦU ĐẶC BIỆT: Các câu hỏi phải là dạng SUY LUẬN GIÁN TIẾP (Inference) và PARAPHRASE mạnh. Thí sinh KHÔNG THỂ chỉ tìm từ khóa giống hệt trong bài là ra kết quả, mà phải hiểu ý nghĩa sâu xa và tổng hợp thông tin.`;
+                    } else {
+                        // Single passage
+                        description = `Sinh 1 bài đọc hiểu DẠNG ĐƠN (Single Passage) với chủ đề "${topic}". Đoạn văn phải dài đủ thực tế (150-250 từ), ngôn ngữ tự nhiên. 
+BẮT BUỘC: Trong trường "passage_text", thêm tiêu đề [Đoạn 1] ở đầu.
+Sinh 5 câu hỏi trắc nghiệm đa dạng. YÊU CẦU ĐẶC BIỆT: Các câu hỏi phải là dạng SUY LUẬN GIÁN TIẾP (Inference) và PARAPHRASE mạnh. Thí sinh KHÔNG THỂ chỉ tìm từ khóa giống hệt trong bài là ra kết quả, mà phải hiểu ý nghĩa tổng thể và suy luận từ ngữ cảnh.`;
+                    }
+                }
+
+                const part5VocabRule = selectedPart === '5'
+                    ? `\n⚠️ QUY TẮC TỪ VỰNG PART 5: BẮT BUỘC phải có CHÍNH XÁC ${vocabCount} câu THUẦN TỪ VỰNG. Câu từ vựng là câu mà 4 lựa chọn A/B/C/D là 4 TỪ KHÁC NHAU HOÀN TOÀN VỀ NGHĨA. ĐẶC BIỆT CHÚ Ý: Hãy sử dụng các từ vựng nâng cao, từ lạ (nhưng vẫn hay xuất hiện trong các đề thi TOEIC thực tế độ khó cao). KHÔNG dùng các từ vựng quá cơ bản.`
+                    : '';
+
+                const systemPrompt = `Bạn là một Đại cao thủ luyện thi TOEIC 990 và là chuyên gia ngôn ngữ xuất sắc. Nhiệm vụ của bạn là biên soạn đề thi luyện tập hướng tới mức điểm 750+ cho học viên. Các bài đọc, từ vựng và câu hỏi phải có độ khó cao, mang tính phân loại thí sinh.
+QUY TẮC SỐNG CÒN VỀ LOGIC NGỮ NGHĨA: BẮT BUỘC đáp án đúng ghép vào câu phải tạo ra một câu hoàn toàn HỢP LÝ VỀ MẶT THỰC TẾ. Tuyệt đối không được nhắm mắt thiết kế câu chỉ để thỏa mãn ngữ pháp mà bỏ qua ý nghĩa (Ví dụ CẤM tạo câu: "Mặc dù thời tiết xấu, buổi hòa nhạc đã bị dời lại" -> Sai logic trầm trọng, phải là "Bởi vì"). Cả 4 đáp án và nội dung câu hỏi phải logic với nhau.
+QUY TẮC SỐNG CÒN VỀ TÍNH DUY NHẤT: Trong 4 lựa chọn (A, B, C, D), BẮT BUỘC CHỈ CÓ DUY NHẤT 1 ĐÁP ÁN ĐÚNG. Ba đáp án còn lại phải SAI HOÀN TOÀN về mặt ngữ pháp hoặc ngữ nghĩa. TUYỆT ĐỐI KHÔNG tạo ra tình huống có 2 từ đều đúng ngữ pháp và ý nghĩa rồi viện cớ "từ này phổ biến hơn", "từ này trang trọng hơn" (Ví dụ: cho cả "much" và "far" vào câu nhấn mạnh so sánh hơn là ĐỀ LỖI). ĐÚNG LÀ ĐÚNG, SAI LÀ SAI. Không có khái niệm "ưu tiên".
+QUAN TRỌNG: Bạn phải VIẾT PHẦN GIẢI THÍCH (explanation) VÔ CÙNG CẶN KẼ, SÂU SẮC. ĐẶC BIỆT LƯU Ý LỖI NGHIÊM TRỌNG: MỖI CÂU HỎI PHẢI CÓ PHẦN GIẢI THÍCH, MỔ XẺ CẤU TRÚC, VÀ CHỦ ĐIỂM HOÀN TOÀN RIÊNG BIỆT KHỚP ĐÚNG VỚI NỘI DUNG CÂU ĐÓ. TUYỆT ĐỐI KHÔNG ĐƯỢC LƯỜI BIẾNG SAO CHÉP (COPY) PHẦN GIẢI THÍCH HAY CHỦ ĐIỂM CỦA CÂU TRƯỚC ĐỂ LẮP VÀO CÂU SAU. NẾU LẶP LẠI GIẢI THÍCH, ĐỀ SẼ BỊ HỦY BỎ.
+Yêu cầu biên soạn cho Part ${selectedPart} theo yêu cầu sau: ${description}.${part5VocabRule}
+TUYỆT ĐỐI TUÂN THỦ: TẤT CẢ CÁC MỤC GIẢI THÍCH, PHÂN TÍCH, DỊCH NGHĨA PHẢI VIẾT BẰNG TIẾNG VIỆT 100% (ngoại trừ văn bản tiếng Anh của bài thi). NẾU BẠN VIẾT BẰNG TIẾNG ANH, BẠN SẼ BỊ PHẠT.
+
+ĐÁP ỨNG TIÊU CHUẨN THÔNG TIN BẮT BUỘC TRẢ VỀ DẠNG JSON SAU (KHÔNG ĐƯỢC CHỨA BẤT KỲ VĂN BẢN NÀO NGOÀI JSON):
+{
+  "part": "${selectedPart}",
+  "passages": [
+    {
+      "passage_text": "Nội dung văn bản/đoạn văn đọc hiểu (Nếu Part 5 thì để chuỗi rỗng \\"\\").",
+      "questions": [
+        {
+          "question_number": [Số thứ tự câu hỏi tăng dần từ 1],
+          "question_text": "Nội dung câu hỏi đầy đủ. QUY TẮC CỨNG: BẮT BUỘC PHẢI CHỨA CHỖ TRỐNG '___' (3 dấu gạch dưới) ĐỂ HỌC VIÊN ĐIỀN VÀO. TUYỆT ĐỐI KHÔNG để lộ đáp án đúng (dù đáp án nằm ở đầu câu hay giữa câu). Nếu không có chỗ trống '___', ĐỀ SẼ BỊ VỨT ĐI.",
+          "options": { "A": "Đáp án A", "B": "Đáp án B", "C": "Đáp án C", "D": "Đáp án D" },
+          "correct_answer": "Đáp án đúng (chỉ ghi A, B, C hoặc D)",
+          "sentence_structure_analysis": "${selectedPart === '7' ? 'Phân tích kỹ lưỡng loại câu hỏi (ví dụ: Câu hỏi Chi tiết, Suy luận, Tìm ý chính, Từ vựng ngữ cảnh). Giải thích sơ lược chiến thuật làm dạng câu này.' : 'MỔ XẺ CẤU TRÚC CÂU: Phân tích thành phần câu thật trực quan sử dụng chuẩn viết tắt [S] (Chủ ngữ), [V] (Động từ chính), [O] (Tân ngữ), [M] (Trạng từ/Trạng ngữ/Cụm từ bổ trợ). Đối với [M], BẮT BUỘC phải ghi chú rõ trong ngoặc đơn là nó đang bổ trợ cho từ/cụm từ nào trong câu (ví dụ chỉ thời gian, địa điểm, mục đích, bổ trợ cho động từ chính v.v.). Ví dụ: [S] The manager / [V] will review / [O] the report / [M] tomorrow (bổ trợ thời gian cho will review). Sau đó giải thích từ loại cần điền.'}",
+          "vietnamese_translation": "${selectedPart === '7' ? 'Dịch nghĩa câu hỏi và 4 đáp án sang tiếng Việt. BẮT BUỘC chèn ký tự xuống dòng (\\\\n) trước mỗi đáp án A, B, C, D để tách biệt.' : 'Dịch nghĩa toàn bộ câu hỏi (bao gồm đáp án đúng đã được điền vào chỗ trống) sang tiếng Việt thật tự nhiên.'}",
+          "explanation": {
+            "grammar_rule": "${selectedPart === '7' ? 'Kỹ năng Đọc hiểu (Ví dụ: Hiểu ý đồ người viết, Suy luận thông tin chéo, Định vị chi tiết cụ thể...).' : 'Chủ điểm ngữ pháp áp dụng. YÊU CẦU: Ghi RẤT NGẮN GỌN tên chủ điểm (Ví dụ: Sự hòa hợp Chủ-Vị, Rút gọn mệnh đề, Câu điều kiện loại 1). TUYỆT ĐỐI KHÔNG dùng các từ dư thừa như \\"Bẫy chuyên sâu về\\", \\"Kiểm tra kiến thức về\\" ở đầu.'}",
+            "keywords": "${selectedPart === '7' ? 'TRÍCH DẪN ĐÚNG CÂU VĂN chứa thông tin quyết định đáp án (VD: Nằm ở [Đoạn 2]: The event will be postponed...).' : 'TRÍCH XUẤT CHÍNH XÁC CÁC TỪ KHÓA/DẤU HIỆU NHẬN BIẾT trong câu (ví dụ: next Monday, upcoming, recently, v.v.).'}",
+            "why_correct": "${selectedPart === '7' ? 'Giải thích chi tiết CÂU ĐÚNG NẰM Ở ĐOẠN NÀO TRONG BÀI, VÀ TẠI SAO NÓ ĐÚNG. Nếu có paraphrase thì phải chỉ rõ từ nào trong bài ứng với từ nào trong đáp án.' : 'Giải thích chi tiết lý do chọn đáp án này. BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC bắt đầu bằng việc ghi rõ "Dịch nghĩa: [nghĩa của đáp án]". Kế tiếp, BẮT BUỘC phải dùng ký tự xuống dòng (\\\\n) để tách biệt phần Dịch nghĩa và phần Giải thích. Ví dụ: Dịch nghĩa: đang thực hiện.\\\\nVì đây là sự việc đang diễn ra... Riêng CÂU TỪ VỰNG: BẮT BUỘC cho thêm 1 câu ví dụ tiếng Anh (kèm dịch) minh họa.'}",
+            "wrong_options_grammar_analysis": {
+              "option_A": {
+                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Bản chất ngữ pháp của từ này'}",
+                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]'}"
+              },
+              "option_B": {
+                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Bản chất ngữ pháp của từ này'}",
+                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]'}"
+              },
+              "option_C": {
+                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Bản chất ngữ pháp của từ này'}",
+                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]'}"
+              },
+              "option_D": {
+                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Bản chất ngữ pháp của từ này'}",
+                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]'}"
+              }
+            },
+            "trap_warning": "Cảnh báo bẫy TOEIC liên quan đến dạng câu này và mẹo nhớ nhanh."
+          }
+        }
+      ]
+    }
+  ]
+}
+
+LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
+1. Đối với wrong_options_grammar_analysis, loại trừ khóa tương ứng với correct_answer ra.
+2. VIẾT TOÀN BỘ NỘI DUNG PHÂN TÍCH VÀ DỊCH NGHĨA BẰNG TIẾNG VIỆT. KHÔNG DÙNG TIẾNG ANH ĐỂ GIẢI THÍCH.
+3. TRONG QUESTION_TEXT, CHỖ TRỐNG LÀ DẤU "___". TUYỆT ĐỐI KHÔNG ĐƯỢC VIẾT LỘ ĐÁP ÁN ĐÚNG VÀO TRONG CÂU HỎI. VÍ DỤ SAI: "The report ___ prepared... (trong khi đáp án đúng là prepared)". VÍ DỤ ĐÚNG: "The report ___ by each senior analyst...". LỖI NÀY LÀ KHÔNG THỂ CHẤP NHẬN ĐƯỢC.`;
+                const userPrompt = `Hãy khởi tạo bộ đề TOEIC chất lượng cao chuẩn ETS cho Part ${selectedPart}. NGÔN NGỮ GIẢI THÍCH LÀ TIẾNG VIỆT.`;
+
+
+                // Assign keys in a round-robin fashion
+                tasksConfig.push({ systemPrompt, userPrompt, key: keysArray[keyIndex % numKeys], taskQCount });
+                keyIndex++;
+            }
+
+            try {
+                let results = [];
+                let currentQ = 0;
+                let unitText = (selectedPart === '5') ? 'câu hỏi' : 'đoạn văn';
+                let lastErr = null;
+                let previousGrammarTopics = JSON.parse(sessionStorage.getItem('toeic_past_topics') || '[]');
+
+                for (let i = 0; i < tasksConfig.length; i++) {
+                    currentQ += tasksConfig[i].taskQCount;
+                    const percent = Math.round((currentQ / qCount) * 100);
+                    updateLoadingProgress(`Giáo viên AI đang biên soạn đề thi (${percent}%)...`, percent);
+                    document.getElementById('loadingSubText').innerHTML = `Đang phân tích cấu trúc và xây dựng đáp án cặn kẽ (${currentQ}/${qCount} ${unitText})...`;
+
+                    let success = false;
+                    let initialKeyIndex = keysArray.indexOf(tasksConfig[i].key);
+                    if (initialKeyIndex === -1) initialKeyIndex = 0;
+
+                    // Inject memory of previous topics into the prompt for the current chunk
+                    let dynamicUserPrompt = tasksConfig[i].userPrompt;
+                    if (selectedPart === '5' && previousGrammarTopics.length > 0) {
+                        // Deduplicate and filter out non-string/empty
+                        const uniqueTopics = [...new Set(previousGrammarTopics.filter(t => typeof t === 'string' && t.trim() !== ''))];
+                        if (uniqueTopics.length > 0) {
+                            dynamicUserPrompt += `\n\nCHÚ Ý ĐẶC BIỆT TỪ HỆ THỐNG: Để đảm bảo sự đa dạng tuyệt đối, BẠN BỊ CẤM sử dụng lại các chủ điểm ngữ pháp và từ vựng sau đây (vì người dùng vừa mới làm xong): [ ${uniqueTopics.join(' | ')} ]. Hãy bốc các chủ điểm và từ vựng MỚI HOÀN TOÀN.`;
+                        }
+                    }
+
+                    for (let tryIdx = 0; tryIdx < keysArray.length; tryIdx++) {
+                        let k = keysArray[(initialKeyIndex + tryIdx) % keysArray.length];
+                        try {
+                            const res = await callGeminiAPI(tasksConfig[i].systemPrompt, dynamicUserPrompt, k);
+                            results.push(res);
+
+                            // Extract grammar topics from the newly generated chunk to add to memory
+                            if (selectedPart === '5' && res && res.passages) {
+                                res.passages.forEach(p => {
+                                    if (p.questions) {
+                                        p.questions.forEach(q => {
+                                            if (q.explanation && q.explanation.grammar_rule) {
+                                                previousGrammarTopics.push(q.explanation.grammar_rule);
+                                            }
+                                            if (q.correct_answer && q.options && q.options[q.correct_answer]) {
+                                                previousGrammarTopics.push("Từ: " + q.options[q.correct_answer]);
+                                            }
+                                        });
+                                    }
+                                });
+                                if (previousGrammarTopics.length > 50) {
+                                    previousGrammarTopics = previousGrammarTopics.slice(previousGrammarTopics.length - 50);
+                                }
+                                sessionStorage.setItem('toeic_past_topics', JSON.stringify(previousGrammarTopics));
+                            }
+
+                            success = true;
+                            break; // Success, move to next chunk
+                        } catch (err) {
+                            lastErr = err;
+                            console.warn("Key thất bại, thử key khác...", err);
+                        }
+                    }
+
+                    if (!success) {
+                        console.error("Tất cả API Key đều thất bại ở lượt này.", lastErr);
+                        // Break the loop and render what we have so far
+                        break;
+                    }
+                }
+
+                if (results.length === 0) {
+                    throw new Error("Tất cả API Key đều thất bại. Lỗi: " + (lastErr ? lastErr.message : "Quá tải"));
+                }
+
+                updateLoadingProgress(`Hoàn tất! Đang hiển thị giao diện...`, 100);
+
+                // Merge results
+                let mergedData = { part: selectedPart, passages: [] };
+                results.forEach(res => {
+                    if (res && res.passages) {
+                        mergedData.passages.push(...res.passages);
+                    }
+                });
+
+                // Re-index question numbers sequentially & sanitize hallucinated answers
+                let globalNum = 1;
+                mergedData.passages.forEach(passage => {
+                    passage.questions.forEach(q => {
+                        q.question_number = globalNum++;
+                        // Dọn dẹp lỗi AI: Xóa đáp án đúng nếu AI lỡ viết liền ngay sau chỗ trống
+                        if (q.question_text && q.question_text.includes('___')) {
+                            let correctOptText = q.options[q.correct_answer];
+                            if (correctOptText) {
+                                correctOptText = correctOptText.trim();
+                                const parts = q.question_text.split('___');
+                                if (parts.length > 1) {
+                                    let afterBlank = parts[1].trim();
+                                    // Tạo regex bắt từ đầu chuỗi, theo sau là khoảng trắng, dấu câu hoặc hết chuỗi
+                                    const escapedText = correctOptText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                                    const regex = new RegExp(`^${escapedText}(?=[\\s,.!?;:]|$)`, 'i');
+                                    if (regex.test(afterBlank)) {
+                                        parts[1] = afterBlank.replace(regex, '').trim();
+                                        q.question_text = parts[0] + '___ ' + parts[1];
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+
+                // If we didn't generate all questions, inform user
+                if (globalNum - 1 < qCount) {
+                    showNotice(`Chỉ tạo được ${globalNum - 1} câu hỏi do API quá tải.`);
+                }
+
+                setTimeout(() => {
+                    generateBtn.disabled = false;
+                    generateBtn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> Tạo Đề Luyện Thi`;
+                    setupExamEnvironment(mergedData);
+                }, 600);
+
+            } catch (err) {
+                console.error(err);
+                alert("Lỗi kết nối AI: " + err.message);
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> Tạo Đề Luyện Thi`;
+            }
+        }
+
+        function updateLoadingProgress(stageText, percentage) {
+            document.getElementById('loadingStage').innerText = stageText;
+            document.getElementById('loadingProgress').style.width = `${percentage}%`;
+        }
+
+        /* BALANCED BRACKET JSON EXTRACTOR & API CALL */
+        async function callGeminiAPI(systemPrompt, userPrompt, currentApiKey) {
+            const selectedModel = document.getElementById('aiModelSelect').value;
+            const isGroq = !selectedModel.includes('gemini');
+
+            let apiUrl;
+            let payload;
+            let headers = { 'Content-Type': 'application/json' };
+
+            if (isGroq) {
+                apiUrl = `https://api.groq.com/openai/v1/chat/completions`;
+                headers['Authorization'] = `Bearer ${currentApiKey}`;
+                payload = {
+                    model: selectedModel,
+                    messages: [
+                        { role: "system", content: `${systemPrompt}\n\nLƯU Ý QUAN TRỌNG: KẾT QUẢ BẮT BUỘC TRẢ VỀ JSON, KHÔNG KÈM VĂN BẢN NÀO KHÁC.` },
+                        { role: "user", content: userPrompt }
+                    ]
+                };
+                if (!selectedModel.includes('compound')) {
+                    // Cấp 4500 tokens để tổng số token (Prompt + max_tokens) < 8000 TPM
+                    payload.max_tokens = 4500;
+                }
+            } else {
+                apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${currentApiKey}`;
+                payload = {
+                    contents: [{ parts: [{ text: userPrompt }] }],
+                    systemInstruction: {
+                        parts: [{ text: systemPrompt }]
+                    },
+                    generationConfig: {
+                        responseMimeType: "application/json"
+                    }
+                };
+            }
+
+            let res;
+            let retries = 0;
+            while (retries < 3) {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 60000); // 60s timeout
+                try {
+                    res = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify(payload),
+                        signal: controller.signal
+                    });
+                } catch (fetchErr) {
+                    clearTimeout(timeoutId);
+                    if (fetchErr.name === 'AbortError') {
+                        throw new Error('Kết nối bị timeout sau 60 giây. Vui lòng thử lại.');
+                    }
+                    throw fetchErr;
+                }
+                clearTimeout(timeoutId);
+
+                if (res.status === 429) {
+                    const errorText = await res.text().catch(() => "");
+                    console.warn("429 Rate Limit Hit.", errorText);
+                    const match = errorText.match(/try again in ([\d.]+)s/i);
+                    let waitMs = (parseFloat(match ? match[1] : "10") + 1.5) * 1000;
+                    updateLoadingProgress(`Quá tải. Đang đợi ${Math.ceil(waitMs / 1000)}s rồi tự động thử lại...`, parseInt(document.getElementById('loadingProgress').style.width) || 50);
+                    await new Promise(r => setTimeout(r, waitMs));
+                    retries++;
+                    continue;
+                }
+
+                if (!res.ok) {
+                    const errorText = await res.text().catch(() => "");
+                    throw new Error(`Mã lỗi ${res.status}: ${errorText}`);
+                }
+                break;
+            }
+            if (!res || !res.ok) {
+                throw new Error(`Quá số lần thử lại do giới hạn 429 Rate Limit.`);
+            }
+
+            const data = await res.json();
+
+            let textResponse = "";
+            if (isGroq) {
+                textResponse = data.choices?.[0]?.message?.content;
+            } else {
+                textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            }
+
+            if (!textResponse) {
+                console.log("Raw API Response:", data);
+                throw new Error("EMPTY_RESPONSE. Cấu trúc trả về: " + JSON.stringify(data));
+            }
+
+            // CLEANING LOGIC WITH BALANCED BRACKETS EXTRACTOR
+            let cleanJson = textResponse.trim();
+            if (cleanJson.startsWith('```json')) {
+                cleanJson = cleanJson.substring(7);
+            } else if (cleanJson.startsWith('```')) {
+                cleanJson = cleanJson.substring(3);
+            }
+            if (cleanJson.endsWith('```')) {
+                cleanJson = cleanJson.substring(0, cleanJson.length - 3);
+            }
+            cleanJson = cleanJson.trim();
+
+            // Extract only the balanced main curly brace block to isolate trailing brackets/garbage
+            const firstBrace = cleanJson.indexOf('{');
+            if (firstBrace !== -1) {
+                let balance = 0;
+                let insideString = false;
+                let escaped = false;
+                for (let i = firstBrace; i < cleanJson.length; i++) {
+                    const char = cleanJson[i];
+                    if (escaped) {
+                        escaped = false;
+                        continue;
+                    }
+                    if (char === '\\') {
+                        escaped = true;
+                        continue;
+                    }
+                    if (char === '"') {
+                        insideString = !insideString;
+                        continue;
+                    }
+                    if (!insideString) {
+                        if (char === '{') {
+                            balance++;
+                        } else if (char === '}') {
+                            balance--;
+                            if (balance === 0) {
+                                cleanJson = cleanJson.substring(firstBrace, i + 1);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Remove common trailing commas that break JSON.parse
+            cleanJson = cleanJson.replace(/,\s*([\]}])/g, '$1');
+
+            try {
+                return JSON.parse(cleanJson);
+            } catch (jsonErr) {
+                console.error("Dữ liệu JSON lỗi cấu trúc:", textResponse);
+                let preview = cleanJson.length > 200 ? cleanJson.substring(0, 200) + "..." : cleanJson;
+                throw new Error("JSON_PARSE_ERROR. Nội dung trả về không đúng cấu trúc: " + preview);
+            }
+        }
+
+        function handleError(err) {
+            document.getElementById('loadingScreen').classList.add('hidden');
+            document.getElementById('welcomeScreen').classList.remove('hidden');
+
+            let message = "Có lỗi xảy ra trong quá trình kết nối với AI. Vui lòng kiểm tra mạng hoặc khóa API.";
+            if (err.message && err.message.includes("API_ERROR_CODE_400")) {
+                message = "Khóa API Key không chính xác hoặc không khả dụng cho tài khoản của bạn. Vui lòng thử lại.";
+            } else if (err.message === "JSON_PARSE_ERROR") {
+                message = "Cấu trúc phản hồi từ AI bị lỗi nhỏ do kích thước đề quá lớn. Hãy tạo lại hoặc chọn quy mô 'Mini'.";
+            }
+
+            showBanner(message);
+        }
+
+        /* SETUP ENVIRONMENT */
+        function setupExamEnvironment(data) {
+            flatQuestions = [];
+            userAnswers = {};
+            activeQuestionIndex = 0;
+
+            // Flatten all questions with their corresponding passage text
+            let globalNum = 1;
+            data.passages.forEach(passage => {
+                passage.questions.forEach(q => {
+                    flatQuestions.push({
+                        ...q,
+                        passage_text: passage.passage_text,
+                        globalIndex: globalNum++
+                    });
+                });
+            });
+
+            if (flatQuestions.length === 0) {
+                handleError(new Error("JSON_PARSE_ERROR"));
+                return;
+            }
+
+            // Display components
+            document.getElementById('loadingScreen').classList.add('hidden');
+            document.getElementById('examContainer').classList.remove('hidden');
+            document.getElementById('partBadge').innerText = `PART ${data.part}`;
+
+            // Build navigation grid
+            buildNavigationGrid();
+
+            // Render current question
+            renderActiveQuestion();
+        }
+
+        function buildNavigationGrid() {
+            const grid = document.getElementById('navGrid');
+            grid.innerHTML = '';
+
+            flatQuestions.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.id = `navBtn_${idx}`;
+                btn.className = "w-8 h-8 rounded-lg border border-slate-700 hover:border-slate-500 bg-slate-800/60 font-semibold text-xs text-slate-300 flex items-center justify-center shrink-0 transition-all duration-150";
+                btn.innerText = q.question_number || (idx + 1);
+                btn.onclick = () => {
+                    activeQuestionIndex = idx;
+                    renderActiveQuestion();
+                };
+                grid.appendChild(btn);
+            });
+        }
+
+        function renderActiveQuestion() {
+            if (activeQuestionIndex < 0 || activeQuestionIndex >= flatQuestions.length) return;
+            const q = flatQuestions[activeQuestionIndex];
+
+            // 1. Update Passage Panel (Show for P6, P7. Hide for P5)
+            const passagePanel = document.getElementById('passagePanel');
+            const passageContent = document.getElementById('passageContent');
+
+            if (selectedPart === '5' || !q.passage_text || q.passage_text.trim() === '') {
+                passagePanel.classList.add('hidden');
+            } else {
+                passagePanel.classList.remove('hidden');
+                passageContent.innerHTML = q.passage_text;
+            }
+
+            // Scroll exam container body to top
+            document.getElementById('examBodyContainer').scrollTop = 0;
+
+            // 2. Question Info Updates
+            document.getElementById('questionCounter').innerText = `Câu hỏi: ${activeQuestionIndex + 1} / ${flatQuestions.length}`;
+            document.getElementById('activeQNum').innerText = q.question_number || (activeQuestionIndex + 1);
+            document.getElementById('activeQText').innerText = q.question_text;
+
+            // 3. Option Values Update
+            document.getElementById('text_A').innerText = q.options.A || '';
+            document.getElementById('text_B').innerText = q.options.B || '';
+            document.getElementById('text_C').innerText = q.options.C || '';
+            document.getElementById('text_D').innerText = q.options.D || '';
+
+            const optionsContainer = document.getElementById('optionsGridContainer');
+            if (optionsContainer) {
+                if (selectedPart === '7') {
+                    optionsContainer.className = "grid grid-cols-1 gap-3 pt-2";
+                } else {
+                    optionsContainer.className = "grid grid-cols-1 md:grid-cols-2 gap-3 pt-2";
+                }
+            }
+
+            // Reset options style
+            resetOptionButtons();
+
+            // 4. Update Navigation Selection Highlight
+            document.querySelectorAll('[id^="navBtn_"]').forEach(btn => {
+                btn.classList.remove('border-brand-500', 'bg-brand-900/40', 'text-brand-400');
+            });
+            const activeNavBtn = document.getElementById(`navBtn_${activeQuestionIndex}`);
+            if (activeNavBtn) {
+                activeNavBtn.classList.add('border-brand-500', 'bg-brand-900/40', 'text-brand-400');
+                activeNavBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+
+            // 5. If answered before, render answer immediately
+            if (userAnswers[activeQuestionIndex]) {
+                displaySelectedAnswer(userAnswers[activeQuestionIndex]);
+            } else {
+                document.getElementById('explanationBoard').classList.add('hidden');
+            }
+        }
+
+        function resetOptionButtons() {
+            const keys = ['A', 'B', 'C', 'D'];
+            keys.forEach(k => {
+                const btn = document.getElementById(`optionBtn_${k}`);
+                btn.disabled = false;
+                btn.className = "option-btn border border-slate-800 bg-slate-950/40 hover:border-slate-600 px-5 py-4 rounded-xl text-left flex items-center gap-4 group transition-all duration-200";
+
+                const span = btn.querySelector('span');
+                span.className = "w-8 h-8 rounded-lg bg-slate-800 group-hover:bg-brand-500/20 group-hover:text-brand-400 flex items-center justify-center font-bold text-slate-400 transition-all shadow-inner font-mono text-sm shrink-0";
+            });
+        }
+
+        /* SELECTION CONTROL */
+        function selectAnswer(ans) {
+            if (userAnswers[activeQuestionIndex]) return; // Block double action
+            userAnswers[activeQuestionIndex] = ans;
+
+            const q = flatQuestions[activeQuestionIndex];
+            const isCorrect = (ans === q.correct_answer);
+
+            // Mark solved state in navigation grid
+            const navBtn = document.getElementById(`navBtn_${activeQuestionIndex}`);
+            if (navBtn) {
+                if (isCorrect) {
+                    navBtn.classList.add('border-emerald-500', 'text-emerald-400');
+                } else {
+                    navBtn.classList.add('border-rose-500', 'text-rose-400');
+                }
+            }
+
+            displaySelectedAnswer(ans);
+        }
+
+        function displaySelectedAnswer(userAns) {
+            const q = flatQuestions[activeQuestionIndex];
+            const correctAns = q.correct_answer;
+
+            const keys = ['A', 'B', 'C', 'D'];
+            keys.forEach(k => {
+                const btn = document.getElementById(`optionBtn_${k}`);
+
+                // Xóa disabled = true để người dùng có thể bôi đen copy text bên trong
+                btn.disabled = false;
+
+                const indicator = btn.querySelector('span');
+
+                if (k === correctAns) {
+                    // Highlight Correct Answer
+                    btn.className = "option-btn border-2 border-emerald-500 bg-emerald-950/20 px-5 py-4 rounded-xl text-left flex items-center gap-4 transition-all duration-200";
+                    indicator.className = "w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold transition-all shadow-inner font-mono text-sm shrink-0";
+                } else if (k === userAns) {
+                    // Highlight Wrong User Selection
+                    btn.className = "option-btn border-2 border-rose-500 bg-rose-950/20 px-5 py-4 rounded-xl text-left flex items-center gap-4 transition-all duration-200";
+                    indicator.className = "w-8 h-8 rounded-lg bg-rose-500 text-white flex items-center justify-center font-bold transition-all shadow-inner font-mono text-sm shrink-0";
+                } else {
+                    // Gray out remaining
+                    btn.className = "option-btn border border-slate-800/40 bg-slate-950/20 opacity-40 px-5 py-4 rounded-xl text-left flex items-center gap-4 transition-all duration-200";
+                    indicator.className = "w-8 h-8 rounded-lg bg-slate-800/40 flex items-center justify-center font-bold text-slate-500 transition-all font-mono text-sm shrink-0";
+                }
+            });
+
+            // Trigger details in teacher panel
+            renderTeacherAnalysis();
+        }
+
+        function navigateQuestion(dir) {
+            if (dir === 'prev' && activeQuestionIndex > 0) {
+                activeQuestionIndex--;
+                renderActiveQuestion();
+            } else if (dir === 'next' && activeQuestionIndex < flatQuestions.length - 1) {
+                activeQuestionIndex++;
+                renderActiveQuestion();
+            }
+        }
+
+        /* TEACHER ANALYZER ENGINE */
+        function renderTeacherAnalysis() {
+            const q = flatQuestions[activeQuestionIndex];
+            const board = document.getElementById('explanationBoard');
+            board.classList.remove('hidden');
+
+            if (typeof renderChatHistory === 'function') {
+                renderChatHistory();
+            }
+
+            // Reset deep explain UI
+            const deepContainer = document.getElementById('deepExplainContainer');
+            const deepOutput = document.getElementById('deepExplainOutput');
+            const deepBtn = document.getElementById('deepExplainBtn');
+            const familyBtn = document.getElementById('familyGrammarBtn');
+
+            deepBtn.disabled = false;
+            deepBtn.innerHTML = `<i class="fa-solid fa-chalkboard-user"></i> Giảng Giải Sâu`;
+            familyBtn.disabled = false;
+            familyBtn.innerHTML = `<i class="fa-solid fa-network-wired"></i> Hệ Sinh Thái`;
+            
+            if (selectedPart === '6' || selectedPart === '7') {
+                familyBtn.style.display = 'none';
+            } else {
+                familyBtn.style.display = '';
+            }
+
+            if (q.deep_explanation || q.family_grammar) {
+                deepContainer.classList.remove('hidden');
+                deepOutput.classList.remove('hidden');
+                let combinedHtml = '';
+                if (q.family_grammar) {
+                    combinedHtml += q.family_grammar;
+                    familyBtn.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i> Đã có hệ sinh thái`;
+                }
+                if (q.deep_explanation) {
+                    if (combinedHtml) combinedHtml += "<br><hr class='border-slate-800 my-6'><br>";
+                    combinedHtml += q.deep_explanation;
+                    deepBtn.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i> Đã có giải thích sâu`;
+                }
+                deepOutput.innerHTML = combinedHtml;
+            } else {
+                deepContainer.classList.add('hidden');
+                deepOutput.innerHTML = '';
+            }
+
+            // 1. Structure Highlight Processor
+            document.getElementById('structureAnalysisBox').innerHTML = highlightSyntaxTokens(q.sentence_structure_analysis);
+
+            // 1.5 Vietnamese Translation
+            let transText = q.vietnamese_translation || 'Chưa có bản dịch.';
+            transText = transText.replace(/\\n/g, '<br>');
+            document.getElementById('vietnameseTranslationBox').innerHTML = `<i class="fa-solid fa-language mr-2 text-indigo-400 text-lg align-middle"></i> <span class="leading-relaxed inline-block mt-1">${transText}</span>`;
+
+            // 2. Grammar Rules & Why Correct
+            document.getElementById('grammarRule').innerText = q.explanation.grammar_rule || 'Tổng hợp ngữ pháp';
+            document.getElementById('grammarKeywords').innerText = q.explanation.keywords || 'Dựa vào ngữ cảnh';
+            document.getElementById('whyCorrectExplanation').innerHTML = formatVocabExplanation(q.explanation.why_correct) || 'Không có mô tả chi tiết.';
+
+            // 3. Trap Alarm & Layout adjustments for Part 7
+            const trapCard = document.getElementById('trapWarningCard');
+            const analysisGrid = document.getElementById('analysisGrid');
+            const labelChudiem = document.getElementById('label_Chudiem');
+            const labelDauhieu = document.getElementById('label_Dauhieu');
+            const labelCuPhap = document.getElementById('label_CuPhap');
+            const labelMoXe = document.getElementById('label_MoXe');
+            const grammarKeywordsSpan = document.getElementById('grammarKeywords');
+            const dauhieuContainer = document.getElementById('dauhieuContainer');
+
+            if (selectedPart === '7') {
+                trapCard.classList.add('hidden');
+                analysisGrid.classList.remove('md:grid-cols-2');
+                analysisGrid.classList.add('md:grid-cols-1');
+                labelChudiem.innerText = 'Đặc tả:';
+                labelDauhieu.innerText = 'Vị trí thông tin:';
+                labelCuPhap.innerText = 'Chiến thuật';
+                labelMoXe.innerText = 'Phân Tích Dạng Câu Hỏi';
+                grammarKeywordsSpan.className = "text-slate-300 italic block mt-1 border-l-2 border-brand-500/50 pl-3";
+                dauhieuContainer.classList.remove('hidden');
+            } else {
+                trapCard.classList.remove('hidden');
+                analysisGrid.classList.add('md:grid-cols-2');
+                analysisGrid.classList.remove('md:grid-cols-1');
+                labelChudiem.innerText = 'Chủ điểm:';
+                labelDauhieu.innerText = 'Dấu hiệu/Từ khóa:';
+                labelCuPhap.innerText = 'Cú pháp & Ngữ pháp';
+                labelMoXe.innerText = 'Mổ Xẻ Cấu Trúc Câu';
+                grammarKeywordsSpan.className = "text-brand-300 font-bold";
+                dauhieuContainer.classList.add('hidden');
+                document.getElementById('trapWarningText').innerText = q.explanation.trap_warning || 'Hãy chú ý từ vựng và chủ điểm của câu.';
+            }
+
+            // 4. Wrong option list compiler
+            const container = document.getElementById('wrongOptionsContainer');
+            container.innerHTML = '';
+
+            const wrongAnalysis = q.explanation.wrong_options_grammar_analysis || {};
+
+            // Collect and iterate through all non-correct options
+            const correctKey = q.correct_answer;
+            const wrongKeys = ['A', 'B', 'C', 'D'].filter(k => k !== correctKey);
+
+            wrongKeys.forEach(k => {
+                const optKey = `option_${k}`;
+                const data = wrongAnalysis[optKey] || wrongAnalysis[k] || { nature: 'Từ loại/Từ vựng bổ trợ', why_faulty: 'Sai cấu trúc hoặc sai ngữ nghĩa khi dịch câu.' };
+
+                const optValue = q.options[k] || '';
+
+                const row = document.createElement('div');
+                row.className = "py-3 flex flex-col md:flex-row md:items-start gap-2 text-sm";
+                row.innerHTML = `
+                    <div class="flex items-center gap-2 shrink-0 md:w-1/4">
+                        <span class="w-6 h-6 rounded bg-rose-500/10 border border-rose-500/20 text-rose-400 font-bold font-mono text-xs flex items-center justify-center">${k}</span>
+                        <span class="font-semibold text-slate-300 font-mono text-xs truncate max-w-[120px]" title="${optValue}">${optValue}</span>
+                    </div>
+                    <div class="flex-1 space-y-1">
+                        <div class="text-xs text-indigo-400 font-semibold"><i class="fa-solid fa-microscope text-[10px]"></i> Bản chất: <span class="text-slate-300 font-normal italic">${data.nature}</span></div>
+                        <p class="text-xs text-slate-400 leading-relaxed">${formatVocabExplanation(data.why_faulty)}</p>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+
+        function formatVocabExplanation(text) {
+            if (!text) return '';
+            let res = text.replace(/\\n/g, '<br>').replace(/\n/g, '<br>');
+            res = res.replace(/(Dịch\s*nghĩa:)/gi, '<br><span class="text-indigo-300 font-semibold mt-1.5 inline-block"><i class="fa-solid fa-language mr-1 text-[10px]"></i>$1</span>');
+            res = res.replace(/(Tại\s*sao\s*sai:|Sai\s*vì\b:?)/gi, '<br><span class="text-rose-400/90 font-semibold mt-1.5 inline-block"><i class="fa-solid fa-xmark mr-1 text-[10px]"></i>Sai vì: </span> ');
+            res = res.replace(/(Ví\s*dụ:)/gi, '<br><span class="text-brand-300 font-semibold mt-1.5 inline-block"><i class="fa-regular fa-comment-dots mr-1 text-[10px]"></i>$1</span>');
+            res = res.replace(/(Từ\s*đồng\s*nghĩa:)/gi, '<br><span class="text-emerald-400 font-semibold mt-1.5 inline-block"><i class="fa-solid fa-link text-[10px] mr-1"></i>$1</span>');
+            res = res.replace(/(Từ\s*trái\s*nghĩa:)/gi, '<br><span class="text-amber-400 font-semibold mt-1.5 inline-block"><i class="fa-solid fa-link-slash text-[10px] mr-1"></i>$1</span>');
+            // Remove leading line break if it somehow appeared at the start of the text
+            res = res.replace(/^(<br>\s*)+/, '');
+            // Clean up double <br> that might be created by replacement and user formatting
+            res = res.replace(/(<br>\s*){2,}/g, '<br>');
+            return res;
+        }
+
+        function highlightSyntaxTokens(str) {
+            if (!str) return 'Không tìm thấy mổ xẻ cấu trúc từ AI.';
+
+            // Format bracket markings beautifully with vibrant Tailwind components
+            return str
+                .replace(/\[S\]/g, '<span class="bg-blue-500/20 text-blue-300 px-1.5 py-0.5 rounded font-bold text-xs mr-1 shadow-sm border border-blue-500/30">S</span>')
+                .replace(/\[V\]/g, '<span class="bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-bold text-xs mr-1 shadow-sm border border-emerald-500/30">V</span>')
+                .replace(/\[O\]/g, '<span class="bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-bold text-xs mr-1 shadow-sm border border-amber-500/30">O</span>')
+                .replace(/\[M\]/g, '<span class="bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded font-bold text-xs mr-1 shadow-sm border border-purple-500/30">M</span>')
+                .replace(/\n/g, '<br>');
+        }
+
+        /* DEEP EXPLAIN FOR UNSOLVED CONCEPTS */
+        async function requestDeepExplanation() {
+            if (!apiKey) {
+                alert("Vui lòng cấu hình API Key ở góc trên bên phải trước.");
+                return;
+            }
+
+            const q = flatQuestions[activeQuestionIndex];
+            const btn = document.getElementById('deepExplainBtn');
+            const container = document.getElementById('deepExplainContainer');
+            const loading = document.getElementById('deepExplainLoading');
+            const output = document.getElementById('deepExplainOutput');
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin"></i> Đang chuẩn bị bài giảng...`;
+            container.classList.remove('hidden');
+            loading.classList.remove('hidden');
+            output.classList.add('hidden');
+
+            const passageInfo = (selectedPart !== '5' && q.passage_text) ? `\nĐoạn văn ngữ cảnh:\n${q.passage_text}` : '';
+
+            const systemPrompt = `Bạn là một chuyên gia ngôn ngữ học và là Đại cao thủ luyện thi TOEIC 990. Nhiệm vụ của bạn là GIẢNG GIẢI CỰC KỲ SÂU SẮC, CHI TIẾT TẬN GỐC RỄ cho câu hỏi TOEIC dưới đây. Hãy mổ xẻ vấn đề như một giáo viên đang cầm tay chỉ việc cho học sinh yếu ngữ pháp.
+
+QUY TẮC QUAN TRỌNG VỀ NỘI DUNG VÀ TRÌNH BÀY:
+1. TOÀN BỘ phần giải thích PHẢI VIẾT BẰNG TIẾNG VIỆT tự nhiên, lôi cuốn, dễ hiểu.
+2. TRÌNH BÀY HOÀN TOÀN BẰNG HTML KÈM TAILWIND CSS. Tuyệt đối KHÔNG dùng markdown \`\`\`html. KHÔNG xuất text thuần túy trần trụi.
+3. BẮT BUỘC sử dụng chính xác các template HTML sau để bài viết đẹp và dễ nhìn:
+   - Tiêu đề chính (Heading): <h4 class="text-lg font-bold text-brand-300 mt-4 mb-3 border-b border-slate-700 pb-2"> [Tên tiêu đề] </h4>
+   - Bảng biểu (Table): <div class="overflow-x-auto mb-4 rounded-xl border border-slate-700"><table class="w-full text-sm text-left text-slate-300 border-collapse"><thead class="text-xs text-brand-400 uppercase bg-slate-800/80"><tr><th class="px-4 py-3 border-b border-slate-700">...</th></tr></thead><tbody class="divide-y divide-slate-800"><tr class="hover:bg-slate-800/30"><td class="px-4 py-3">...</td></tr></tbody></table></div>
+   - Ví dụ (Example box): <div class="bg-indigo-950/40 p-3 rounded-xl my-2 border-l-4 border-indigo-500 text-slate-300"><span class="font-bold text-indigo-400"><i class="fa-solid fa-comment-dots"></i> Ví dụ: </span><span class="italic"> [Câu ví dụ] </span><br><span class="text-xs text-slate-500">([Dịch nghĩa])</span></div>
+   - Mẹo/Lưu ý/Dấu hiệu vàng (Tip box): <div class="bg-amber-950/40 p-3 rounded-xl my-3 border-l-4 border-amber-500 text-amber-200/90 text-sm"><i class="fa-solid fa-lightbulb text-amber-400 mr-1"></i> <strong>Lưu ý / Dấu hiệu vàng: </strong> [Nội dung] </div>
+   - Danh sách (List): <ul class="list-disc pl-5 space-y-2 text-slate-300 mb-4"><li>...</li></ul>
+   - Highlight từ khóa: <code class="text-emerald-400 bg-slate-900 px-1.5 py-0.5 rounded font-mono font-bold border border-slate-800"> [Từ khóa] </code>
+
+XÁC ĐỊNH LOẠI CÂU HỎI và trình bày thật sâu theo 3 mục chính:
+
+--- NẾU LÀ CÂU TỪ VỰNG: ---
+Mục 1: 🔤 Mổ Xẻ Gốc Rễ Từ Vựng
+  - Giải thích tường tận nghĩa của đáp án đúng. Phân tích ngữ cảnh tại sao từ này lại khớp nhất với câu.
+  - Phân tích cặn kẽ 3 đáp án sai: Nghĩa là gì? Thường dùng trong ngữ cảnh nào? Tại sao lắp vào câu này lại vô lý?
+  - Cung cấp 2-3 từ đồng/trái nghĩa phổ biến nhất.
+
+Mục 2: 🔗 Mở Rộng Hệ Sinh Thái (Collocation & Word Family)
+  - Liệt kê các cụm từ (collocation) đi kèm thường gặp nhất trong TOEIC (có kèm ví dụ minh họa).
+  - Phân tích họ từ (Word Family: Noun, Verb, Adj, Adv) nếu có. BẮT BUỘC trình bày dưới dạng Bảng (Table) gồm 3 cột: Loại từ | Từ vựng | Ví dụ minh họa (kèm dịch nghĩa).
+
+Mục 3: 💡 Bẫy ETS & Mẹo Nhớ Lâu
+  - Phân tích các bẫy lừa hoặc sự nhầm lẫn thường gặp ở từ này.
+
+--- NẾU LÀ CÂU NGỮ PHÁP (Part 5/6) hoặc ĐỌC HIỂU (Part 7): ---
+Mục 1: 📐 Mổ Xẻ Cấu Trúc (Phân tích S-V-O)
+  - Viết lại câu và chẻ nhỏ từng thành phần S (Chủ ngữ), V (Động từ chính), O (Tân ngữ).
+  - Phân tích chỗ trống thuộc thành phần nào, bị chi phối bởi từ nào đứng trước/sau nó. Giải thích bản chất ngữ pháp cực kỳ dễ hiểu.
+
+Mục 2: ❌ Tại Sao 3 Đáp Án Kia Sai?
+  - Phải giải thích chi tiết lỗi sai chí mạng của 3 đáp án còn lại. Tại sao về mặt ngữ pháp không thể ráp nó vào câu?
+
+Mục 3: ⚡ Cốt Lõi Vấn Đề & Mẹo Giải Nhanh
+  - Tóm tắt lại công thức kinh điển để giải quyết bài toán này. BẮT BUỘC cứ mỗi khi nhắc đến một cấu trúc/công thức ngữ pháp thì PHẢI cho ngay 1 ví dụ tiếng Anh (kèm dịch nghĩa) để minh họa. Tốt nhất là trình bày dạng Bảng (Table) gồm: Cấu trúc | Cách dùng | Ví dụ.
+  - Chỉ ra "Dấu hiệu vàng" - nhìn vào chữ nào là biết ngay đáp án để tiết kiệm thời gian thi.`;
+
+            const userPrompt = `Câu hỏi số: ${q.question_number || (activeQuestionIndex + 1)}
+Câu hỏi: ${q.question_text}
+Các đáp án:
+A. ${q.options.A}
+B. ${q.options.B}
+C. ${q.options.C}
+D. ${q.options.D}
+Đáp án đúng: ${q.correct_answer}
+${passageInfo}
+
+Hãy xác định đây là CÂU TỪ VỰNG hay CÂU NGỮ PHÁP, rồi giải thích theo đúng khung tương ứng đã được quy định. BẮT BUỘC VIẾT BẰNG TIẾNG VIỆT. Phải đầy đủ tất cả các mục, không được bỏ sót.`;
+
+            try {
+                const responseText = await callGeminiAPIText(systemPrompt, userPrompt);
+                q.deep_explanation = responseText;
+                loading.classList.add('hidden');
+
+                let combinedHtml = '';
+                if (q.family_grammar) combinedHtml += q.family_grammar + "<br><hr class='border-slate-800 my-6'><br>";
+                combinedHtml += q.deep_explanation;
+
+                output.innerHTML = combinedHtml;
+                output.classList.remove('hidden');
+                btn.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i> Đã có giải thích sâu`;
+            } catch (err) {
+                console.error("Lỗi khi yêu cầu giải thích sâu:", err);
+                loading.classList.add('hidden');
+                output.innerHTML = `
+                    <div class="flex flex-col gap-2 text-rose-400">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-circle-exclamation text-lg"></i>
+                            <span class="font-bold">Lỗi kết nối AI</span>
+                        </div>
+                        <code class="text-xs bg-slate-900 text-amber-300 p-3 rounded-lg block whitespace-pre-wrap break-all">${err.message}</code>
+                        <span class="text-xs text-slate-400">Vui lòng bấm "Thử lại" hoặc kiểm tra API Key.</span>
+                    </div>
+                `;
+                output.classList.remove('hidden');
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-rotate-right"></i> Thử lại`;
+            }
+        }
+
+        /* FAMILY GRAMMAR EXTENSION */
+        async function requestFamilyGrammar() {
+            if (!apiKey) {
+                alert("Vui lòng cấu hình API Key ở góc trên bên phải trước.");
+                return;
+            }
+
+            const q = flatQuestions[activeQuestionIndex];
+            const btn = document.getElementById('familyGrammarBtn');
+            const container = document.getElementById('deepExplainContainer');
+            const loading = document.getElementById('deepExplainLoading');
+            const output = document.getElementById('deepExplainOutput');
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin"></i> Đang mở rộng hệ sinh thái...`;
+            container.classList.remove('hidden');
+            loading.classList.remove('hidden');
+            output.classList.add('hidden');
+
+            const passageInfo = (selectedPart !== '5' && q.passage_text) ? `\nĐoạn văn ngữ cảnh:\n${q.passage_text}` : '';
+
+            const systemPrompt = `Bạn là Chuyên gia Ngôn ngữ học TOEIC. Nhiệm vụ của bạn là mở rộng "Hệ sinh thái" (Family) cho đáp án ĐÚNG của câu hỏi dưới đây.
+            
+QUY TẮC BẮT BUỘC VỀ TRÌNH BÀY (NẾU VI PHẠM SẼ BỊ PHẠT):
+1. TRÌNH BÀY HOÀN TOÀN BẰNG HTML KÈM TAILWIND CSS. Tuyệt đối KHÔNG dùng markdown \`\`\`html. KHÔNG xuất text thuần túy trần trụi.
+2. BẮT BUỘC sử dụng chính xác các template HTML sau để bài viết đẹp và dễ nhìn:
+   - Tiêu đề chính (Heading): <h4 class="text-lg font-bold text-brand-300 mt-4 mb-3 border-b border-slate-700 pb-2"> [Tên tiêu đề] </h4>
+   - Bảng biểu (Table): <div class="overflow-x-auto mb-4 rounded-xl border border-slate-700"><table class="w-full text-sm text-left text-slate-300 border-collapse"><thead class="text-xs text-brand-400 uppercase bg-slate-800/80"><tr><th class="px-4 py-3 border-b border-slate-700">...</th></tr></thead><tbody class="divide-y divide-slate-800"><tr class="hover:bg-slate-800/30"><td class="px-4 py-3">...</td></tr></tbody></table></div>
+   - Ví dụ (Example box): <div class="bg-indigo-950/40 p-3 rounded-xl my-2 border-l-4 border-indigo-500 text-slate-300"><span class="font-bold text-indigo-400"><i class="fa-solid fa-comment-dots"></i> Ví dụ: </span><span class="italic"> [Câu ví dụ] </span><br><span class="text-xs text-slate-500">([Dịch nghĩa])</span></div>
+   - Mẹo/Lưu ý (Tip box): <div class="bg-amber-950/40 p-3 rounded-xl my-3 border-l-4 border-amber-500 text-amber-200/90 text-sm"><i class="fa-solid fa-lightbulb text-amber-400 mr-1"></i> <strong>Lưu ý: </strong> [Nội dung] </div>
+   - Danh sách (List): <ul class="list-disc pl-5 space-y-2 text-slate-300 mb-4"><li>...</li></ul>
+   - Highlight từ khóa: <code class="text-emerald-400 bg-slate-900 px-1.5 py-0.5 rounded font-mono font-bold border border-slate-800"> [Từ khóa] </code>
+
+XÁC ĐỊNH LOẠI CÂU HỎI VÀ ĐÁP ÁN ĐÚNG TRƯỚC TIÊN.
+
+--- NẾU LÀ CÂU NGỮ PHÁP ---
+Hãy liệt kê TOÀN BỘ Hệ sinh thái ngữ pháp liên quan đến đáp án đúng. Phải kẻ BẢNG để so sánh nếu có nhiều loại.
+BẮT BUỘC ĐỐI VỚI BẤT KỲ CHỦ ĐIỂM NGỮ PHÁP NÀO: TRONG BẢNG BẮT BUỘC PHẢI CÓ CỘT "CẤU TRÚC / CÔNG THỨC". Ở cột này, bạn PHẢI VIẾT RÕ CÔNG THỨC NGỮ PHÁP (ví dụ: "Unless + S + V (khẳng định)", "If + S + V (hiện tại)", "Provided that + S + V"). TUYỆT ĐỐI KHÔNG được chỉ ghi trống trơn tên của từ vựng (như chỉ ghi "Unless", "If").
+Ngoài ra bảng phải có cột "CÁCH DÙNG / BẢN CHẤT / Ý NGHĨA" và cột "VÍ DỤ TIẾNG ANH" (Không cần dịch nghĩa tiếng Việt trong bảng để tránh bảng bị quá dài).
+Ví dụ: 
+- Nếu đáp án là 'Thì hiện tại đơn', hãy lập BẢNG trình bày Hệ sinh thái MỌI Thì hiện tại. Bảng phải có cột: Cấu trúc/Công thức, CÁCH DÙNG/BẢN CHẤT, Dấu Hiệu, và Ví Dụ.
+- Nếu đáp án là 'Câu điều kiện loại 2', hãy lập BẢNG trình bày Hệ sinh thái Câu điều kiện. Bảng phải có cột: Công thức Mệnh đề If, Công thức Mệnh đề chính, CÁCH DÙNG/Ý NGHĨA, và Ví Dụ.
+- Nếu đáp án là 'Liên từ' (ví dụ Unless/If/Provided that), lập BẢNG so sánh nhóm liên từ đó. Cột đầu tiên BẮT BUỘC là "Cấu trúc/Công thức" (ví dụ: Unless + S + V), tiếp theo là CÁCH DÙNG, và Ví Dụ.
+
+--- NẾU LÀ CÂU TỪ VỰNG ---
+Hãy liệt kê TOÀN BỘ Hệ sinh thái từ vựng (Word Family) và Cụm từ liên quan đến đáp án đúng.
+Ví dụ:
+- Lập BẢNG Dạng của từ: Danh từ, Động từ, Tính từ, Trạng từ của từ đó (kèm nghĩa và ví dụ tiếng Anh, không cần dịch câu tiếng Anh để tránh dài).
+- Các Idioms (Thành ngữ) hoặc Phrasal verbs (Cụm động từ) phổ biến nhất đi kèm với từ đó (kèm ví dụ).`;
+
+            const userPrompt = `Câu hỏi số: ${q.question_number || (activeQuestionIndex + 1)}
+Câu hỏi: ${q.question_text}
+Đáp án đúng: ${q.correct_answer} (${q.options[q.correct_answer]})
+${passageInfo}
+
+BẮT BUỘC VIẾT BẰNG TIẾNG VIỆT.`;
+
+            try {
+                const responseText = await callGeminiAPIText(systemPrompt, userPrompt);
+                q.family_grammar = responseText;
+                loading.classList.add('hidden');
+
+                let combinedHtml = q.family_grammar;
+                if (q.deep_explanation) combinedHtml += "<br><hr class='border-slate-800 my-6'><br>" + q.deep_explanation;
+
+                output.innerHTML = combinedHtml;
+                output.classList.remove('hidden');
+                btn.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i> Đã có hệ sinh thái`;
+            } catch (err) {
+                console.error("Lỗi khi yêu cầu hệ sinh thái:", err);
+                loading.classList.add('hidden');
+                output.innerHTML = `
+                    <div class="flex flex-col gap-2 text-rose-400">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-circle-exclamation text-lg"></i>
+                            <span class="font-bold">Lỗi kết nối AI</span>
+                        </div>
+                        <code class="text-xs bg-slate-900 text-amber-300 p-3 rounded-lg block whitespace-pre-wrap break-all">${err.message}</code>
+                    </div>
+                `;
+                output.classList.remove('hidden');
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-network-wired"></i> Thử lại`;
+            }
+        }
+
+        window.singleRequestKeyIndex = window.singleRequestKeyIndex || 0;
+
+        async function callGeminiAPIText(systemPrompt, userPrompt, overrideModel = null) {
+            const selectedModel = overrideModel || document.getElementById('aiModelSelect').value;
+            const isGroq = !selectedModel.includes('gemini');
+
+            // Always fetch the correct key for the current model, not stale global apiKey
+            const storageKey = isGroq ? 'toeic_ai_apikey_groq' : 'toeic_ai_apikey';
+            const keysString = localStorage.getItem(storageKey) || apiKey || '';
+            const keysArray = keysString.split(',').map(k => k.trim()).filter(k => k);
+
+            if (keysArray.length === 0) {
+                throw new Error('Chưa có API Key cho mô hình đang chọn. Vui lòng nhập và lưu API Key.');
+            }
+
+            // Rotate keys dynamically per request to avoid rate limits
+            const currentKey = keysArray[window.singleRequestKeyIndex % keysArray.length];
+            window.singleRequestKeyIndex++;
+
+            let apiUrl;
+            let payload;
+            let headers = { 'Content-Type': 'application/json' };
+
+            if (isGroq) {
+                apiUrl = `https://api.groq.com/openai/v1/chat/completions`;
+                headers['Authorization'] = `Bearer ${currentKey}`;
+                payload = {
+                    model: selectedModel,
+                    messages: [
+                        { role: "system", content: systemPrompt },
+                        { role: "user", content: userPrompt }
+                    ]
+                };
+                if (!selectedModel.includes('compound')) {
+                    payload.max_tokens = 3000;
+                }
+            } else {
+                apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${currentKey}`;
+                payload = {
+                    contents: [{ parts: [{ text: userPrompt }] }],
+                    systemInstruction: {
+                        parts: [{ text: systemPrompt }]
+                    }
+                };
+            }
+
+            let res;
+            let retries = 0;
+            while (retries < 3) {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 60000);
+                try {
+                    res = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify(payload),
+                        signal: controller.signal
+                    });
+                } catch (fetchErr) {
+                    clearTimeout(timeoutId);
+                    if (fetchErr.name === 'AbortError') {
+                        throw new Error('Kết nối bị timeout sau 60 giây. Vui lòng thử lại.');
+                    }
+                    throw fetchErr;
+                }
+                clearTimeout(timeoutId);
+
+                if (res.status === 429) {
+                    const errorText = await res.text().catch(() => "");
+                    const match = errorText.match(/try again in ([\d.]+)s/i);
+                    let waitMs = (parseFloat(match ? match[1] : "10") + 1.5) * 1000;
+                    await new Promise(r => setTimeout(r, waitMs));
+                    retries++;
+                    continue;
+                }
+
+                if (!res.ok) {
+                    const errorText = await res.text().catch(() => "");
+                    throw new Error(`API_ERROR_${res.status}: ${errorText}`);
+                }
+                break;
+            }
+
+            const data = await res.json();
+
+            let textResponse = "";
+            if (isGroq) {
+                textResponse = data.choices?.[0]?.message?.content;
+            } else {
+                textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            }
+
+            if (!textResponse) {
+                throw new Error("EMPTY_RESPONSE");
+            }
+
+            // Clean up backticks leaks if the AI wrapper output incorrectly
+            return textResponse
+                .replace(/```html/g, '')
+                .replace(/```/g, '')
+                .trim();
+        }
+
+        /* CHATBOT LOGIC */
+        function renderChatHistory() {
+            const q = flatQuestions[activeQuestionIndex];
+            const chatBox = document.getElementById('chatHistory');
+            if (!chatBox) return;
+            chatBox.innerHTML = '';
+            
+            if (!q.chat_history || q.chat_history.length === 0) {
+                chatBox.innerHTML = `
+                    <div class="flex gap-3 text-slate-400 text-xs italic">
+                        <i class="fa-solid fa-robot mt-1 text-brand-400"></i>
+                        <span>Bạn có thắc mắc gì về câu hỏi này? Hãy nhắn tin cho tôi nhé!</span>
+                    </div>`;
+                return;
+            }
+
+            q.chat_history.forEach(msg => {
+                const div = document.createElement('div');
+                div.className = msg.role === 'user' ? "flex justify-end" : "flex justify-start";
+                
+                const inner = document.createElement('div');
+                inner.className = msg.role === 'user' 
+                    ? "bg-brand-600/20 border border-brand-500/30 text-slate-200 p-3 rounded-xl rounded-tr-sm max-w-[85%] whitespace-pre-wrap" 
+                    : "bg-slate-800/60 border border-slate-700 text-slate-300 p-3 rounded-xl rounded-tl-sm max-w-[95%] leading-relaxed whitespace-pre-wrap";
+                
+                inner.innerHTML = msg.content; 
+                div.appendChild(inner);
+                chatBox.appendChild(div);
+            });
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function sendChatMessage() {
+            const inputField = document.getElementById('chatInput');
+            const btn = document.getElementById('sendChatBtn');
+            const message = inputField.value.trim();
+            
+            if (!message) return;
+            if (!apiKey) {
+                alert("Vui lòng cấu hình API Key trước.");
+                return;
+            }
+
+            const q = flatQuestions[activeQuestionIndex];
+            if (!q.chat_history) q.chat_history = [];
+            
+            // Add user message to history
+            q.chat_history.push({ role: 'user', content: message });
+            inputField.value = '';
+            renderChatHistory();
+
+            // Disable UI
+            inputField.disabled = true;
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i>...`;
+
+            // Append loading indicator
+            const chatBox = document.getElementById('chatHistory');
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'chatLoadingIndic';
+            loadingDiv.className = "flex justify-start text-slate-500 text-xs italic";
+            loadingDiv.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin mr-2 mt-0.5 text-brand-400"></i> Giáo viên đang suy nghĩ...`;
+            chatBox.appendChild(loadingDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            const systemPrompt = "Bạn là một Giáo viên AI dạy TOEIC siêu việt, rất thân thiện và tận tâm. Học viên đang hỏi trực tiếp bạn về một câu hỏi TOEIC. Hãy trả lời BẰNG TIẾNG VIỆT, cực kỳ súc tích, đi thẳng vào trọng tâm, giải thích dễ hiểu. BẮT BUỘC dùng định dạng HTML cơ bản (<b>, <i>, <br>, <ul><li>) để trình bày thật đẹp, xuống dòng rõ ràng, dễ nhìn. KHÔNG dùng markdown.";
+            
+            let convo = q.chat_history.map(m => (m.role === 'user' ? 'Học viên: ' : 'Giáo viên AI: ') + m.content).join('\\n\\n');
+            const userPrompt = "THÔNG TIN CÂU HỎI:\\nCâu hỏi: " + q.question_text + "\\nA. " + q.options.A + " | B. " + q.options.B + " | C. " + q.options.C + " | D. " + q.options.D + "\\nĐáp án đúng: " + q.correct_answer + "\\n\\nLỊCH SỬ CHAT:\\n" + convo + "\\n\\nHãy tiếp tục đóng vai Giáo viên AI và trả lời thắc mắc mới nhất của Học viên ở trên.";
+
+            const chatModel = document.getElementById('chatModelSelect').value;
+
+            try {
+                const responseText = await callGeminiAPIText(systemPrompt, userPrompt, chatModel);
+                q.chat_history.push({ role: 'assistant', content: responseText });
+            } catch (err) {
+                console.error("Chat error:", err);
+                q.chat_history.push({ role: 'assistant', content: '<span class="text-rose-400">Lỗi kết nối: ' + err.message + '</span>' });
+            }
+
+            document.getElementById('chatLoadingIndic')?.remove();
+            renderChatHistory();
+            
+            inputField.disabled = false;
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Gửi';
+            inputField.focus();
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const icon = document.getElementById('sidebarToggleIcon');
+
+            if (sidebar.classList.contains('w-80')) {
+                sidebar.classList.remove('w-80', 'border-r', 'p-6');
+                sidebar.classList.add('w-0', 'overflow-hidden', 'p-0', 'border-transparent');
+                icon.classList.remove('fa-chevron-left');
+                icon.classList.add('fa-chevron-right');
+            } else {
+                sidebar.classList.add('w-80', 'border-r', 'p-6');
+                sidebar.classList.remove('w-0', 'overflow-hidden', 'p-0', 'border-transparent');
+                icon.classList.remove('fa-chevron-right');
+                icon.classList.add('fa-chevron-left');
+            }
+        }
+    </script>
+</body>
+
+</html>
