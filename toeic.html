@@ -438,14 +438,17 @@
                 <button onclick="toggleKeyConfig()" id="toggleKeyConfigBtn" title="Cấu hình API Key"
                     class="relative bg-slate-700 hover:bg-slate-600 text-brand-400 text-sm px-3 py-2 rounded-lg font-medium transition-all flex items-center gap-2 shrink-0">
                     <i class="fa-solid fa-key"></i>
-                    <span id="activeKeyCountBadge" class="absolute -top-1.5 -right-1.5 bg-brand-500 text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full border border-slate-800 shadow-sm hidden">0</span>
+                    <span id="activeKeyCountBadge"
+                        class="absolute -top-1.5 -right-1.5 bg-brand-500 text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full border border-slate-800 shadow-sm hidden">0</span>
                 </button>
 
                 <!-- Absolute Dropdown Panel -->
-                <div id="keyConfigSection" class="hidden absolute top-full right-0 mt-3 bg-slate-800 border border-slate-700 p-4 rounded-xl shadow-2xl flex flex-col gap-4 transition-all duration-300 z-50 w-[320px] origin-top-right">
+                <div id="keyConfigSection"
+                    class="hidden absolute top-full right-0 mt-3 bg-slate-800 border border-slate-700 p-4 rounded-xl shadow-2xl flex flex-col gap-4 transition-all duration-300 z-50 w-[320px] origin-top-right">
                     <div class="flex items-center justify-between">
                         <label class="text-xs text-slate-300 font-semibold">Số lượng Key:</label>
-                        <div class="flex items-center gap-1 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 shadow-inner">
+                        <div
+                            class="flex items-center gap-1 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 shadow-inner">
                             <button onclick="changeKeyCount(-1)"
                                 class="text-slate-400 hover:text-white px-1.5 py-1 rounded hover:bg-slate-800 transition-colors"><i
                                     class="fa-solid fa-minus text-[10px]"></i></button>
@@ -463,7 +466,8 @@
                     </div>
 
                     <div class="flex items-center justify-between pt-3 border-t border-slate-700/60 mt-1">
-                        <a id="getKeyLink" href="https://aistudio.google.com/app/apikey" target="_blank" title="Trang lấy khóa API của Google (Miễn phí)"
+                        <a id="getKeyLink" href="https://aistudio.google.com/app/apikey" target="_blank"
+                            title="Trang lấy khóa API của Google (Miễn phí)"
                             class="text-xs text-brand-400 hover:text-brand-300 underline decoration-brand-500/30 hover:decoration-brand-300 underline-offset-4 flex items-center gap-1 transition-all">
                             <i class="fa-solid fa-link text-[10px]"></i> Lấy API Key
                         </a>
@@ -867,23 +871,26 @@
 
                             <!-- AI Q&A CHATBOT SECTION -->
                             <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-4">
-                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-brand-400 font-bold text-sm border-b border-slate-800 pb-2">
+                                <div
+                                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-brand-400 font-bold text-sm border-b border-slate-800 pb-2">
                                     <div class="flex items-center gap-2">
                                         <i class="fa-solid fa-comments text-lg"></i>
                                         <span>Hỏi Đáp Trực Tiếp Với Giáo Viên AI</span>
                                     </div>
-                                    <select id="chatModelSelect" title="Chọn AI riêng cho chatbot" class="bg-slate-950/60 border border-slate-700 text-brand-400 text-[10px] font-bold rounded-lg focus:ring-1 focus:ring-brand-500 focus:border-brand-500 px-2 py-1 outline-none transition-all shadow-inner uppercase tracking-wider">
+                                    <select id="chatModelSelect" title="Chọn AI riêng cho chatbot"
+                                        class="bg-slate-950/60 border border-slate-700 text-brand-400 text-[10px] font-bold rounded-lg focus:ring-1 focus:ring-brand-500 focus:border-brand-500 px-2 py-1 outline-none transition-all shadow-inner uppercase tracking-wider">
                                         <option value="gemini-3.1-flash-lite">Gemini Flash Lite</option>
                                         <option value="openai/gpt-oss-120b">GPT-OSS 120B (Groq)</option>
                                     </select>
                                 </div>
-                                
-                                <div id="chatHistory" class="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar text-sm">
+
+                                <div id="chatHistory"
+                                    class="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar text-sm">
                                     <!-- Chat messages will be rendered here -->
                                 </div>
 
                                 <div class="flex gap-2 mt-2">
-                                    <input type="text" id="chatInput" placeholder="Nhập tin nhắn..." 
+                                    <input type="text" id="chatInput" placeholder="Nhập tin nhắn..."
                                         class="flex-1 bg-slate-950/60 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all"
                                         onkeypress="if(event.key === 'Enter') sendChatMessage()">
                                     <button onclick="sendChatMessage()" id="sendChatBtn"
@@ -963,7 +970,7 @@
 
         function loadApiKeyForCurrentModel() {
             const storageKey = getStorageKeyForModel();
-            
+
             // Cập nhật link lấy key tự động theo model
             const linkEl = document.getElementById('getKeyLink');
             if (linkEl) {
@@ -1546,7 +1553,7 @@
                             vocabCount = 1;
                         }
                         if (taskQCount < maxChunkSize && remainingVocabNeeded > 0) {
-                             vocabCount = remainingVocabNeeded;
+                            vocabCount = remainingVocabNeeded;
                         }
                         if (vocabCount > taskQCount) vocabCount = taskQCount;
                         remainingVocabNeeded -= vocabCount;
@@ -1585,17 +1592,13 @@
                         `28. Thức giả định As if / As though: Bẫy điền liên từ mang nghĩa "cứ như thể là" đi kèm với động từ "to be" được chia là "were" cho mọi ngôi (ví dụ: treated her AS IF she WERE).`,
                         `29. Trạng Từ Chỉ Mức Độ: Bẫy điền trạng từ chỉ mức độ (ví dụ: almost, completely, highly, fully) bổ nghĩa cho phân từ hoặc tính từ (ví dụ: almost finished, highly recommended).`,
                         `30. Trạng Từ Liên Kết: Bẫy phân biệt các trạng từ liên kết chỉ kết quả, nguyên nhân, tương phản (ví dụ: thus, therefore, however, moreover, nevertheless) nối giữa các mệnh đề hoặc cụm từ.`,
-                        `31. Đại từ Those/Anyone làm Chủ ngữ: Bẫy điền đại từ chỉ người và sự hòa hợp Chủ-Vị. Phân biệt sự kết hợp giữa chủ ngữ số ít (Anyone + V-s/es) và số nhiều (Those + V nguyên thể) (ví dụ: Anyone who needs..., Those who wish...).`,
+                        `31. Đại từ Those/Anyone chỉ người: Bẫy dùng đại từ làm chủ ngữ mang nghĩa "những người/bất cứ ai" (ví dụ: Those who wish to apply, Anyone who wishes), phân biệt số ít (Anyone) và số nhiều (Those).`,
                         `32. Mệnh đề danh ngữ That: Bẫy điền liên từ "that" đứng sau các tính từ chỉ cảm xúc/nhận thức (ví dụ: confident that, aware that) hoặc động từ (ví dụ: report that) để nối một mệnh đề hoàn chỉnh (S+V+O).`,
-                        `33. Cụm từ cố định Collocations: Bẫy điền Động từ đi kèm Danh từ tạo thành cụm cố định (ví dụ: reach an agreement, meet the deadline, place an order, make a decision, make deliveries) thay vì các động từ có nghĩa tương tự nhưng không đi cùng nhau.`,
+                        `33. Cụm từ cố định Collocations: Bẫy điền Động từ đi kèm Danh từ tạo thành cụm cố định (ví dụ: reach an agreement, meet the deadline, place an order, make a decision) thay vì các động từ có nghĩa tương tự nhưng không đi cùng nhau.`,
                         `34. Động từ nguyên mẫu chỉ mục đích (To-V of purpose): Bẫy điền To-V đứng đầu câu hoặc giữa câu bổ trợ cho động từ chính để chỉ mục đích "để làm gì" (ví dụ: To meet the needs, in order to do, so as to do).`,
                         `35. Cụm giới từ chỉ sự thêm vào / Ngoại trừ / Thay thế: Bẫy điền cụm giới từ đi kèm danh từ (ví dụ: in addition to, besides, apart from, except for, regardless of, instead of) phân biệt với trạng từ và liên từ.`,
                         `36. Giới từ chỉ Thời gian & Không gian nâng cao: Phân biệt giới từ chỉ một khoảng thời gian/không gian kéo dài (ví dụ: over the next two weeks, within the next few months, throughout the year, across the country).`,
-                        `37. Đại từ Those đi kèm Phân từ (Rút gọn mệnh đề): Bẫy điền đại từ "Those" mang nghĩa "những người" đứng trước một phân từ (V-ing / V-ed) do rút gọn mệnh đề quan hệ (ví dụ: Those interested in, Those wishing to apply). Chú ý bẫy phân biệt với "Whoever" (Whoever phải cộng với một mệnh đề hoặc động từ chia thì, không đi trực tiếp với phân từ rút gọn).`,
-                        `38. Phân từ làm tính từ trong cụm danh từ cố định: Bẫy chọn V-ing đứng trước danh từ để tạo thành cụm từ cố định mang nghĩa đặc trưng (ví dụ: connecting flight, opening remarks, existing equipment) thay vì chọn dạng phân từ bị động (V-ed) hay động từ nguyên mẫu.`,
-                        `39. Lượng từ đi kèm Giới từ OF (Quantifiers + OF): Bẫy chọn các lượng từ (some, many, most, all, none, any) đứng trước cụm "of the + Danh từ". Cần chú ý phân biệt đại từ số ít/số nhiều dựa vào động từ chính trong câu (ví dụ: some of the members have, each of the members has).`,
-                        `40. Thì Hiện Tại Hoàn Thành kết hợp Mệnh Đề Thời Gian (Until/Once/When): Bẫy điền động từ ở dạng Bị động hoặc Chủ động của Thì Hiện tại hoàn thành đứng sau liên từ chỉ thời gian mang nghĩa "cho đến khi / ngay khi việc gì đó ĐÃ được hoàn tất" (ví dụ: until it has been approved, once he has finished). Tuyệt đối không dùng thì tương lai (will) sau liên từ thời gian.`,
-                        `41. Cụm Giới Từ Phức Hợp (Complex Prepositions): Bẫy điền các cụm giới từ cấu tạo từ nhiều từ mang ý nghĩa đặc thù thường gặp trong TOEIC (ví dụ: in light of = xét thấy/bởi vì, in spite of = mặc dù, in accordance with = tuân theo, in charge of = phụ trách). Yêu cầu dịch đúng ngữ cảnh nguyên nhân, nhượng bộ hoặc mục đích, không lừa về mặt cấu trúc.`
+                        `37. Đại từ Those đi kèm Phân từ (Rút gọn mệnh đề): Bẫy điền đại từ "Those" mang nghĩa "những người" đứng trước một phân từ (V-ing / V-ed) do rút gọn mệnh đề quan hệ (ví dụ: Those interested in, Those wishing to apply). Chú ý bẫy phân biệt với "Whoever" (Whoever phải cộng với một mệnh đề hoặc động từ chia thì, không đi trực tiếp với phân từ rút gọn).`
                     ];
 
                     let availableTopics = [];
@@ -1613,11 +1616,11 @@
                             [availableTopics[i], availableTopics[j]] = [availableTopics[j], availableTopics[i]];
                         }
                     }
-                    
+
                     // Pop topics for this chunk
                     let selectedTopics = availableTopics.splice(0, grammarCount);
                     localStorage.setItem('toeicAvailableGrammarTopics', JSON.stringify(availableTopics));
-                    
+
                     if (grammarCount > 0) {
                         description += `YÊU CẦU ÉP BUỘC ĐỐI VỚI NGỮ PHÁP: Đối với ${grammarCount} câu ngữ pháp, TUYỆT ĐỐI KHÔNG LẶP LẠI chủ điểm. Bạn PHẢI TẠO CHÍNH XÁC CÁC CÂU LẦN LƯỢT THUỘC VÀO CÁC CHỦ ĐIỂM NGỮ PHÁP DƯỚI ĐÂY (mỗi câu chỉ test 1 chủ điểm):\n`;
                         selectedTopics.forEach((topic, idx) => {
@@ -1695,20 +1698,20 @@ TUYỆT ĐỐI TUÂN THỦ: TẤT CẢ CÁC MỤC GIẢI THÍCH, PHÂN TÍCH, D�
             "why_correct": "${selectedPart === '7' ? 'Giải thích chi tiết CÂU ĐÚNG NẰM Ở ĐOẠN NÀO TRONG BÀI, VÀ TẠI SAO NÓ ĐÚNG. Nếu có paraphrase thì phải chỉ rõ từ nào trong bài ứng với từ nào trong đáp án.' : 'Giải thích chi tiết lý do chọn đáp án này. BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC bắt đầu bằng việc ghi rõ "Dịch nghĩa: [nghĩa của đáp án]". Kế tiếp, BẮT BUỘC phải dùng ký tự xuống dòng (\\\\n) để tách biệt phần Dịch nghĩa và phần Giải thích. Ví dụ: Dịch nghĩa: đang thực hiện.\\\\nVì đây là sự việc đang diễn ra... Riêng CÂU TỪ VỰNG: BẮT BUỘC cho thêm 1 câu ví dụ tiếng Anh (kèm dịch) minh họa.'}",
             "wrong_options_grammar_analysis": {
               "option_A": {
-                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Phân tích NGẮN GỌN bản chất ngữ pháp (Ví dụ: Động từ V-ing, Danh từ số nhiều, Tính từ, Mạo từ...).'}",
-                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc và giải thích tại sao trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập.' : 'BẮT BUỘC trình bày theo 3 dòng (dùng \\\\n để xuống dòng):\\\\n- Dịch nghĩa: [Nghĩa tiếng Việt]\\\\n- Tại sao sai: [Giải thích CHI TIẾT lỗi sai. TUYỆT ĐỐI KHÔNG dùng chữ \\"Ví dụ\\" bên trong phần giải thích này!]\\\\n- Ví dụ minh họa: [1 câu Tiếng Anh chứa đáp án này (kèm dịch)]'}"
+                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Bản chất ngữ pháp của từ này'}",
+                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]'}"
               },
               "option_B": {
-                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Phân tích NGẮN GỌN bản chất ngữ pháp (Ví dụ: Động từ V-ing, Danh từ số nhiều, Tính từ, Mạo từ...).'}",
-                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc và giải thích tại sao trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập.' : 'BẮT BUỘC trình bày theo 3 dòng (dùng \\\\n để xuống dòng):\\\\n- Dịch nghĩa: [Nghĩa tiếng Việt]\\\\n- Tại sao sai: [Giải thích CHI TIẾT lỗi sai. TUYỆT ĐỐI KHÔNG dùng chữ \\"Ví dụ\\" bên trong phần giải thích này!]\\\\n- Ví dụ minh họa: [1 câu Tiếng Anh chứa đáp án này (kèm dịch)]'}"
+                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Bản chất ngữ pháp của từ này'}",
+                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]'}"
               },
               "option_C": {
-                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Phân tích NGẮN GỌN bản chất ngữ pháp (Ví dụ: Động từ V-ing, Danh từ số nhiều, Tính từ, Mạo từ...).'}",
-                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc và giải thích tại sao trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập.' : 'BẮT BUỘC trình bày theo 3 dòng (dùng \\\\n để xuống dòng):\\\\n- Dịch nghĩa: [Nghĩa tiếng Việt]\\\\n- Tại sao sai: [Giải thích CHI TIẾT lỗi sai. TUYỆT ĐỐI KHÔNG dùng chữ \\"Ví dụ\\" bên trong phần giải thích này!]\\\\n- Ví dụ minh họa: [1 câu Tiếng Anh chứa đáp án này (kèm dịch)]'}"
+                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Bản chất ngữ pháp của từ này'}",
+                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]'}"
               },
               "option_D": {
-                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Phân tích NGẮN GỌN bản chất ngữ pháp (Ví dụ: Động từ V-ing, Danh từ số nhiều, Tính từ, Mạo từ...).'}",
-                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc và giải thích tại sao trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập.' : 'BẮT BUỘC trình bày theo 3 dòng (dùng \\\\n để xuống dòng):\\\\n- Dịch nghĩa: [Nghĩa tiếng Việt]\\\\n- Tại sao sai: [Giải thích CHI TIẾT lỗi sai. TUYỆT ĐỐI KHÔNG dùng chữ \\"Ví dụ\\" bên trong phần giải thích này!]\\\\n- Ví dụ minh họa: [1 câu Tiếng Anh chứa đáp án này (kèm dịch)]'}"
+                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Bản chất ngữ pháp của từ này'}",
+                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]'}"
               }
             },
             "trap_warning": "Cảnh báo bẫy TOEIC liên quan đến dạng câu này và mẹo nhớ nhanh."
@@ -2233,7 +2236,7 @@ LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
             deepBtn.innerHTML = `<i class="fa-solid fa-chalkboard-user"></i> Giảng Giải Sâu`;
             familyBtn.disabled = false;
             familyBtn.innerHTML = `<i class="fa-solid fa-network-wired"></i> Hệ Sinh Thái`;
-            
+
             if (selectedPart === '6' || selectedPart === '7') {
                 familyBtn.style.display = 'none';
             } else {
@@ -2341,11 +2344,11 @@ LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
         function formatVocabExplanation(text) {
             if (!text) return '';
             let res = text.replace(/\\n/g, '<br>').replace(/\n/g, '<br>');
-            res = res.replace(/(?:^|<br>)\s*-?\s*(Dịch\s*nghĩa:)/gi, '<br><span class="text-indigo-300 font-semibold mt-1.5 inline-block"><i class="fa-solid fa-language mr-1 text-[10px]"></i>$1</span>');
-            res = res.replace(/(?:^|<br>)\s*-?\s*(Tại\s*sao\s*sai:|Sai\s*vì\b:?)/gi, '<br><span class="text-rose-400/90 font-semibold mt-1.5 inline-block"><i class="fa-solid fa-xmark mr-1 text-[10px]"></i>Sai vì: </span> ');
-            res = res.replace(/(?:^|<br>)\s*-?\s*(Ví\s*dụ\s*minh\s*họa:|Ví\s*dụ:)/gi, '<br><span class="text-brand-300 font-semibold mt-1.5 inline-block"><i class="fa-regular fa-comment-dots mr-1 text-[10px]"></i>$1</span>');
-            res = res.replace(/(?:^|<br>)\s*-?\s*(Từ\s*đồng\s*nghĩa:)/gi, '<br><span class="text-emerald-400 font-semibold mt-1.5 inline-block"><i class="fa-solid fa-link text-[10px] mr-1"></i>$1</span>');
-            res = res.replace(/(?:^|<br>)\s*-?\s*(Từ\s*trái\s*nghĩa:)/gi, '<br><span class="text-amber-400 font-semibold mt-1.5 inline-block"><i class="fa-solid fa-link-slash text-[10px] mr-1"></i>$1</span>');
+            res = res.replace(/(Dịch\s*nghĩa:)/gi, '<br><span class="text-indigo-300 font-semibold mt-1.5 inline-block"><i class="fa-solid fa-language mr-1 text-[10px]"></i>$1</span>');
+            res = res.replace(/(Tại\s*sao\s*sai:|Sai\s*vì\b:?)/gi, '<br><span class="text-rose-400/90 font-semibold mt-1.5 inline-block"><i class="fa-solid fa-xmark mr-1 text-[10px]"></i>Sai vì: </span> ');
+            res = res.replace(/(Ví\s*dụ:)/gi, '<br><span class="text-brand-300 font-semibold mt-1.5 inline-block"><i class="fa-regular fa-comment-dots mr-1 text-[10px]"></i>$1</span>');
+            res = res.replace(/(Từ\s*đồng\s*nghĩa:)/gi, '<br><span class="text-emerald-400 font-semibold mt-1.5 inline-block"><i class="fa-solid fa-link text-[10px] mr-1"></i>$1</span>');
+            res = res.replace(/(Từ\s*trái\s*nghĩa:)/gi, '<br><span class="text-amber-400 font-semibold mt-1.5 inline-block"><i class="fa-solid fa-link-slash text-[10px] mr-1"></i>$1</span>');
             // Remove leading line break if it somehow appeared at the start of the text
             res = res.replace(/^(<br>\s*)+/, '');
             // Clean up double <br> that might be created by replacement and user formatting
@@ -2399,32 +2402,31 @@ QUY TẮC QUAN TRỌNG VỀ NỘI DUNG VÀ TRÌNH BÀY:
    - Danh sách (List): <ul class="list-disc pl-5 space-y-2 text-slate-300 mb-4"><li>...</li></ul>
    - Highlight từ khóa: <code class="text-emerald-400 bg-slate-900 px-1.5 py-0.5 rounded font-mono font-bold border border-slate-800"> [Từ khóa] </code>
 
-XÁC ĐỊNH LOẠI CÂU HỎI và trình bày thật sâu theo 3 mục chính (BẮT BUỘC dùng template Tiêu đề chính <h4 class="..."> cho mỗi mục):
+XÁC ĐỊNH LOẠI CÂU HỎI và trình bày thật sâu theo 3 mục chính:
 
 --- NẾU LÀ CÂU TỪ VỰNG: ---
-<h4 class="text-lg font-bold text-brand-300 mt-4 mb-3 border-b border-slate-700 pb-2">Mục 1: 🔤 Mổ Xẻ Gốc Rễ Từ Vựng</h4>
+Mục 1: 🔤 Mổ Xẻ Gốc Rễ Từ Vựng
   - Giải thích tường tận nghĩa của đáp án đúng. Phân tích ngữ cảnh tại sao từ này lại khớp nhất với câu.
   - Phân tích cặn kẽ 3 đáp án sai: Nghĩa là gì? Thường dùng trong ngữ cảnh nào? Tại sao lắp vào câu này lại vô lý?
   - Cung cấp 2-3 từ đồng/trái nghĩa phổ biến nhất.
 
-<h4 class="text-lg font-bold text-brand-300 mt-4 mb-3 border-b border-slate-700 pb-2">Mục 2: 🔗 Mở Rộng Hệ Sinh Thái (Collocation & Word Family)</h4>
+Mục 2: 🔗 Mở Rộng Hệ Sinh Thái (Collocation & Word Family)
   - Liệt kê các cụm từ (collocation) đi kèm thường gặp nhất trong TOEIC (có kèm ví dụ minh họa).
   - Phân tích họ từ (Word Family: Noun, Verb, Adj, Adv) nếu có. BẮT BUỘC trình bày dưới dạng Bảng (Table) gồm 3 cột: Loại từ | Từ vựng | Ví dụ minh họa (kèm dịch nghĩa).
 
-<h4 class="text-lg font-bold text-brand-300 mt-4 mb-3 border-b border-slate-700 pb-2">Mục 3: 💡 Bẫy ETS & Mẹo Nhớ Lâu</h4>
+Mục 3: 💡 Bẫy ETS & Mẹo Nhớ Lâu
   - Phân tích các bẫy lừa hoặc sự nhầm lẫn thường gặp ở từ này.
 
 --- NẾU LÀ CÂU NGỮ PHÁP (Part 5/6) hoặc ĐỌC HIỂU (Part 7): ---
-<h4 class="text-lg font-bold text-brand-300 mt-4 mb-3 border-b border-slate-700 pb-2">Mục 1: 📐 Đi Sâu Vào Trọng Tâm Ngữ Pháp</h4>
-  - Tuyệt đối bỏ qua việc mổ xẻ cấu trúc S-V-O. Hãy đi thẳng vào vấn đề: Chỗ trống này đang kiểm tra chủ điểm ngữ pháp gì?
-  - Giải thích cực sâu về chủ điểm ngữ pháp đó (công thức, ý nghĩa, hoàn cảnh sử dụng). BẮT BUỘC phải đưa ra ví dụ minh họa kèm dịch nghĩa.
-  - Phân tích mở rộng các phần ngữ pháp liên quan hoặc các cấu trúc tương tự dễ gây nhầm lẫn.
+Mục 1: 📐 Mổ Xẻ Cấu Trúc (Phân tích S-V-O)
+  - Viết lại câu và chẻ nhỏ từng thành phần S (Chủ ngữ), V (Động từ chính), O (Tân ngữ).
+  - Phân tích chỗ trống thuộc thành phần nào, bị chi phối bởi từ nào đứng trước/sau nó. Giải thích bản chất ngữ pháp cực kỳ dễ hiểu.
 
-<h4 class="text-lg font-bold text-brand-300 mt-4 mb-3 border-b border-slate-700 pb-2">Mục 2: ❌ Tại Sao 3 Đáp Án Kia Sai?</h4>
+Mục 2: ❌ Tại Sao 3 Đáp Án Kia Sai?
   - Phải giải thích chi tiết lỗi sai chí mạng của 3 đáp án còn lại. Tại sao về mặt ngữ pháp không thể ráp nó vào câu?
 
-<h4 class="text-lg font-bold text-brand-300 mt-4 mb-3 border-b border-slate-700 pb-2">Mục 3: ⚡ Cốt Lõi Vấn Đề & Mẹo Giải Nhanh</h4>
-  - Tóm tắt lại công thức kinh điển để giải quyết bài toán này. BẮT BUỘC trình bày dạng Bảng (Table) gồm: Cấu trúc | Cách dùng | Ví dụ (kèm dịch).
+Mục 3: ⚡ Cốt Lõi Vấn Đề & Mẹo Giải Nhanh
+  - Tóm tắt lại công thức kinh điển để giải quyết bài toán này. BẮT BUỘC cứ mỗi khi nhắc đến một cấu trúc/công thức ngữ pháp thì PHẢI cho ngay 1 ví dụ tiếng Anh (kèm dịch nghĩa) để minh họa. Tốt nhất là trình bày dạng Bảng (Table) gồm: Cấu trúc | Cách dùng | Ví dụ.
   - Chỉ ra "Dấu hiệu vàng" - nhìn vào chữ nào là biết ngay đáp án để tiết kiệm thời gian thi.`;
 
             const userPrompt = `Câu hỏi số: ${q.question_number || (activeQuestionIndex + 1)}
@@ -2665,7 +2667,7 @@ BẮT BUỘC VIẾT BẰNG TIẾNG VIỆT.`;
             const chatBox = document.getElementById('chatHistory');
             if (!chatBox) return;
             chatBox.innerHTML = '';
-            
+
             if (!q.chat_history || q.chat_history.length === 0) {
                 chatBox.innerHTML = `
                     <div class="flex gap-3 text-slate-400 text-xs italic">
@@ -2678,13 +2680,13 @@ BẮT BUỘC VIẾT BẰNG TIẾNG VIỆT.`;
             q.chat_history.forEach(msg => {
                 const div = document.createElement('div');
                 div.className = msg.role === 'user' ? "flex justify-end" : "flex justify-start";
-                
+
                 const inner = document.createElement('div');
-                inner.className = msg.role === 'user' 
-                    ? "bg-brand-600/20 border border-brand-500/30 text-slate-200 p-3 rounded-xl rounded-tr-sm max-w-[85%] whitespace-pre-wrap" 
+                inner.className = msg.role === 'user'
+                    ? "bg-brand-600/20 border border-brand-500/30 text-slate-200 p-3 rounded-xl rounded-tr-sm max-w-[85%] whitespace-pre-wrap"
                     : "bg-slate-800/60 border border-slate-700 text-slate-300 p-3 rounded-xl rounded-tl-sm max-w-[95%] leading-relaxed whitespace-pre-wrap";
-                
-                inner.innerHTML = msg.content; 
+
+                inner.innerHTML = msg.content;
                 div.appendChild(inner);
                 chatBox.appendChild(div);
             });
@@ -2695,7 +2697,7 @@ BẮT BUỘC VIẾT BẰNG TIẾNG VIỆT.`;
             const inputField = document.getElementById('chatInput');
             const btn = document.getElementById('sendChatBtn');
             const message = inputField.value.trim();
-            
+
             if (!message) return;
             if (!apiKey) {
                 alert("Vui lòng cấu hình API Key trước.");
@@ -2704,7 +2706,7 @@ BẮT BUỘC VIẾT BẰNG TIẾNG VIỆT.`;
 
             const q = flatQuestions[activeQuestionIndex];
             if (!q.chat_history) q.chat_history = [];
-            
+
             // Add user message to history
             q.chat_history.push({ role: 'user', content: message });
             inputField.value = '';
@@ -2725,7 +2727,7 @@ BẮT BUỘC VIẾT BẰNG TIẾNG VIỆT.`;
             chatBox.scrollTop = chatBox.scrollHeight;
 
             const systemPrompt = "Bạn là một Giáo viên AI dạy TOEIC siêu việt, rất thân thiện và tận tâm. Học viên đang hỏi trực tiếp bạn về một câu hỏi TOEIC. Hãy trả lời BẰNG TIẾNG VIỆT, cực kỳ súc tích, đi thẳng vào trọng tâm, giải thích dễ hiểu. BẮT BUỘC dùng định dạng HTML cơ bản (<b>, <i>, <br>, <ul><li>) để trình bày thật đẹp, xuống dòng rõ ràng, dễ nhìn. KHÔNG dùng markdown.";
-            
+
             let convo = q.chat_history.map(m => (m.role === 'user' ? 'Học viên: ' : 'Giáo viên AI: ') + m.content).join('\\n\\n');
             const userPrompt = "THÔNG TIN CÂU HỎI:\\nCâu hỏi: " + q.question_text + "\\nA. " + q.options.A + " | B. " + q.options.B + " | C. " + q.options.C + " | D. " + q.options.D + "\\nĐáp án đúng: " + q.correct_answer + "\\n\\nLỊCH SỬ CHAT:\\n" + convo + "\\n\\nHãy tiếp tục đóng vai Giáo viên AI và trả lời thắc mắc mới nhất của Học viên ở trên.";
 
@@ -2741,7 +2743,7 @@ BẮT BUỘC VIẾT BẰNG TIẾNG VIỆT.`;
 
             document.getElementById('chatLoadingIndic')?.remove();
             renderChatHistory();
-            
+
             inputField.disabled = false;
             btn.disabled = false;
             btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Gửi';
