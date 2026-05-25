@@ -909,6 +909,35 @@
         </section>
     </main>
 
+    <!-- SUMMARY MODAL -->
+    <div id="summaryModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
+            <button onclick="document.getElementById('summaryModal').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors bg-slate-800 p-2 rounded-full w-8 h-8 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="text-center space-y-2 mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-brand-500 to-indigo-600 rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-lg shadow-brand-500/20 mb-4">
+                    <i class="fa-solid fa-ranking-star text-white"></i>
+                </div>
+                <h2 class="text-2xl font-black text-white tracking-tight">Báo Cáo Phân Tích Năng Lực</h2>
+                <p class="text-slate-400 text-sm">AI Tutor đã tổng hợp chi tiết kết quả làm bài của bạn</p>
+            </div>
+            
+            <div id="summaryContent" class="text-sm text-slate-300 leading-relaxed space-y-5">
+                <div class="flex items-center justify-center py-10 text-brand-400 gap-3">
+                    <i class="fa-solid fa-spinner animate-spin text-xl"></i>
+                    <span class="font-semibold">AI đang phân tích dữ liệu, vui lòng đợi...</span>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-6 border-t border-slate-800 flex justify-center">
+                <button onclick="document.getElementById('summaryModal').classList.add('hidden')" class="bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-brand-500/20 transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-check"></i> Đã Hiểu
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         /* STATE VARIABLES */
         let apiKey = '';
@@ -2172,6 +2201,7 @@ LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
             }
 
             displaySelectedAnswer(ans);
+            checkAndShowSummary();
         }
 
         function displaySelectedAnswer(userAns) {
@@ -2213,6 +2243,99 @@ LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
             } else if (dir === 'next' && activeQuestionIndex < flatQuestions.length - 1) {
                 activeQuestionIndex++;
                 renderActiveQuestion();
+            }
+        }
+
+        async function checkAndShowSummary() {
+            const totalAnswered = Object.keys(userAnswers).length;
+            if (totalAnswered !== flatQuestions.length) return; // Chưa làm xong
+            
+            const modal = document.getElementById('summaryModal');
+            const content = document.getElementById('summaryContent');
+            modal.classList.remove('hidden');
+            content.innerHTML = `
+                <div class="flex items-center justify-center py-10 text-brand-400 gap-3">
+                    <i class="fa-solid fa-spinner animate-spin text-xl"></i>
+                    <span class="font-semibold">Thầy giáo AI đang tổng hợp và đánh giá kết quả, vui lòng đợi...</span>
+                </div>
+            `;
+            
+            try {
+                let wrongTally = {};
+                let totalWrong = 0;
+                flatQuestions.forEach((q, idx) => {
+                    let ans = userAnswers[idx];
+                    if (ans !== q.correct_answer) {
+                        totalWrong++;
+                        let rule = (q.explanation && q.explanation.grammar_rule) ? q.explanation.grammar_rule : "Từ vựng/Khác";
+                        wrongTally[rule] = (wrongTally[rule] || 0) + 1;
+                    }
+                });
+                
+                let prompt = `Học viên vừa hoàn thành bài thi TOEIC ${flatQuestions.length} câu. Số câu sai: ${totalWrong}/${flatQuestions.length}.\n`;
+                if (totalWrong > 0) {
+                    prompt += `Dưới đây là thống kê các chủ điểm làm sai:\n`;
+                    for (let rule in wrongTally) {
+                        prompt += `- ${rule}: sai ${wrongTally[rule]} câu\n`;
+                    }
+                    prompt += `\nHãy đóng vai một thầy giáo TOEIC tâm huyết. Hãy phân tích bảng thống kê trên BẰNG ĐỊNH DẠNG HTML (dùng <p>, <ul>, <li>, <strong>, <br>...). Yêu cầu:
+1. Tạo một BẢNG HTML (<table>) với class Tailwind (ví dụ: w-full border-collapse border border-slate-700 bg-slate-950/50 text-slate-300) thống kê các lỗi sai và số lượng. Dòng tiêu đề bảng dùng class (bg-slate-800 text-brand-300 font-bold).
+2. Nêu rõ dạng nào học viên đang yếu nhất (sai nhiều nhất) và nhắc nhở học viên cần tập trung ôn kiến thức gì. Lời khuyên phải sâu sắc, thực tế.
+3. Viết lời động viên, khích lệ tinh thần.
+4. BẮT BUỘC kết thúc bằng lời chúc và chữ ký (sử dụng style="text-align: right; margin-top: 20px; font-style: italic; color: #94a3b8;"): "Thầy giáo: <b>Phan Gia An</b>".
+Lưu ý: TRẢ VỀ CHỈ MÃ HTML SẠCH, tuyệt đối KHÔNG bọc trong markdown (\`\`\`html). Không cần thẻ <html> hay <body>.`;
+                } else {
+                    prompt += `Tuyệt vời, học viên không sai câu nào! Hãy viết lời khen ngợi xuất sắc và động viên BẰNG ĐỊNH DẠNG HTML sạch. BẮT BUỘC kết thúc bằng chữ ký lệch phải: "Thầy giáo: <b>Phan Gia An</b>".`;
+                }
+
+                if (!apiKey) {
+                    content.innerHTML = `<p class="text-rose-400">Vui lòng cung cấp API Key để xem nhận xét từ AI.</p>`;
+                    return;
+                }
+                
+                const modelSelect = document.getElementById('aiModelSelect');
+                const isGroq = modelSelect && modelSelect.value.includes('gpt-oss');
+                const apiUrl = isGroq 
+                    ? 'https://api.groq.com/openai/v1/chat/completions' 
+                    : `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+                
+                let payload;
+                if (isGroq) {
+                    payload = {
+                        model: "llama-3.3-70b-versatile",
+                        messages: [
+                            { role: "system", content: "Bạn là giáo viên TOEIC. Phản hồi hoàn toàn bằng HTML." },
+                            { role: "user", content: prompt }
+                        ],
+                        temperature: 0.7
+                    };
+                } else {
+                    payload = {
+                        contents: [{ parts: [{ text: prompt }] }],
+                        generationConfig: { temperature: 0.7 }
+                    };
+                }
+                
+                const headers = { 'Content-Type': 'application/json' };
+                if (isGroq) headers['Authorization'] = `Bearer ${apiKey}`;
+
+                const res = await fetch(apiUrl, { method: 'POST', headers: headers, body: JSON.stringify(payload) });
+                if (!res.ok) throw new Error("API lỗi");
+                const data = await res.json();
+                
+                let textResponse = "";
+                if (isGroq) {
+                    textResponse = data.choices?.[0]?.message?.content || "";
+                } else {
+                    textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+                }
+                
+                let cleanHtml = textResponse.replace(/^```html/i, '').replace(/^```/i, '').replace(/```$/i, '').trim();
+                content.innerHTML = cleanHtml;
+                
+            } catch (err) {
+                console.error(err);
+                content.innerHTML = `<p class="text-rose-400 text-center"><i class="fa-solid fa-triangle-exclamation"></i> Có lỗi khi tạo báo cáo: ${err.message}</p>`;
             }
         }
 
@@ -2418,15 +2541,16 @@ Mục 3: 💡 Bẫy ETS & Mẹo Nhớ Lâu
   - Phân tích các bẫy lừa hoặc sự nhầm lẫn thường gặp ở từ này.
 
 --- NẾU LÀ CÂU NGỮ PHÁP (Part 5/6) hoặc ĐỌC HIỂU (Part 7): ---
-Mục 1: 📐 Mổ Xẻ Cấu Trúc (Phân tích S-V-O)
-  - Viết lại câu và chẻ nhỏ từng thành phần S (Chủ ngữ), V (Động từ chính), O (Tân ngữ).
-  - Phân tích chỗ trống thuộc thành phần nào, bị chi phối bởi từ nào đứng trước/sau nó. Giải thích bản chất ngữ pháp cực kỳ dễ hiểu.
+Mục 1: 📐 Đi Sâu Vào Trọng Tâm Ngữ Pháp
+  - Tuyệt đối bỏ qua việc mổ xẻ cấu trúc S-V-O. Hãy đi thẳng vào vấn đề: Chỗ trống này đang kiểm tra chủ điểm ngữ pháp gì?
+  - Giải thích cực sâu về chủ điểm ngữ pháp đó (công thức, ý nghĩa, hoàn cảnh sử dụng). BẮT BUỘC phải đưa ra ví dụ minh họa kèm dịch nghĩa.
+  - Phân tích mở rộng các phần ngữ pháp liên quan hoặc các cấu trúc tương tự dễ gây nhầm lẫn.
 
 Mục 2: ❌ Tại Sao 3 Đáp Án Kia Sai?
   - Phải giải thích chi tiết lỗi sai chí mạng của 3 đáp án còn lại. Tại sao về mặt ngữ pháp không thể ráp nó vào câu?
 
 Mục 3: ⚡ Cốt Lõi Vấn Đề & Mẹo Giải Nhanh
-  - Tóm tắt lại công thức kinh điển để giải quyết bài toán này. BẮT BUỘC cứ mỗi khi nhắc đến một cấu trúc/công thức ngữ pháp thì PHẢI cho ngay 1 ví dụ tiếng Anh (kèm dịch nghĩa) để minh họa. Tốt nhất là trình bày dạng Bảng (Table) gồm: Cấu trúc | Cách dùng | Ví dụ.
+  - Tóm tắt lại công thức kinh điển để giải quyết bài toán này. BẮT BUỘC trình bày dạng Bảng (Table) gồm: Cấu trúc | Cách dùng | Ví dụ (kèm dịch).
   - Chỉ ra "Dấu hiệu vàng" - nhìn vào chữ nào là biết ngay đáp án để tiết kiệm thời gian thi.`;
 
             const userPrompt = `Câu hỏi số: ${q.question_number || (activeQuestionIndex + 1)}
