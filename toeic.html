@@ -1234,7 +1234,10 @@
 
             const testSizeContainer = document.getElementById('testSizeContainer');
             if (testSizeContainer) {
-                if (partNum === '7') {
+                if (partNum === '5') {
+                    testSizeContainer.style.display = 'none';
+                    setTestSize('full'); // 30 questions
+                } else if (partNum === '7') {
                     testSizeContainer.style.display = 'none';
                     setTestSize('mini');
                 } else {
@@ -1562,7 +1565,7 @@
             } else if (selectedPart === '6') {
                 qCount = (testSize === 'mini') ? 1 : 4;
             } else if (selectedPart === '7') {
-                qCount = (testSize === 'mini') ? 5 : 12; // 5 passages for mini, 12 for full
+                qCount = (testSize === 'mini') ? 1 : 12; // 1 passage for mini, 12 for full
             }
 
             const keysArray = apiKey.split(',').map(k => k.trim()).filter(k => k);
@@ -1728,6 +1731,42 @@ Sinh 5 câu hỏi trắc nghiệm đa dạng. YÊU CẦU ĐẶC BIỆT: Các câ
                     ? `\n⚠️ QUY TẮC TỪ VỰNG PART 5: BẮT BUỘC phải có CHÍNH XÁC ${vocabCount} câu THUẦN TỪ VỰNG. Câu từ vựng là câu mà 4 lựa chọn A/B/C/D là 4 TỪ KHÁC NHAU HOÀN TOÀN VỀ NGHĨA. ĐẶC BIỆT CHÚ Ý: Hãy sử dụng các từ vựng nâng cao, từ lạ (nhưng vẫn hay xuất hiện trong các đề thi TOEIC thực tế độ khó cao). KHÔNG dùng các từ vựng quá cơ bản.`
                     : '';
 
+                const questionTextPrompt = selectedPart === '7' 
+                    ? 'Nội dung câu hỏi đọc hiểu đầy đủ (Ví dụ: What is the main purpose of the email?). TUYỆT ĐỐI KHÔNG DÙNG chỗ trống gạch dưới (___).' 
+                    : 'Nội dung câu hỏi đầy đủ. QUY TẮC CỨNG: BẮT BUỘC PHẢI CHỨA CHỖ TRỐNG \\"___\\" (3 dấu gạch dưới) ĐỂ HỌC VIÊN ĐIỀN VÀO. TUYỆT ĐỐI KHÔNG để lộ đáp án đúng. Nếu không có chỗ trống \\"___\\", ĐỀ SẼ BỊ VỨT ĐI.';
+                
+                const sentenceAnalysisPrompt = selectedPart === '7' 
+                    ? 'Phân tích kỹ lưỡng loại câu hỏi (ví dụ: Câu hỏi Chi tiết, Suy luận, Tìm ý chính, Từ vựng ngữ cảnh). Giải thích sơ lược chiến thuật làm dạng câu này.' 
+                    : 'MỔ XẺ CẤU TRÚC CÂU: Phân tích thành phần câu thật trực quan sử dụng chuẩn viết tắt [S] (Chủ ngữ), [V] (Động từ chính), [O] (Tân ngữ), [M] (Trạng từ/Trạng ngữ/Cụm từ bổ trợ). Đối với [M], BẮT BUỘC phải ghi chú rõ trong ngoặc đơn là nó đang bổ trợ cho từ/cụm từ nào trong câu (ví dụ chỉ thời gian, địa điểm, mục đích, bổ trợ cho động từ chính v.v.). Ví dụ: [S] The manager / [V] will review / [O] the report / [M] tomorrow (bổ trợ thời gian cho will review). Sau đó giải thích từ loại cần điền.';
+                
+                const translationPrompt = selectedPart === '7' 
+                    ? 'Dịch nghĩa câu hỏi và 4 đáp án sang tiếng Việt. BẮT BUỘC chèn ký tự xuống dòng (\\\\n) trước mỗi đáp án A, B, C, D để tách biệt.' 
+                    : 'Dịch nghĩa toàn bộ câu hỏi (bao gồm đáp án đúng đã được điền vào chỗ trống) sang tiếng Việt thật tự nhiên.';
+                
+                const grammarRulePrompt = selectedPart === '7' 
+                    ? 'Kỹ năng Đọc hiểu (Ví dụ: Hiểu ý đồ người viết, Suy luận thông tin chéo, Định vị chi tiết cụ thể...).' 
+                    : 'Chủ điểm ngữ pháp áp dụng. YÊU CẦU: Ghi RẤT NGẮN GỌN tên chủ điểm (Ví dụ: Sự hòa hợp Chủ-Vị, Rút gọn mệnh đề, Câu điều kiện loại 1). TUYỆT ĐỐI KHÔNG dùng các từ dư thừa như \\"Bẫy chuyên sâu về\\", \\"Kiểm tra kiến thức về\\" ở đầu.';
+                
+                const keywordsPrompt = selectedPart === '7' 
+                    ? 'TRÍCH DẪN ĐÚNG CÂU VĂN chứa thông tin quyết định đáp án (VD: Nằm ở [Đoạn 2]: The event will be postponed...).' 
+                    : 'TRÍCH XUẤT CHÍNH XÁC CÁC TỪ KHÓA/DẤU HIỆU NHẬN BIẾT trong câu (ví dụ: next Monday, upcoming, recently, v.v.).';
+                
+                const whyCorrectPrompt = selectedPart === '7' 
+                    ? 'Giải thích chi tiết CÂU ĐÚNG NẰM Ở ĐOẠN NÀO TRONG BÀI, VÀ TẠI SAO NÓ ĐÚNG. Nếu có paraphrase thì phải chỉ rõ từ nào trong bài ứng với từ nào trong đáp án.' 
+                    : 'Giải thích chi tiết lý do chọn đáp án này. BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC bắt đầu bằng việc ghi rõ \\"Dịch nghĩa: [nghĩa của đáp án]\\". Kế tiếp, BẮT BUỘC phải dùng ký tự xuống dòng (\\\\n) để tách biệt phần Dịch nghĩa và phần Giải thích. Ví dụ: Dịch nghĩa: đang thực hiện.\\\\nVì đây là sự việc đang diễn ra... Riêng CÂU TỪ VỰNG: BẮT BUỘC cho thêm 1 câu ví dụ tiếng Anh (kèm dịch) minh họa.';
+                
+                const wrongNaturePrompt = selectedPart === '7' 
+                    ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' 
+                    : 'Bản chất ngữ pháp của từ này';
+                
+                const whyFaultyPrompt = selectedPart === '7' 
+                    ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' 
+                    : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]';
+                
+                const blankRulePrompt = selectedPart === '7' 
+                    ? '3. TRONG QUESTION_TEXT, TUYỆT ĐỐI KHÔNG SỬ DỤNG CHỖ TRỐNG. Câu hỏi phải là một câu hoàn chỉnh, ví dụ: \\"What is the main topic of the memo?\\".' 
+                    : '3. TRONG QUESTION_TEXT, CHỖ TRỐNG LÀ DẤU \\"___\\". TUYỆT ĐỐI KHÔNG ĐƯỢC VIẾT LỘ ĐÁP ÁN ĐÚNG VÀO TRONG CÂU HỎI. VÍ DỤ SAI: \\"The report ___ prepared... (trong khi đáp án đúng là prepared)\\". VÍ DỤ ĐÚNG: \\"The report ___ by each senior analyst...\\". LỖI NÀY LÀ KHÔNG THỂ CHẤP NHẬN ĐƯỢC.';
+
                 const systemPrompt = `Bạn là một Đại cao thủ luyện thi TOEIC 990 và là chuyên gia ngôn ngữ xuất sắc. Nhiệm vụ của bạn là biên soạn đề thi luyện tập hướng tới mức điểm 750+ cho học viên. Các bài đọc, từ vựng và câu hỏi phải có độ khó cao, mang tính phân loại thí sinh.
 QUY TẮC SỐNG CÒN VỀ LOGIC NGỮ NGHĨA: BẮT BUỘC đáp án đúng ghép vào câu phải tạo ra một câu hoàn toàn HỢP LÝ VỀ MẶT THỰC TẾ. Tuyệt đối không được nhắm mắt thiết kế câu chỉ để thỏa mãn ngữ pháp mà bỏ qua ý nghĩa (Ví dụ CẤM tạo câu: "Mặc dù thời tiết xấu, buổi hòa nhạc đã bị dời lại" -> Sai logic trầm trọng, phải là "Bởi vì"). Cả 4 đáp án và nội dung câu hỏi phải logic với nhau.
 QUY TẮC SỐNG CÒN VỀ TÍNH DUY NHẤT: Trong 4 lựa chọn (A, B, C, D), BẮT BUỘC CHỈ CÓ DUY NHẤT 1 ĐÁP ÁN ĐÚNG. Ba đáp án còn lại phải SAI HOÀN TOÀN về mặt ngữ pháp hoặc ngữ nghĩa. TUYỆT ĐỐI KHÔNG tạo ra tình huống có 2 từ đều đúng ngữ pháp và ý nghĩa rồi viện cớ "từ này phổ biến hơn", "từ này trang trọng hơn" (Ví dụ: cho cả "much" và "far" vào câu nhấn mạnh so sánh hơn là ĐỀ LỖI). ĐÚNG LÀ ĐÚNG, SAI LÀ SAI. Không có khái niệm "ưu tiên".
@@ -1744,31 +1783,31 @@ TUYỆT ĐỐI TUÂN THỦ: TẤT CẢ CÁC MỤC GIẢI THÍCH, PHÂN TÍCH, D�
       "questions": [
         {
           "question_number": [Số thứ tự câu hỏi tăng dần từ 1],
-          "question_text": "Nội dung câu hỏi đầy đủ. QUY TẮC CỨNG: BẮT BUỘC PHẢI CHỨA CHỖ TRỐNG '___' (3 dấu gạch dưới) ĐỂ HỌC VIÊN ĐIỀN VÀO. TUYỆT ĐỐI KHÔNG để lộ đáp án đúng (dù đáp án nằm ở đầu câu hay giữa câu). Nếu không có chỗ trống '___', ĐỀ SẼ BỊ VỨT ĐI.",
+          "question_text": "${questionTextPrompt}",
           "options": { "A": "Đáp án A", "B": "Đáp án B", "C": "Đáp án C", "D": "Đáp án D" },
           "correct_answer": "Đáp án đúng (chỉ ghi A, B, C hoặc D)",
-          "sentence_structure_analysis": "${selectedPart === '7' ? 'Phân tích kỹ lưỡng loại câu hỏi (ví dụ: Câu hỏi Chi tiết, Suy luận, Tìm ý chính, Từ vựng ngữ cảnh). Giải thích sơ lược chiến thuật làm dạng câu này.' : 'MỔ XẺ CẤU TRÚC CÂU: Phân tích thành phần câu thật trực quan sử dụng chuẩn viết tắt [S] (Chủ ngữ), [V] (Động từ chính), [O] (Tân ngữ), [M] (Trạng từ/Trạng ngữ/Cụm từ bổ trợ). Đối với [M], BẮT BUỘC phải ghi chú rõ trong ngoặc đơn là nó đang bổ trợ cho từ/cụm từ nào trong câu (ví dụ chỉ thời gian, địa điểm, mục đích, bổ trợ cho động từ chính v.v.). Ví dụ: [S] The manager / [V] will review / [O] the report / [M] tomorrow (bổ trợ thời gian cho will review). Sau đó giải thích từ loại cần điền.'}",
-          "vietnamese_translation": "${selectedPart === '7' ? 'Dịch nghĩa câu hỏi và 4 đáp án sang tiếng Việt. BẮT BUỘC chèn ký tự xuống dòng (\\\\n) trước mỗi đáp án A, B, C, D để tách biệt.' : 'Dịch nghĩa toàn bộ câu hỏi (bao gồm đáp án đúng đã được điền vào chỗ trống) sang tiếng Việt thật tự nhiên.'}",
+          "sentence_structure_analysis": "${sentenceAnalysisPrompt}",
+          "vietnamese_translation": "${translationPrompt}",
           "explanation": {
-            "grammar_rule": "${selectedPart === '7' ? 'Kỹ năng Đọc hiểu (Ví dụ: Hiểu ý đồ người viết, Suy luận thông tin chéo, Định vị chi tiết cụ thể...).' : 'Chủ điểm ngữ pháp áp dụng. YÊU CẦU: Ghi RẤT NGẮN GỌN tên chủ điểm (Ví dụ: Sự hòa hợp Chủ-Vị, Rút gọn mệnh đề, Câu điều kiện loại 1). TUYỆT ĐỐI KHÔNG dùng các từ dư thừa như \\"Bẫy chuyên sâu về\\", \\"Kiểm tra kiến thức về\\" ở đầu.'}",
-            "keywords": "${selectedPart === '7' ? 'TRÍCH DẪN ĐÚNG CÂU VĂN chứa thông tin quyết định đáp án (VD: Nằm ở [Đoạn 2]: The event will be postponed...).' : 'TRÍCH XUẤT CHÍNH XÁC CÁC TỪ KHÓA/DẤU HIỆU NHẬN BIẾT trong câu (ví dụ: next Monday, upcoming, recently, v.v.).'}",
-            "why_correct": "${selectedPart === '7' ? 'Giải thích chi tiết CÂU ĐÚNG NẰM Ở ĐOẠN NÀO TRONG BÀI, VÀ TẠI SAO NÓ ĐÚNG. Nếu có paraphrase thì phải chỉ rõ từ nào trong bài ứng với từ nào trong đáp án.' : 'Giải thích chi tiết lý do chọn đáp án này. BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC bắt đầu bằng việc ghi rõ "Dịch nghĩa: [nghĩa của đáp án]". Kế tiếp, BẮT BUỘC phải dùng ký tự xuống dòng (\\\\n) để tách biệt phần Dịch nghĩa và phần Giải thích. Ví dụ: Dịch nghĩa: đang thực hiện.\\\\nVì đây là sự việc đang diễn ra... Riêng CÂU TỪ VỰNG: BẮT BUỘC cho thêm 1 câu ví dụ tiếng Anh (kèm dịch) minh họa.'}",
+            "grammar_rule": "${grammarRulePrompt}",
+            "keywords": "${keywordsPrompt}",
+            "why_correct": "${whyCorrectPrompt}",
             "wrong_options_grammar_analysis": {
               "option_A": {
-                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Bản chất ngữ pháp của từ này'}",
-                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]'}"
+                "nature": "${wrongNaturePrompt}",
+                "why_faulty": "${whyFaultyPrompt}"
               },
               "option_B": {
-                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Bản chất ngữ pháp của từ này'}",
-                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]'}"
+                "nature": "${wrongNaturePrompt}",
+                "why_faulty": "${whyFaultyPrompt}"
               },
               "option_C": {
-                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Bản chất ngữ pháp của từ này'}",
-                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]'}"
+                "nature": "${wrongNaturePrompt}",
+                "why_faulty": "${whyFaultyPrompt}"
               },
               "option_D": {
-                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Bản chất ngữ pháp của từ này'}",
-                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]'}"
+                "nature": "${wrongNaturePrompt}",
+                "why_faulty": "${whyFaultyPrompt}"
               }
             },
             "trap_warning": "Cảnh báo bẫy TOEIC liên quan đến dạng câu này và mẹo nhớ nhanh."
@@ -1782,7 +1821,7 @@ TUYỆT ĐỐI TUÂN THỦ: TẤT CẢ CÁC MỤC GIẢI THÍCH, PHÂN TÍCH, D�
 LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
 1. Đối với wrong_options_grammar_analysis, loại trừ khóa tương ứng với correct_answer ra.
 2. VIẾT TOÀN BỘ NỘI DUNG PHÂN TÍCH VÀ DỊCH NGHĨA BẰNG TIẾNG VIỆT. KHÔNG DÙNG TIẾNG ANH ĐỂ GIẢI THÍCH.
-3. TRONG QUESTION_TEXT, CHỖ TRỐNG LÀ DẤU "___". TUYỆT ĐỐI KHÔNG ĐƯỢC VIẾT LỘ ĐÁP ÁN ĐÚNG VÀO TRONG CÂU HỎI. VÍ DỤ SAI: "The report ___ prepared... (trong khi đáp án đúng là prepared)". VÍ DỤ ĐÚNG: "The report ___ by each senior analyst...". LỖI NÀY LÀ KHÔNG THỂ CHẤP NHẬN ĐƯỢC.`;
+${blankRulePrompt}`;
                 const userPrompt = `Hãy khởi tạo bộ đề TOEIC chất lượng cao chuẩn ETS cho Part ${selectedPart}. NGÔN NGỮ GIẢI THÍCH LÀ TIẾNG VIỆT.`;
 
 
@@ -2279,7 +2318,7 @@ LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
         function promptSummaryChoice() {
             const totalAnswered = Object.keys(userAnswers).length;
             if (totalAnswered !== flatQuestions.length) return; // Chưa làm xong
-            if (testSize !== 'full' && selectedPart !== 'full') return; // Chỉ áp dụng cho chuẩn TOEIC (phần 5,6,7 nếu testSize = full)
+
             
             const modal = document.getElementById('summaryModal');
             const content = document.getElementById('summaryContent');
