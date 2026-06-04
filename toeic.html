@@ -540,7 +540,33 @@
                                 class="bg-slate-900/80 border border-slate-700 text-slate-300 text-[10px] uppercase tracking-wider px-2 py-1 rounded-md font-bold">Đa
                                 đoạn</span>
                         </button>
+                        <button onclick="selectPart('topic')" id="partBtn_topic"
+                            class="part-btn border border-slate-700/60 bg-slate-800/30 hover:bg-slate-700/40 text-left px-4 py-3.5 rounded-xl transition-all duration-300 flex items-center justify-between group shadow-sm">
+                            <div>
+                                <span
+                                    class="font-bold text-brand-300 block text-sm group-hover:text-brand-200 transition-colors">Theo Chủ Đề</span>
+                                <span class="text-xs text-slate-400">Theme-based Practice</span>
+                            </div>
+                            <span
+                                class="bg-slate-900/80 border border-slate-700 text-slate-300 text-[10px] uppercase tracking-wider px-2 py-1 rounded-md font-bold">Mới</span>
+                        </button>
                     </div>
+                </div>
+
+                <!-- TOPIC SELECTOR (Hidden by default) -->
+                <div id="topicSelectionContainer" class="hidden space-y-2 mt-2">
+                    <label class="block text-sm font-semibold text-slate-300">Chọn Chủ Đề</label>
+                    <select id="practiceTopicSelect" onchange="handleTopicChange()" class="w-full bg-slate-900/80 border border-slate-700/50 rounded-xl px-3 py-2.5 text-sm text-slate-200 font-semibold focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all custom-scrollbar">
+                        <option value="" disabled selected>-- Danh sách chủ đề --</option>
+                    </select>
+                </div>
+
+                <!-- SUB-TOPIC SELECTOR (Hidden by default) -->
+                <div id="subTopicSelectionContainer" class="hidden space-y-2 mt-2">
+                    <label class="block text-sm font-semibold text-slate-300">Phần Trọng Tâm (Tùy chọn)</label>
+                    <select id="practiceSubTopicSelect" class="w-full bg-slate-900/80 border border-slate-700/50 rounded-xl px-3 py-2.5 text-sm text-slate-200 font-semibold focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all custom-scrollbar">
+                        <option value="all">Tất cả phần trọng tâm (Mặc định)</option>
+                    </select>
                 </div>
 
                 <!-- TEST SIZE CONFIGURATION -->
@@ -909,64 +935,42 @@
         </section>
     </main>
 
-    <!-- SUMMARY MODAL -->
-    <div id="summaryModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
-            <button onclick="document.getElementById('summaryModal').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors bg-slate-800 p-2 rounded-full w-8 h-8 flex items-center justify-center">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <div class="text-center space-y-2 mb-6">
-                <div class="w-16 h-16 bg-gradient-to-br from-brand-500 to-indigo-600 rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-lg shadow-brand-500/20 mb-4">
-                    <i class="fa-solid fa-ranking-star text-white"></i>
-                </div>
-                <h2 class="text-2xl font-black text-white tracking-tight">Báo Cáo Phân Tích Năng Lực</h2>
-                <p class="text-slate-400 text-sm">AI Tutor đã tổng hợp chi tiết kết quả làm bài của bạn</p>
-            </div>
-            
-            <div id="summaryContent" class="text-sm text-slate-300 leading-relaxed space-y-5">
-                <div class="flex items-center justify-center py-10 text-brand-400 gap-3">
-                    <i class="fa-solid fa-spinner animate-spin text-xl"></i>
-                    <span class="font-semibold">AI đang phân tích dữ liệu, vui lòng đợi...</span>
-                </div>
-            </div>
-            
-            <div class="mt-8 pt-6 border-t border-slate-800 flex justify-center">
-                <button onclick="document.getElementById('summaryModal').classList.add('hidden')" class="bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-brand-500/20 transition-all flex items-center gap-2">
-                    <i class="fa-solid fa-check"></i> Đã Hiểu
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- GRAMMAR LESSON MODAL -->
-    <div id="grammarModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md z-[110] flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8 max-w-4xl w-full max-h-[95vh] flex flex-col shadow-2xl relative">
-            <button onclick="document.getElementById('grammarModal').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors bg-slate-800 p-2 rounded-full w-8 h-8 flex items-center justify-center z-10">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <div class="text-center space-y-2 mb-6 shrink-0">
-                <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-lg shadow-indigo-500/20 mb-4">
-                    <i class="fa-solid fa-book-open-reader text-white"></i>
-                </div>
-                <h2 class="text-2xl font-black text-white tracking-tight" id="grammarModalTitle">Bài Giảng Ngữ Pháp</h2>
-            </div>
-            
-            <div id="grammarContent" class="flex-1 overflow-y-auto text-sm text-slate-300 leading-relaxed space-y-5 pr-2 custom-scrollbar">
-                <!-- AI Generated lesson goes here -->
-            </div>
-            
-            <div class="mt-6 pt-6 border-t border-slate-800 flex justify-between shrink-0">
-                <button onclick="downloadGrammarLesson()" class="bg-slate-800 hover:bg-slate-700 text-brand-300 font-bold py-3 px-6 rounded-xl shadow-lg transition-all flex items-center gap-2 border border-slate-700">
-                    <i class="fa-solid fa-download"></i> Tải Bài Giảng HTML
-                </button>
-                <button onclick="document.getElementById('grammarModal').classList.add('hidden')" class="bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-brand-500/20 transition-all flex items-center gap-2">
-                    <i class="fa-solid fa-check"></i> Đã Hiểu
-                </button>
-            </div>
-        </div>
-    </div>
-
     <script>
+        const TOPICS_DATA = [
+            // Ngữ pháp
+            { id: "grammar1", name: "Ngữ pháp: Danh từ" },
+            { id: "grammar2", name: "Ngữ pháp: Đại từ" },
+            { id: "grammar3", name: "Ngữ pháp: Tính từ" },
+            { id: "grammar4", name: "Ngữ pháp: Trạng từ" },
+            { id: "grammar5", name: "Ngữ pháp: Động từ" },
+            { id: "grammar6", name: "Ngữ pháp: Thì (Tenses)" },
+            { id: "grammar7", name: "Ngữ pháp: Động từ khiếm khuyết (Modal Verbs)" },
+            { id: "grammar8", name: "Ngữ pháp: Giới từ" },
+            { id: "grammar9", name: "Ngữ pháp: Thể bị động (Passive Voice)" },
+            { id: "grammar10", name: "Ngữ pháp: Phân từ (V-ing / V-ed)" },
+            { id: "grammar11", name: "Ngữ pháp: Liên từ (Conjunctions)" },
+            { id: "grammar12", name: "Ngữ pháp: Mệnh đề trạng ngữ" },
+            { id: "grammar13", name: "Ngữ pháp: Danh động từ (Gerund)" },
+
+            // Từ vựng
+            { id: "vocab_all", name: "Từ vựng: Tổng hợp toàn bộ chủ đề" }
+        ];
+
+        const ALL_VOCAB_WORDS = [
+            { topic: "Cuộc sống công sở", words: ["evaluation", "productivity", "job performance", "incentive pay", "accept responsibility", "on duty", "a routine task", "a considerable contribution", "sales result", "a remarkable achievement", "minimum wage", "take a leave", "night shift", "benefit", "ask for a transfer", "receive a promotion", "early retirement", "colleague", "supervisor", "executive", "v.v..."] },
+            { topic: "Công ty, Doanh nghiệp", words: ["strategy", "operation", "management", "policy", "department", "Human Resources", "administration", "accounting", "sale", "headquarters", "a competitive market", "negotiation", "global competition", "a new project", "close a contract", "cancellation", "contract extension", "an annual budget", "finance", "make a profit", "v.v..."] },
+            { topic: "Mua sắm", words: ["online order", "make a purchase", "in bulk", "an annual subscription", "payment", "in installments", "credit card", "offer a discount", "expiration date", "a one-year warranty", "same-day delivery", "track a shipment", "delivery charge", "by courier", "confirm receipt", "serious damage", "claim a refund", "out of stock", "replacement parts", "compensation", "v.v..."] },
+            { topic: "Bất động sản, Tài chính", words: ["convenient location", "easy accessibility", "in the proximity", "give an estimate", "property prices", "pay a rent", "lose a deposit", "lease contract", "real estate agency", "tenant", "bank account", "mortgage rates", "apply for a loan", "a travel expense", "consumer spending", "cash reimbursement", "investment", "raise a fund", "a shareholder meeting", "first-quarter revenue", "v.v..."] },
+            { topic: "Xin việc, Tuyển dụng", words: ["apply for a job", "attend a job fair", "contact the HR", "graduate from the university", "meet the requirements", "complete the form", "submit an application", "demonstrate your skill", "practice for an interview", "predict interview questions", "post a job opening", "accept the application", "schedule an interview", "review a resume", "organize an interview", "conduct an interview", "interview job candidates", "hire an intern", "offer a job", "consider him for a position", "v.v..."] },
+            { topic: "Hoạt động doanh nghiệp, Phân phối", words: ["obtain the funds", "establish a company", "expand the business", "acquire a company", "merge with a rival bank", "reorganize the structure", "dismiss the staff", "bid for a contract", "outsource the work", "enter into negotiations", "manufacture cars", "construct a building", "provide financing", "cater a banquet", "publish books", "design the website", "recruit employees", "retail the sportswear", "distribute the products", "ship the goods", "v.v..."] },
+            { topic: "Dịch vụ khách hàng, Thư viện, Cửa hàng", words: ["borrow books", "request a new book", "charge a late fee", "pay a fine", "write a script", "edit a journal", "reserve a meeting room", "subscribe to a magazine", "cancel the subscription", "renew the subscription", "sell items", "operate a store", "raise the price", "improve customer service", "maintain a good reputation", "apologize for the inconvenience", "return the products", "exchange an item", "complain about the service", "v.v..."] },
+            { topic: "Công tác, Sự kiện từ thiện", words: ["manager's approval", "book accommodation", "make a reservation", "travel arrangements", "the travel itinerary", "schedule conflict", "agenda", "an awards ceremony", "annual conference", "give a presentation", "proceeds", "make a donation", "the main sponsor", "volunteer", "a voluntary organization", "generous support", "a rewarding experience", "a charity event", "hold a fundraiser", "benefit the local community", "v.v..."] },
+            { topic: "Sản phẩm mới, Tri ân", words: ["introduce a new logo", "release a new car", "include new features", "promote a new product", "increase brand awareness", "attract customer", "advertise our service", "launch a TV ad campaign", "hold a promotional event", "implement marketing strategy", "appreciate customers", "express appreciation", "win a prize", "give a complimentary voucher", "redeem the coupon", "serve free snacks", "reduce the price", "save money", "buy 1 get 1 free", "receive a discount", "v.v..."] },
+            { topic: "Đánh giá sản phẩm", words: ["a leading brand", "innovative products", "attractive design", "the latest version", "be comparable to", "can be customized", "be compatible with", "fragile items", "too complicated to use", "defective goods", "a popular model", "extremely successful", "a noticeable sales increase", "remarkable development", "outstanding performance", "efficient software systems", "cost-effective", "in various colors", "reliable service", "for practical use", "v.v..."] },
+            { topic: "Tần suất, Thời gian", words: ["often", "always", "usually", "normally", "generally", "periodically", "regularly", "rarely", "hardly", "occasionally", "later", "currently", "as originally", "have already", "previously", "recently", "initially", "promptly", "urgently", "immediately", "v.v..."] },
+            { topic: "Mức độ, Quyết định", words: ["completely", "extremely", "considerably", "heavily", "fairly", "fell sharply", "dramatically increased", "rise steadily", "slightly reduced", "gradually improved", "consistently excellent", "still good", "work cooperatively", "haven't decided yet", "may be employed permanently", "will choose carefully", "officially announce", "have to move abroad", "inform her accordingly", "finally reached an agreement", "v.v..."] }
+        ];
+
         /* STATE VARIABLES */
         let apiKey = '';
         let selectedPart = '5';
@@ -997,6 +1001,18 @@
         /* ON LOAD INITIALIZATION */
         window.onload = function () {
             applyStoredTheme();
+            
+            // Populate Topics
+            const topicSelect = document.getElementById('practiceTopicSelect');
+            if (topicSelect) {
+                TOPICS_DATA.forEach(t => {
+                    const opt = document.createElement('option');
+                    opt.value = t.id;
+                    opt.textContent = t.name;
+                    topicSelect.appendChild(opt);
+                });
+            }
+
             const savedModel = localStorage.getItem('toeic_ai_model');
             if (savedModel && document.querySelector(`#aiModelSelect option[value="${savedModel}"]`)) {
                 document.getElementById('aiModelSelect').value = savedModel;
@@ -1234,15 +1250,68 @@
 
             const testSizeContainer = document.getElementById('testSizeContainer');
             if (testSizeContainer) {
-                if (partNum === '5') {
-                    testSizeContainer.style.display = 'none';
-                    setTestSize('full'); // 30 questions
-                } else if (partNum === '7') {
+                if (partNum === '7') {
                     testSizeContainer.style.display = 'none';
                     setTestSize('mini');
                 } else {
                     testSizeContainer.style.display = 'block';
                 }
+            }
+            
+            const topicContainer = document.getElementById('topicSelectionContainer');
+            const subTopicContainer = document.getElementById('subTopicSelectionContainer');
+            if (topicContainer) {
+                if (partNum === 'topic') {
+                    topicContainer.classList.remove('hidden');
+                    if (typeof handleTopicChange === 'function') handleTopicChange();
+                } else {
+                    topicContainer.classList.add('hidden');
+                    if (subTopicContainer) subTopicContainer.classList.add('hidden');
+                }
+            }
+        }
+
+        function handleTopicChange() {
+            const topic = document.getElementById('practiceTopicSelect').value;
+            const subTopicContainer = document.getElementById('subTopicSelectionContainer');
+            const subTopicSelect = document.getElementById('practiceSubTopicSelect');
+            if (!subTopicContainer || !subTopicSelect) return;
+
+            subTopicSelect.innerHTML = '<option value="all">Tất cả phần trọng tâm (Mặc định)</option>';
+            let hasSubTopics = false;
+
+            if (topic === 'grammar1') {
+                subTopicSelect.innerHTML += `
+                    <option value="pos">1. Vị trí danh từ</option>
+                    <option value="suffix">2. Dấu hiệu nhận biết (Hậu tố)</option>
+                    <option value="count">3. Danh từ đếm được và không đếm được</option>
+                    <option value="plural">4. Danh từ số ít và số nhiều</option>
+                    <option value="compound">5. Danh từ ghép (Compound nouns)</option>
+                `;
+                hasSubTopics = true;
+            } else if (topic === 'grammar2') {
+                subTopicSelect.innerHTML += `
+                    <option value="personal_reflexive">1. Bảng đại từ (Chủ ngữ, Tính từ sở hữu, Tân ngữ, Đại từ sở hữu, Đại từ phản thân)</option>
+                    <option value="demonstrative">2. Đại từ chỉ định (This/That/These/Those)</option>
+                    <option value="indefinite">3. Đại từ bất định (Anybody, Everybody, Nobody, Somebody, Anyone, Everyone, No one, Someone, Anything, Everything, Nothing, Something)</option>
+                    <option value="quantity">4. Đại từ bất định chỉ số lượng (some, any, most, all, none, both, several, each, many, much + of the)</option>
+                `;
+                hasSubTopics = true;
+            } else if (topic === 'grammar3') {
+                subTopicSelect.innerHTML += `
+                    <option value="pos">1. Vị trí tính từ</option>
+                    <option value="suffix">2. Phân biệt đuôi tính từ</option>
+                    <option value="participle">3. Tính từ phân từ (-ing / -ed)</option>
+                    <option value="confusing">4. Các cặp tính từ dễ nhầm lẫn</option>
+                    <option value="quantity">5. Tính từ chỉ số lượng</option>
+                `;
+                hasSubTopics = true;
+            }
+
+            if (hasSubTopics && selectedPart === 'topic') {
+                subTopicContainer.classList.remove('hidden');
+            } else {
+                subTopicContainer.classList.add('hidden');
             }
         }
 
@@ -1549,6 +1618,14 @@
                 return;
             }
 
+            if (selectedPart === 'topic') {
+                const topicSelect = document.getElementById('practiceTopicSelect');
+                if (!topicSelect.value) {
+                    alert("Vui lòng chọn một chủ đề để luyện tập.");
+                    return;
+                }
+            }
+
             // Hide previous screens and show loader
             document.getElementById('welcomeScreen').classList.add('hidden');
             document.getElementById('examContainer').classList.add('hidden');
@@ -1560,12 +1637,12 @@
             generateBtn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin"></i> Đang tải đề...`;
 
             let qCount = 5;
-            if (selectedPart === '5') {
+            if (selectedPart === '5' || selectedPart === 'topic') {
                 qCount = (testSize === 'mini') ? 5 : 30;
             } else if (selectedPart === '6') {
                 qCount = (testSize === 'mini') ? 1 : 4;
             } else if (selectedPart === '7') {
-                qCount = (testSize === 'mini') ? 1 : 12; // 1 passage for mini, 12 for full
+                qCount = (testSize === 'mini') ? 5 : 12; // 5 passages for mini, 12 for full
             }
 
             const keysArray = apiKey.split(',').map(k => k.trim()).filter(k => k);
@@ -1584,6 +1661,8 @@
                 maxChunkSize = 1;
             } else if (selectedPart === '7') {
                 maxChunkSize = 1;
+            } else if (selectedPart === 'topic') {
+                maxChunkSize = isGroq ? 2 : 5;
             }
 
             let tasksConfig = [];
@@ -1604,7 +1683,113 @@
                 let vocabCount = 0;
 
                 let description = "";
-                if (selectedPart === '5') {
+                if (selectedPart === 'topic') {
+                    const topicSelect = document.getElementById('practiceTopicSelect');
+                    const selectedTopicData = TOPICS_DATA.find(t => t.id === topicSelect.value);
+                    const topicName = selectedTopicData.name;
+                    
+                    if (topicSelect.value.startsWith('grammar')) {
+                        const subTopicSelectEl = document.getElementById('practiceSubTopicSelect');
+                        const selectedSubTopic = subTopicSelectEl && !document.getElementById('subTopicSelectionContainer').classList.contains('hidden') ? subTopicSelectEl.value : 'all';
+
+                        let extraGrammarInstruction = "";
+                        if (topicSelect.value === 'grammar1') {
+                            const p1 = "1. Vị trí danh từ: Đứng sau mạo từ (a/an/the), đứng sau tính từ, hoặc làm tân ngữ đứng sau động từ.";
+                            const p2 = "2. Dấu hiệu nhận biết (Hậu tố): Phân biệt các đuôi danh từ chỉ sự vật/sự việc (-ment, -ness, -ance, -ence, -tion, -sion, -ship, -ism, -ice, -age, -hood, -ure, -ry, -ty) và đuôi chỉ người (-or, -er, -ee).";
+                            const p3 = "3. Danh từ đếm được và không đếm được: Kiểm tra kiến thức sử dụng danh từ đếm được (teacher, student, town...) và danh từ không đếm được (coffee, money, information, luggage, equipment...).";
+                            const p4 = "4. Danh từ số ít và số nhiều: Bẫy danh từ đếm được số ít không được đứng một mình (bắt buộc phải có a/an/the/my...). Quy tắc thêm s/es (buses, watches, tomatoes, knives, families...) và danh từ bất quy tắc (children, men, women, v.v...).";
+                            const p5 = "5. Danh từ ghép (Compound nouns): Kiểm tra các cụm danh từ ghép thường gặp trong TOEIC (application form, bank statement, budget report, customer satisfaction, office supplies, product manual, travel itinerary, assembly line, sales result, safety standards, v.v...). (Có thể tự do mở rộng thêm các danh từ ghép khác, NHƯNG BẮT BUỘC PHẢI LÀ TỪ VỰNG THƯỜNG GẶP TRONG BÀI THI TOEIC).";
+                            
+                            if (selectedSubTopic === 'all') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG CHO CHỦ ĐỀ DANH TỪ: Bắt buộc các câu hỏi phải phủ đều các mảng kiến thức sau:\n${p1}\n${p2}\n${p3}\n${p4}\n${p5}`;
+                            } else if (selectedSubTopic === 'pos') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p1}`;
+                            } else if (selectedSubTopic === 'suffix') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p2}`;
+                            } else if (selectedSubTopic === 'count') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p3}`;
+                            } else if (selectedSubTopic === 'plural') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p4}`;
+                            } else if (selectedSubTopic === 'compound') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p5}`;
+                            }
+                        } else if (topicSelect.value === 'grammar2') {
+                            const p1 = "1. Bảng đại từ (Nhân xưng, Sở hữu, Phản thân): Bẫy điền khuyết dựa theo NGÔI (thứ nhất, hai, ba), SỐ LƯỢNG (ít, nhiều), GIỚI TÍNH (nam, nữ, vật). Phân biệt cực kỳ rõ ràng vị trí của: Chủ ngữ (I, we, you, he, she, it, they), Tân ngữ (me, us, you, him, her, it, them), Tính từ sở hữu + Noun (my, our, your, his, her, its, their), Đại từ sở hữu đóng vai trò Noun (mine, ours, yours, his, hers, theirs), và Đại từ phản thân (myself, ourselves, yourself, yourselves, himself, herself, itself, themselves - dùng làm tân ngữ cùng chủ thể hoặc để nhấn mạnh 'by oneself/on one\\'s own').";
+                            const p2 = "2. Đại từ chỉ định: Phân biệt this/that (số ít) và these/those (số nhiều), đặc biệt là 'those' dùng để thay thế cho danh từ số nhiều đã nhắc đến hoặc cấu trúc 'those who' (những người mà).";
+                            const p3 = "3. Đại từ bất định (Người/Vật): Phân biệt và bẫy chia động từ số ít với các đại từ như anyone, everybody, nothing, something, v.v...";
+                            const p4 = "4. Đại từ bất định chỉ số lượng (+ of the): Bẫy đi với danh từ số nhiều (many, both, several, each + of the + Ns) và đi với danh từ không đếm được (much + of the + N). Dùng chung (some, any, all, most, none).";
+                            
+                            if (selectedSubTopic === 'all') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG CHO CHỦ ĐỀ ĐẠI TỪ: Bắt buộc các câu hỏi phải phủ đều các mảng kiến thức sau:\n${p1}\n${p2}\n${p3}\n${p4}`;
+                            } else if (selectedSubTopic === 'personal_reflexive') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p1}`;
+                            } else if (selectedSubTopic === 'demonstrative') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p2}`;
+                            } else if (selectedSubTopic === 'indefinite') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p3}`;
+                            } else if (selectedSubTopic === 'quantity') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p4}`;
+                            }
+                        } else if (topicSelect.value === 'grammar3') {
+                            const p1 = "1. Vị trí tính từ: Đứng trước danh từ (Adj + N), hoặc đứng sau động từ liên kết (be/become/remain + Adj), hoặc bổ ngữ cho tân ngữ (keep/find/consider/make/leave + O + Adj).";
+                            const p2 = "2. Phân biệt đuôi tính từ: -able, -ous, -ive, -ful, -y, -less, -ic, -al. Đặc biệt bẫy các tính từ có đuôi -ly (timely, costly, friendly, likely, daily, monthly).";
+                            const p3 = "3. Tính từ phân từ (-ing / -ed): Phân biệt tính từ chủ động mang đuôi -ing (lasting, missing, existing, outstanding, rewarding, pending, leading, v.v...) và tính từ bị động mang đuôi -ed (complicated, experienced, distinguished, accomplished, crowded, limited, renowned, qualified, v.v...). (Có thể tự do mở rộng thêm các từ TOEIC khác).";
+                            const p4 = "4. Các cặp tính từ dễ nhầm lẫn: considerate/considerable, confident/confidential, favorite/favorable, managerial/manageable, proficient/profitable, responsive/responsible, reliant/reliable, respective/respectful, successive/successful, v.v... (Có thể tự do mở rộng thêm các cặp từ TOEIC khác).";
+                            const p5 = "5. Tính từ chỉ số lượng: each/every/another (+ N số ít đếm được), some/most/all/other (+ N số nhiều/không đếm được), many/few/several/both (+ N số nhiều), much/little (+ N không đếm được), no/any (dùng chung).";
+                            
+                            if (selectedSubTopic === 'all') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG CHO CHỦ ĐỀ TÍNH TỪ: Bắt buộc các câu hỏi phải phủ đều các mảng kiến thức sau:\n${p1}\n${p2}\n${p3}\n${p4}\n${p5}`;
+                            } else if (selectedSubTopic === 'pos') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p1}`;
+                            } else if (selectedSubTopic === 'suffix') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p2}`;
+                            } else if (selectedSubTopic === 'participle') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p3}`;
+                            } else if (selectedSubTopic === 'confusing') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p4}`;
+                            } else if (selectedSubTopic === 'quantity') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p5}`;
+                            }
+                        }
+                        description = `Sinh đúng ${taskQCount} câu hỏi trắc nghiệm độc lập (Part 5 TOEIC format). BẮT BUỘC TẤT CẢ CÁC CÂU HỎI PHẢI LÀ CÂU HỎI NGỮ PHÁP TẬP TRUNG HOÀN TOÀN VÀO CHỦ ĐIỂM: "${topicName}". \nYÊU CẦU ĐẶC BIỆT: Đây là dạng bài ôn tập ngữ pháp chuyên sâu. Không trộn lẫn từ vựng, chỉ tập trung kiểm tra cấu trúc và ngữ pháp của "${topicName}".${extraGrammarInstruction}`;
+                    } else {
+                        let availableVocabIndices = [];
+                        try {
+                            availableVocabIndices = JSON.parse(localStorage.getItem('toeicAvailableVocabIndices') || "[]");
+                        } catch (e) {
+                            availableVocabIndices = [];
+                        }
+
+                        if (availableVocabIndices.length < taskQCount) {
+                            let allIndices = Array.from({length: ALL_VOCAB_WORDS.length}, (_, i) => i);
+                            for (let i = allIndices.length - 1; i > 0; i--) {
+                                const j = Math.floor(Math.random() * (i + 1));
+                                [allIndices[i], allIndices[j]] = [allIndices[j], allIndices[i]];
+                            }
+                            // Merge with any remaining to ensure we have enough, removing duplicates if necessary
+                            // A simple overwrite is fine because ALL_VOCAB_WORDS.length (12) > max taskQCount (5)
+                            availableVocabIndices = allIndices; 
+                        }
+
+                        let selectedVocabTopics = [];
+                        for (let i = 0; i < taskQCount; i++) {
+                            let idx = availableVocabIndices.shift();
+                            selectedVocabTopics.push(ALL_VOCAB_WORDS[idx]);
+                        }
+                        localStorage.setItem('toeicAvailableVocabIndices', JSON.stringify(availableVocabIndices));
+                        
+                        let topicInstructions = "";
+                        selectedVocabTopics.forEach((t, idx) => {
+                            topicInstructions += `\nCâu ${idx + 1}: Chủ đề "${t.topic}". Các từ vựng gợi ý: [ ${t.words.join(", ")} ]`;
+                        });
+
+                        description = `Sinh đúng ${taskQCount} câu hỏi trắc nghiệm độc lập (Part 5 TOEIC format). BẮT BUỘC TẤT CẢ CÁC CÂU HỎI PHẢI LÀ CÂU HỎI TỪ VỰNG.
+YÊU CẦU ĐẶC BIỆT: Đây là bài ôn tập từ vựng tổng hợp chuẩn TOEIC. BẮT BUỘC bạn phải thiết kế MỖI CÂU HỎI THEO MỘT CHỦ ĐỀ RIÊNG BIỆT được chỉ định dưới đây. Bạn hãy ưu tiên sử dụng các từ vựng trong danh sách gợi ý của từng câu để làm ĐÁP ÁN ĐÚNG hoặc xây dựng thành CÂU HỎI. (Lưu ý chữ "v.v..." nghĩa là bạn hoàn toàn có thể thêm các từ vựng TOEIC mới ngoài danh sách).
+CHI TIẾT CHỦ ĐỀ TỪNG CÂU HỎI:${topicInstructions}
+
+Đảm bảo 4 lựa chọn A/B/C/D của mỗi câu phải là 4 TỪ KHÁC NHAU HOÀN TOÀN VỀ NGHĨA.`;
+                    }
+                } else if (selectedPart === '5') {
                     if (remainingVocabNeeded > 0) {
                         // Tính toán số câu từ vựng cho chunk này để phân bổ đều
                         vocabCount = Math.min(remainingVocabNeeded, Math.round(taskQCount / 6));
@@ -1731,42 +1916,6 @@ Sinh 5 câu hỏi trắc nghiệm đa dạng. YÊU CẦU ĐẶC BIỆT: Các câ
                     ? `\n⚠️ QUY TẮC TỪ VỰNG PART 5: BẮT BUỘC phải có CHÍNH XÁC ${vocabCount} câu THUẦN TỪ VỰNG. Câu từ vựng là câu mà 4 lựa chọn A/B/C/D là 4 TỪ KHÁC NHAU HOÀN TOÀN VỀ NGHĨA. ĐẶC BIỆT CHÚ Ý: Hãy sử dụng các từ vựng nâng cao, từ lạ (nhưng vẫn hay xuất hiện trong các đề thi TOEIC thực tế độ khó cao). KHÔNG dùng các từ vựng quá cơ bản.`
                     : '';
 
-                const questionTextPrompt = selectedPart === '7' 
-                    ? 'Nội dung câu hỏi đọc hiểu đầy đủ (Ví dụ: What is the main purpose of the email?). TUYỆT ĐỐI KHÔNG DÙNG chỗ trống gạch dưới (___).' 
-                    : 'Nội dung câu hỏi đầy đủ. QUY TẮC CỨNG: BẮT BUỘC PHẢI CHỨA CHỖ TRỐNG \\"___\\" (3 dấu gạch dưới) ĐỂ HỌC VIÊN ĐIỀN VÀO. TUYỆT ĐỐI KHÔNG để lộ đáp án đúng. Nếu không có chỗ trống \\"___\\", ĐỀ SẼ BỊ VỨT ĐI.';
-                
-                const sentenceAnalysisPrompt = selectedPart === '7' 
-                    ? 'Phân tích kỹ lưỡng loại câu hỏi (ví dụ: Câu hỏi Chi tiết, Suy luận, Tìm ý chính, Từ vựng ngữ cảnh). Giải thích sơ lược chiến thuật làm dạng câu này.' 
-                    : 'MỔ XẺ CẤU TRÚC CÂU: Phân tích thành phần câu thật trực quan sử dụng chuẩn viết tắt [S] (Chủ ngữ), [V] (Động từ chính), [O] (Tân ngữ), [M] (Trạng từ/Trạng ngữ/Cụm từ bổ trợ). Đối với [M], BẮT BUỘC phải ghi chú rõ trong ngoặc đơn là nó đang bổ trợ cho từ/cụm từ nào trong câu (ví dụ chỉ thời gian, địa điểm, mục đích, bổ trợ cho động từ chính v.v.). Ví dụ: [S] The manager / [V] will review / [O] the report / [M] tomorrow (bổ trợ thời gian cho will review). Sau đó giải thích từ loại cần điền.';
-                
-                const translationPrompt = selectedPart === '7' 
-                    ? 'Dịch nghĩa câu hỏi và 4 đáp án sang tiếng Việt. BẮT BUỘC chèn ký tự xuống dòng (\\\\n) trước mỗi đáp án A, B, C, D để tách biệt.' 
-                    : 'Dịch nghĩa toàn bộ câu hỏi (bao gồm đáp án đúng đã được điền vào chỗ trống) sang tiếng Việt thật tự nhiên.';
-                
-                const grammarRulePrompt = selectedPart === '7' 
-                    ? 'Kỹ năng Đọc hiểu (Ví dụ: Hiểu ý đồ người viết, Suy luận thông tin chéo, Định vị chi tiết cụ thể...).' 
-                    : 'Chủ điểm ngữ pháp áp dụng. YÊU CẦU: Ghi RẤT NGẮN GỌN tên chủ điểm (Ví dụ: Sự hòa hợp Chủ-Vị, Rút gọn mệnh đề, Câu điều kiện loại 1). TUYỆT ĐỐI KHÔNG dùng các từ dư thừa như \\"Bẫy chuyên sâu về\\", \\"Kiểm tra kiến thức về\\" ở đầu.';
-                
-                const keywordsPrompt = selectedPart === '7' 
-                    ? 'TRÍCH DẪN ĐÚNG CÂU VĂN chứa thông tin quyết định đáp án (VD: Nằm ở [Đoạn 2]: The event will be postponed...).' 
-                    : 'TRÍCH XUẤT CHÍNH XÁC CÁC TỪ KHÓA/DẤU HIỆU NHẬN BIẾT trong câu (ví dụ: next Monday, upcoming, recently, v.v.).';
-                
-                const whyCorrectPrompt = selectedPart === '7' 
-                    ? 'Giải thích chi tiết CÂU ĐÚNG NẰM Ở ĐOẠN NÀO TRONG BÀI, VÀ TẠI SAO NÓ ĐÚNG. Nếu có paraphrase thì phải chỉ rõ từ nào trong bài ứng với từ nào trong đáp án.' 
-                    : 'Giải thích chi tiết lý do chọn đáp án này. BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC bắt đầu bằng việc ghi rõ \\"Dịch nghĩa: [nghĩa của đáp án]\\". Kế tiếp, BẮT BUỘC phải dùng ký tự xuống dòng (\\\\n) để tách biệt phần Dịch nghĩa và phần Giải thích. Ví dụ: Dịch nghĩa: đang thực hiện.\\\\nVì đây là sự việc đang diễn ra... Riêng CÂU TỪ VỰNG: BẮT BUỘC cho thêm 1 câu ví dụ tiếng Anh (kèm dịch) minh họa.';
-                
-                const wrongNaturePrompt = selectedPart === '7' 
-                    ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' 
-                    : 'Bản chất ngữ pháp của từ này';
-                
-                const whyFaultyPrompt = selectedPart === '7' 
-                    ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' 
-                    : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]';
-                
-                const blankRulePrompt = selectedPart === '7' 
-                    ? '3. TRONG QUESTION_TEXT, TUYỆT ĐỐI KHÔNG SỬ DỤNG CHỖ TRỐNG. Câu hỏi phải là một câu hoàn chỉnh, ví dụ: \\"What is the main topic of the memo?\\".' 
-                    : '3. TRONG QUESTION_TEXT, CHỖ TRỐNG LÀ DẤU \\"___\\". TUYỆT ĐỐI KHÔNG ĐƯỢC VIẾT LỘ ĐÁP ÁN ĐÚNG VÀO TRONG CÂU HỎI. VÍ DỤ SAI: \\"The report ___ prepared... (trong khi đáp án đúng là prepared)\\". VÍ DỤ ĐÚNG: \\"The report ___ by each senior analyst...\\". LỖI NÀY LÀ KHÔNG THỂ CHẤP NHẬN ĐƯỢC.';
-
                 const systemPrompt = `Bạn là một Đại cao thủ luyện thi TOEIC 990 và là chuyên gia ngôn ngữ xuất sắc. Nhiệm vụ của bạn là biên soạn đề thi luyện tập hướng tới mức điểm 750+ cho học viên. Các bài đọc, từ vựng và câu hỏi phải có độ khó cao, mang tính phân loại thí sinh.
 QUY TẮC SỐNG CÒN VỀ LOGIC NGỮ NGHĨA: BẮT BUỘC đáp án đúng ghép vào câu phải tạo ra một câu hoàn toàn HỢP LÝ VỀ MẶT THỰC TẾ. Tuyệt đối không được nhắm mắt thiết kế câu chỉ để thỏa mãn ngữ pháp mà bỏ qua ý nghĩa (Ví dụ CẤM tạo câu: "Mặc dù thời tiết xấu, buổi hòa nhạc đã bị dời lại" -> Sai logic trầm trọng, phải là "Bởi vì"). Cả 4 đáp án và nội dung câu hỏi phải logic với nhau.
 QUY TẮC SỐNG CÒN VỀ TÍNH DUY NHẤT: Trong 4 lựa chọn (A, B, C, D), BẮT BUỘC CHỈ CÓ DUY NHẤT 1 ĐÁP ÁN ĐÚNG. Ba đáp án còn lại phải SAI HOÀN TOÀN về mặt ngữ pháp hoặc ngữ nghĩa. TUYỆT ĐỐI KHÔNG tạo ra tình huống có 2 từ đều đúng ngữ pháp và ý nghĩa rồi viện cớ "từ này phổ biến hơn", "từ này trang trọng hơn" (Ví dụ: cho cả "much" và "far" vào câu nhấn mạnh so sánh hơn là ĐỀ LỖI). ĐÚNG LÀ ĐÚNG, SAI LÀ SAI. Không có khái niệm "ưu tiên".
@@ -1783,31 +1932,31 @@ TUYỆT ĐỐI TUÂN THỦ: TẤT CẢ CÁC MỤC GIẢI THÍCH, PHÂN TÍCH, D�
       "questions": [
         {
           "question_number": [Số thứ tự câu hỏi tăng dần từ 1],
-          "question_text": "${questionTextPrompt}",
+          "question_text": "Nội dung câu hỏi đầy đủ. QUY TẮC CỨNG: BẮT BUỘC PHẢI CHỨA CHỖ TRỐNG '___' (3 dấu gạch dưới) ĐỂ HỌC VIÊN ĐIỀN VÀO. TUYỆT ĐỐI KHÔNG để lộ đáp án đúng (dù đáp án nằm ở đầu câu hay giữa câu). Nếu không có chỗ trống '___', ĐỀ SẼ BỊ VỨT ĐI.",
           "options": { "A": "Đáp án A", "B": "Đáp án B", "C": "Đáp án C", "D": "Đáp án D" },
           "correct_answer": "Đáp án đúng (chỉ ghi A, B, C hoặc D)",
-          "sentence_structure_analysis": "${sentenceAnalysisPrompt}",
-          "vietnamese_translation": "${translationPrompt}",
+          "sentence_structure_analysis": "${selectedPart === '7' ? 'Phân tích kỹ lưỡng loại câu hỏi (ví dụ: Câu hỏi Chi tiết, Suy luận, Tìm ý chính, Từ vựng ngữ cảnh). Giải thích sơ lược chiến thuật làm dạng câu này.' : 'MỔ XẺ CẤU TRÚC CÂU: Phân tích thành phần câu thật trực quan sử dụng chuẩn viết tắt [S] (Chủ ngữ), [V] (Động từ chính), [O] (Tân ngữ), [M] (Trạng từ/Trạng ngữ/Cụm từ bổ trợ). Đối với [M], BẮT BUỘC phải ghi chú rõ trong ngoặc đơn là nó đang bổ trợ cho từ/cụm từ nào trong câu (ví dụ chỉ thời gian, địa điểm, mục đích, bổ trợ cho động từ chính v.v.). Ví dụ: [S] The manager / [V] will review / [O] the report / [M] tomorrow (bổ trợ thời gian cho will review). Sau đó giải thích từ loại cần điền.'}",
+          "vietnamese_translation": "${selectedPart === '7' ? 'Dịch nghĩa câu hỏi và 4 đáp án sang tiếng Việt. BẮT BUỘC chèn ký tự xuống dòng (\\\\n) trước mỗi đáp án A, B, C, D để tách biệt.' : 'Dịch nghĩa toàn bộ câu hỏi (bao gồm đáp án đúng đã được điền vào chỗ trống) sang tiếng Việt thật tự nhiên.'}",
           "explanation": {
-            "grammar_rule": "${grammarRulePrompt}",
-            "keywords": "${keywordsPrompt}",
-            "why_correct": "${whyCorrectPrompt}",
+            "grammar_rule": "${selectedPart === '7' ? 'Kỹ năng Đọc hiểu (Ví dụ: Hiểu ý đồ người viết, Suy luận thông tin chéo, Định vị chi tiết cụ thể...).' : 'Chủ điểm ngữ pháp áp dụng. YÊU CẦU: Ghi RẤT NGẮN GỌN tên chủ điểm (Ví dụ: Sự hòa hợp Chủ-Vị, Rút gọn mệnh đề, Câu điều kiện loại 1). TUYỆT ĐỐI KHÔNG dùng các từ dư thừa như \\"Bẫy chuyên sâu về\\", \\"Kiểm tra kiến thức về\\" ở đầu.'}",
+            "keywords": "${selectedPart === '7' ? 'TRÍCH DẪN ĐÚNG CÂU VĂN chứa thông tin quyết định đáp án (VD: Nằm ở [Đoạn 2]: The event will be postponed...).' : 'TRÍCH XUẤT CHÍNH XÁC CÁC TỪ KHÓA/DẤU HIỆU NHẬN BIẾT trong câu (ví dụ: next Monday, upcoming, recently, v.v.).'}",
+            "why_correct": "${selectedPart === '7' ? 'Giải thích chi tiết CÂU ĐÚNG NẰM Ở ĐOẠN NÀO TRONG BÀI, VÀ TẠI SAO NÓ ĐÚNG. Nếu có paraphrase thì phải chỉ rõ từ nào trong bài ứng với từ nào trong đáp án.' : 'Giải thích chi tiết lý do chọn đáp án này. BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC bắt đầu bằng việc ghi rõ "Dịch nghĩa: [nghĩa của đáp án]". Kế tiếp, BẮT BUỘC phải dùng ký tự xuống dòng (\\\\n) để tách biệt phần Dịch nghĩa và phần Giải thích. Ví dụ: Dịch nghĩa: đang thực hiện.\\\\nVì đây là sự việc đang diễn ra... Riêng CÂU TỪ VỰNG: BẮT BUỘC cho thêm 1 câu ví dụ tiếng Anh (kèm dịch) minh họa.'}",
             "wrong_options_grammar_analysis": {
               "option_A": {
-                "nature": "${wrongNaturePrompt}",
-                "why_faulty": "${whyFaultyPrompt}"
+                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Bản chất ngữ pháp của từ này'}",
+                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]'}"
               },
               "option_B": {
-                "nature": "${wrongNaturePrompt}",
-                "why_faulty": "${whyFaultyPrompt}"
+                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Bản chất ngữ pháp của từ này'}",
+                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]'}"
               },
               "option_C": {
-                "nature": "${wrongNaturePrompt}",
-                "why_faulty": "${whyFaultyPrompt}"
+                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Bản chất ngữ pháp của từ này'}",
+                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]'}"
               },
               "option_D": {
-                "nature": "${wrongNaturePrompt}",
-                "why_faulty": "${whyFaultyPrompt}"
+                "nature": "${selectedPart === '7' ? 'Bản chất của đáp án sai (Ví dụ: Thông tin sai lệch, Đảo lộn thời gian/đối tượng, hoặc Không được đề cập).' : 'Bản chất ngữ pháp của từ này'}",
+                "why_faulty": "${selectedPart === '7' ? 'TẠI SAO SAI: Nếu thông tin CÓ nằm trong bài văn thì BẮT BUỘC TRÍCH DẪN câu văn gốc (chỉ rõ nằm ở Đoạn nào) và giải thích tại sao nó trái ngược/sai lệch. Nếu KHÔNG nằm trong bài thì BẮT BUỘC ghi rõ Không được đề cập (Not Given).' : 'BẤT KỂ LÀ CÂU TỪ VỰNG HAY NGỮ PHÁP, BẮT BUỘC trình bày theo cấu trúc sau (sử dụng ký tự \\\\n để xuống dòng): \\\\nDịch nghĩa: [Nghĩa tiếng Việt của đáp án này] \\\\nTại sao sai: [Giải thích lý do sai. Nếu là cấu trúc ngữ pháp, phải giải thích cách dùng chuẩn của nó] \\\\nVí dụ: [1 câu tiếng Anh chứa đáp án này (kèm dịch nghĩa)]. Riêng CÂU TỪ VỰNG phải thêm 2 dòng: \\\\nTừ đồng nghĩa: [từ] \\\\nTừ trái nghĩa: [từ]'}"
               }
             },
             "trap_warning": "Cảnh báo bẫy TOEIC liên quan đến dạng câu này và mẹo nhớ nhanh."
@@ -1821,7 +1970,7 @@ TUYỆT ĐỐI TUÂN THỦ: TẤT CẢ CÁC MỤC GIẢI THÍCH, PHÂN TÍCH, D�
 LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
 1. Đối với wrong_options_grammar_analysis, loại trừ khóa tương ứng với correct_answer ra.
 2. VIẾT TOÀN BỘ NỘI DUNG PHÂN TÍCH VÀ DỊCH NGHĨA BẰNG TIẾNG VIỆT. KHÔNG DÙNG TIẾNG ANH ĐỂ GIẢI THÍCH.
-${blankRulePrompt}`;
+3. TRONG QUESTION_TEXT, CHỖ TRỐNG LÀ DẤU "___". TUYỆT ĐỐI KHÔNG ĐƯỢC VIẾT LỘ ĐÁP ÁN ĐÚNG VÀO TRONG CÂU HỎI. VÍ DỤ SAI: "The report ___ prepared... (trong khi đáp án đúng là prepared)". VÍ DỤ ĐÚNG: "The report ___ by each senior analyst...". LỖI NÀY LÀ KHÔNG THỂ CHẤP NHẬN ĐƯỢC.`;
                 const userPrompt = `Hãy khởi tạo bộ đề TOEIC chất lượng cao chuẩn ETS cho Part ${selectedPart}. NGÔN NGỮ GIẢI THÍCH LÀ TIẾNG VIỆT.`;
 
 
@@ -1884,7 +2033,6 @@ ${blankRulePrompt}`;
                             }
 
                             success = true;
-                            window.toeicLastKeyIndex = (initialKeyIndex + tryIdx) % keysArray.length;
                             break; // Success, move to next chunk
                         } catch (err) {
                             lastErr = err;
@@ -1912,7 +2060,6 @@ ${blankRulePrompt}`;
                         mergedData.passages.push(...res.passages);
                     }
                 });
-                window.currentExamData = mergedData;
 
                 // Re-index question numbers sequentially & sanitize hallucinated answers
                 let globalNum = 1;
@@ -2270,7 +2417,6 @@ ${blankRulePrompt}`;
             }
 
             displaySelectedAnswer(ans);
-            promptSummaryChoice();
         }
 
         function displaySelectedAnswer(userAns) {
@@ -2314,462 +2460,6 @@ ${blankRulePrompt}`;
                 renderActiveQuestion();
             }
         }
-
-        function promptSummaryChoice() {
-            const totalAnswered = Object.keys(userAnswers).length;
-            if (totalAnswered !== flatQuestions.length) return; // Chưa làm xong
-
-            
-            const modal = document.getElementById('summaryModal');
-            const content = document.getElementById('summaryContent');
-            modal.classList.remove('hidden');
-            
-            content.innerHTML = `
-                <div class="text-center py-6 space-y-4">
-                    <div class="text-emerald-400 text-5xl mb-4"><i class="fa-solid fa-check-circle"></i></div>
-                    <h3 class="text-xl font-bold text-white">Chúc mừng bạn đã hoàn thành bài thi!</h3>
-                    <p class="text-slate-400 text-sm">Bạn có muốn hệ thống AI phân tích chi tiết các lỗi sai và đưa ra nhận xét không? (Quá trình này có thể tốn một lượng nhỏ API Key).</p>
-                    <div class="flex justify-center gap-4 mt-8">
-                        <button onclick="document.getElementById('summaryModal').classList.add('hidden')" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-2.5 px-6 rounded-xl transition-all border border-slate-700">Không, cảm ơn</button>
-                        <button onclick="executeAiSummary()" class="bg-brand-600 hover:bg-brand-500 text-white font-bold py-2.5 px-6 rounded-xl shadow-[0_0_15px_rgba(99,102,241,0.4)] transition-all flex items-center gap-2"><i class="fa-solid fa-robot"></i> Nhờ AI Phân Tích</button>
-                    </div>
-                </div>
-            `;
-        }
-
-        async function executeAiSummary() {
-            const modal = document.getElementById('summaryModal');
-            const content = document.getElementById('summaryContent');
-            
-            content.innerHTML = `
-                <div class="flex items-center justify-center py-10 text-brand-400 gap-3">
-                    <i class="fa-solid fa-spinner animate-spin text-xl"></i>
-                    <span class="font-semibold">Thầy giáo AI đang tổng hợp và đánh giá kết quả, vui lòng đợi...</span>
-                </div>
-            `;
-            
-            try {
-                let wrongTally = {};
-                let totalWrong = 0;
-                flatQuestions.forEach((q, idx) => {
-                    let ans = userAnswers[idx];
-                    if (ans !== q.correct_answer) {
-                        totalWrong++;
-                        let rule = (q.explanation && q.explanation.grammar_rule) ? q.explanation.grammar_rule : "Từ vựng/Khác";
-                        wrongTally[rule] = (wrongTally[rule] || 0) + 1;
-                    }
-                });
-                
-                let prompt = `Học viên vừa hoàn thành bài thi TOEIC ${flatQuestions.length} câu. Số câu sai: ${totalWrong}/${flatQuestions.length}.\n`;
-                if (totalWrong > 0) {
-                    if (selectedPart === '5') {
-                        prompt += `Dưới đây là thống kê các chủ điểm làm sai:\n`;
-                        for (let rule in wrongTally) {
-                            prompt += `- ${rule}: sai ${wrongTally[rule]} câu\n`;
-                        }
-                        prompt += `\nHãy đóng vai một người hướng dẫn TOEIC tâm huyết. Hãy phân tích bảng thống kê trên BẰNG ĐỊNH DẠNG HTML (dùng <p>, <ul>, <li>, <strong>, <br>...). Yêu cầu:
-1. Tạo một BẢNG HTML (<table>) với class Tailwind (ví dụ: w-full border-collapse border border-slate-700 bg-slate-950/50 text-slate-300) thống kê các lỗi sai và số lượng. Dòng tiêu đề bảng dùng class (bg-slate-800 text-brand-300 font-bold).
-2. Đối với MỖI chủ điểm sai trong bảng, bạn BẮT BUỘC phải thêm một nút bấm vào cột chủ điểm hoặc tạo riêng cột hành động, sử dụng ĐÚNG đoạn code HTML này (nhớ thay tên chủ điểm vào): <button onclick="fetchGrammarLesson('TÊN_CHỦ_ĐIỂM_Ở_ĐÂY')" class="bg-brand-600 hover:bg-brand-500 text-white text-[10px] uppercase font-bold px-3 py-1.5 rounded-lg ml-3 transition-all shadow-md mt-1"><i class="fa-solid fa-book-open-reader"></i> Học lại</button>
-3. Nêu rõ dạng nào học viên đang yếu nhất (sai nhiều nhất) và nhắc nhở học viên cần tập trung ôn kiến thức gì. Lời khuyên phải sâu sắc, thực tế.
-4. Viết lời động viên, khích lệ tinh thần.
-5. BẮT BUỘC kết thúc bằng lời chúc và chữ ký (sử dụng style="text-align: right; margin-top: 20px; font-style: italic; color: #94a3b8;"): "<b>Phan Gia An</b>".
-Lưu ý: TRẢ VỀ CHỈ MÃ HTML SẠCH, tuyệt đối KHÔNG bọc trong markdown (\`\`\`html). Không cần thẻ <html> hay <body>.`;
-                    } else {
-                        prompt += `Đây là bài thi Đọc Hiểu (Reading Comprehension). Hãy phân tích BẰNG ĐỊNH DẠNG HTML sạch.
-Yêu cầu:
-1. Tóm tắt kết quả bài làm và viết lời khuyên, động viên tinh thần học viên.
-2. BẮT BUỘC Đặt MỘT NÚT BẤM DUY NHẤT ở cuối phần phân tích, sử dụng chính xác mã HTML này: <div class="mt-8 text-center"><button onclick="fetchVocabLesson()" class="bg-brand-600 hover:bg-brand-500 text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-[0_0_15px_rgba(99,102,241,0.4)] transition-all flex items-center justify-center gap-2 mx-auto"><i class="fa-solid fa-language text-lg"></i> Học lại & Trích xuất Từ vựng Excel</button></div>
-3. BẮT BUỘC kết thúc bằng lời chúc và chữ ký (sử dụng style="text-align: right; margin-top: 20px; font-style: italic; color: #94a3b8;"): "<b>Phan Gia An</b>".
-Lưu ý: TRẢ VỀ CHỈ MÃ HTML SẠCH, tuyệt đối KHÔNG bọc trong markdown (\`\`\`html). Không cần thẻ <html> hay <body>.`;
-                    }
-                } else {
-                    prompt += `Tuyệt vời, học viên không sai câu nào! Hãy viết lời khen ngợi xuất sắc và động viên BẰNG ĐỊNH DẠNG HTML sạch. BẮT BUỘC kết thúc bằng chữ ký lệch phải: "<b>Phan Gia An</b>".`;
-                }
-
-                if (!apiKey) {
-                    content.innerHTML = `<p class="text-rose-400">Vui lòng cung cấp API Key để xem nhận xét từ AI.</p>`;
-                    return;
-                }
-                
-                const modelSelect = document.getElementById('aiModelSelect');
-                const selectedModel = modelSelect ? modelSelect.value : 'gemini-3.1-flash-lite';
-                const isGroq = !selectedModel.includes('gemini');
-                
-                let payload;
-                if (isGroq) {
-                    payload = {
-                        model: selectedModel,
-                        messages: [
-                            { role: "system", content: "Bạn là giáo viên TOEIC. Phản hồi hoàn toàn bằng HTML." },
-                            { role: "user", content: prompt }
-                        ],
-                        temperature: 0.7
-                    };
-                } else {
-                    payload = {
-                        contents: [{ parts: [{ text: prompt }] }],
-                        generationConfig: { temperature: 0.7 }
-                    };
-                }
-                
-                let cleanHtml = "";
-                let lastErr = null;
-                const startIndex = (window.toeicLastKeyIndex !== undefined) ? (window.toeicLastKeyIndex + 1) : 0;
-                const keysArray = apiKey.split(',').filter(k => k.trim());
-
-                for (let i = 0; i < keysArray.length; i++) {
-                    let kIndex = (startIndex + i) % keysArray.length;
-                    let currentApiKey = keysArray[kIndex].trim();
-                    const apiUrl = isGroq 
-                        ? 'https://api.groq.com/openai/v1/chat/completions' 
-                        : `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${currentApiKey}`;
-                    
-                    const headers = { 'Content-Type': 'application/json' };
-                    if (isGroq) headers['Authorization'] = `Bearer ${currentApiKey}`;
-
-                    try {
-                        const res = await fetch(apiUrl, { method: 'POST', headers: headers, body: JSON.stringify(payload) });
-                        if (!res.ok) {
-                            const errText = await res.text();
-                            throw new Error(`API lỗi ${res.status}: ${errText}`);
-                        }
-                        const data = await res.json();
-                        
-                        let textResponse = "";
-                        if (isGroq) {
-                            textResponse = data.choices?.[0]?.message?.content || "";
-                        } else {
-                            textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
-                        }
-                        
-                        cleanHtml = textResponse.replace(/^```html/i, '').replace(/^```/i, '').replace(/```$/i, '').trim();
-                        window.toeicLastKeyIndex = kIndex; // Lưu vết cho tính năng khác dùng tiếp
-                        break;
-                    } catch (err) {
-                        lastErr = err;
-                        console.warn(`Key ${currentApiKey} thất bại ở tính năng nhận xét, thử key khác...`, err);
-                    }
-                }
-
-                if (!cleanHtml) {
-                    throw new Error(lastErr ? lastErr.message : "Tất cả API Key đều thất bại hoặc hết hạn ngạch.");
-                }
-                
-                content.innerHTML = cleanHtml;
-                
-            } catch (err) {
-                console.error(err);
-                content.innerHTML = `<p class="text-rose-400 text-center"><i class="fa-solid fa-triangle-exclamation"></i> Có lỗi khi tạo báo cáo: ${err.message}</p>`;
-            }
-        }
-
-        let currentGrammarHtml = "";
-        let currentGrammarTopic = "";
-
-        async function fetchGrammarLesson(topicName) {
-            currentGrammarTopic = topicName;
-            const modal = document.getElementById('grammarModal');
-            const content = document.getElementById('grammarContent');
-            const title = document.getElementById('grammarModalTitle');
-            title.innerText = `Bài Giảng: ${topicName}`;
-            modal.classList.remove('hidden');
-            
-            content.innerHTML = `
-                <div class="flex flex-col items-center justify-center py-20 text-indigo-400 gap-4">
-                    <i class="fa-solid fa-spinner animate-spin text-4xl"></i>
-                    <span class="font-semibold text-lg text-center">Thầy giáo AI đang biên soạn bài giảng chi tiết...<br><span class="text-sm text-slate-500">Vui lòng đợi vài giây để kiến thức được tổng hợp đầy đủ!</span></span>
-                </div>
-            `;
-            currentGrammarHtml = "";
-            
-            try {
-                if (!apiKey) throw new Error("Vui lòng cung cấp API Key");
-                
-                const prompt = `Học viên TOEIC vừa làm sai câu hỏi liên quan đến chủ điểm ngữ pháp: "${topicName}". 
-Hãy soạn một bài giảng cực kỳ chi tiết, tổng hợp TẤT CẢ các kiến thức liên quan đến ngữ pháp này (Ví dụ: Nếu chủ điểm là "Thì hiện tại đơn" thì bạn phải dạy toàn bộ bảng các Thì trong tiếng Anh; Nếu là "Câu điều kiện loại 1" thì dạy toàn bộ câu điều kiện từ loại 0 đến loại 3...).
-Mục tiêu là sau khi đọc, học viên sẽ nắm vững toàn bộ hệ sinh thái của chủ điểm này.
-Yêu cầu định dạng BẰNG HTML SẠCH (không dùng markdown \`\`\`html):
-1. Dùng các thẻ <h3>, <h4> với class Tailwind (ví dụ: text-indigo-400 font-bold text-xl mt-6 mb-2).
-2. Trình bày các công thức, cấu trúc rõ ràng (dùng <div class="bg-slate-900 p-4 rounded-lg border border-slate-700 text-brand-300 font-mono my-3">).
-3. Đưa ra các ví dụ cụ thể (kèm dịch nghĩa tiếng Việt).
-4. Phải có một mục "Mẹo thi TOEIC / Dấu hiệu nhận biết".
-5. Cuối bài bắt buộc có chữ ký (lệch phải, in nghiêng, màu xám): "<b>Phan Gia An</b>".`;
-
-                const modelSelect = document.getElementById('aiModelSelect');
-                const selectedModel = modelSelect ? modelSelect.value : 'gemini-3.1-flash-lite';
-                const isGroq = !selectedModel.includes('gemini');
-                
-                let payload;
-                if (isGroq) {
-                    payload = {
-                        model: selectedModel,
-                        messages: [
-                            { role: "system", content: "Bạn là giáo viên dạy TOEIC xuất sắc. Trả lời hoàn toàn bằng HTML." },
-                            { role: "user", content: prompt }
-                        ],
-                        temperature: 0.7
-                    };
-                } else {
-                    payload = {
-                        contents: [{ parts: [{ text: prompt }] }],
-                        generationConfig: { temperature: 0.7 }
-                    };
-                }
-                
-                let cleanHtml = "";
-                let lastErr = null;
-                const startIndex = (window.toeicLastKeyIndex !== undefined) ? (window.toeicLastKeyIndex + 1) : 0;
-                const keysArray = apiKey.split(',').filter(k => k.trim());
-
-                for (let i = 0; i < keysArray.length; i++) {
-                    let kIndex = (startIndex + i) % keysArray.length;
-                    let currentApiKey = keysArray[kIndex].trim();
-                    const apiUrl = isGroq 
-                        ? 'https://api.groq.com/openai/v1/chat/completions' 
-                        : `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${currentApiKey}`;
-                    
-                    const headers = { 'Content-Type': 'application/json' };
-                    if (isGroq) headers['Authorization'] = `Bearer ${currentApiKey}`;
-
-                    try {
-                        const res = await fetch(apiUrl, { method: 'POST', headers: headers, body: JSON.stringify(payload) });
-                        if (!res.ok) {
-                            const errText = await res.text();
-                            throw new Error(`API lỗi ${res.status}: ${errText}`);
-                        }
-                        const data = await res.json();
-                        
-                        let textResponse = "";
-                        if (isGroq) {
-                            textResponse = data.choices?.[0]?.message?.content || "";
-                        } else {
-                            textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
-                        }
-                        
-                        cleanHtml = textResponse.replace(/^```html/i, '').replace(/^```/i, '').replace(/```$/i, '').trim();
-                        window.toeicLastKeyIndex = kIndex; // Lưu vết xoay vòng API
-                        break;
-                    } catch (err) {
-                        lastErr = err;
-                        console.warn(`Key ${currentApiKey} thất bại khi lấy bài giảng, thử key khác...`, err);
-                    }
-                }
-
-                if (!cleanHtml) {
-                    throw new Error(lastErr ? lastErr.message : "Tất cả API Key đều thất bại hoặc hết hạn ngạch.");
-                }
-                
-                content.innerHTML = cleanHtml;
-                currentGrammarHtml = cleanHtml;
-                
-                // Set download button for HTML
-                const dlBtn = document.querySelector('#grammarModal .fa-download, #grammarModal .fa-file-excel')?.parentNode;
-                if (dlBtn) {
-                    dlBtn.innerHTML = `<i class="fa-solid fa-download"></i> Tải Bài Giảng HTML`;
-                    dlBtn.onclick = downloadGrammarLesson;
-                }
-                
-            } catch (err) {
-                console.error(err);
-                content.innerHTML = `<p class="text-rose-400 text-center"><i class="fa-solid fa-triangle-exclamation"></i> Có lỗi khi tạo bài giảng: ${err.message}</p>`;
-            }
-        }
-
-        function downloadGrammarLesson() {
-            if (!currentGrammarHtml) {
-                alert("Chưa có bài giảng để tải xuống!");
-                return;
-            }
-            const fullHtml = `<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bài Giảng: ${currentGrammarTopic}</title>
-    <script src="https://cdn.tailwindcss.com"><\\/script>
-    <style>
-        body { background-color: #0f172a; color: #cbd5e1; font-family: sans-serif; padding: 2rem; line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; background-color: #1e293b; padding: 2rem; border-radius: 1rem; border: 1px solid #334155; }
-        h3 { font-size: 1.5rem; color: #818cf8; font-weight: bold; margin-top: 1.5rem; margin-bottom: 0.5rem; }
-        h4 { font-size: 1.2rem; color: #60a5fa; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; }
-        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-        th, td { border: 1px solid #475569; padding: 0.75rem; }
-        th { background-color: #0f172a; text-align: left; }
-    </style>
-</head>
-<body>
-    <div class="container shadow-2xl">
-        <h1 class="text-3xl font-bold text-white text-center mb-8 border-b border-slate-700 pb-4">Chuyên Đề TOEIC:<br><span class="text-brand-400">${currentGrammarTopic}</span></h1>
-        ${currentGrammarHtml}
-    </div>
-</body>
-</html>`;
-
-            const blob = new Blob([fullHtml], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Bai_Giang_TOEIC_${currentGrammarTopic.replace(/[^a-zA-Z0-9]/g, '_')}.html`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        async function fetchVocabLesson() {
-            const modal = document.getElementById('grammarModal');
-            const content = document.getElementById('grammarContent');
-            const title = document.getElementById('grammarModalTitle');
-            title.innerText = `Bộ Từ Vựng Trích Xuất (Part ${selectedPart})`;
-            modal.classList.remove('hidden');
-            
-            content.innerHTML = `
-                <div class="flex flex-col items-center justify-center py-20 text-indigo-400 gap-4">
-                    <i class="fa-solid fa-spinner animate-spin text-4xl"></i>
-                    <span class="font-semibold text-lg text-center">AI đang quét và phân tích các đoạn văn làm sai...<br><span class="text-sm text-slate-500">Đang tạo bảng từ vựng thông minh, vui lòng đợi!</span></span>
-                </div>
-            `;
-            
-            let wrongPassagesText = "";
-            let addedPassages = new Set();
-            flatQuestions.forEach((q, idx) => {
-                if (userAnswers[idx] && userAnswers[idx] !== q.correct_answer) {
-                    if (q.passage_text && !addedPassages.has(q.passage_text)) {
-                        wrongPassagesText += q.passage_text + "\\n\\n";
-                        addedPassages.add(q.passage_text);
-                    }
-                }
-            });
-
-            if (!wrongPassagesText) {
-                wrongPassagesText = "Học viên làm sai một số câu trong bài kiểm tra này.";
-            }
-
-            if (wrongPassagesText.length > 5000) {
-                wrongPassagesText = wrongPassagesText.substring(0, 5000) + "...";
-            }
-
-            try {
-                if (!apiKey) throw new Error("Vui lòng cung cấp API Key");
-                
-                const prompt = `Đây là các đoạn văn tiếng Anh mà học viên TOEIC vừa đọc và làm sai câu hỏi:\n"""\n${wrongPassagesText}\n"""\n
-Hãy trích xuất NHỮNG TỪ VỰNG QUAN TRỌNG NHẤT (khoảng 15-30 từ) từ các đoạn văn trên.
-Tạo một BẢNG HTML SẠCH (<table>) theo các yêu cầu sau:
-1. Có các cột: "Từ Vựng", "Loại Từ", "Nghĩa Tiếng Việt", "Ví dụ trích từ bài".
-2. Phân loại chi tiết Loại Từ (Danh từ, Động từ, Tính từ, Trạng từ, Danh từ ghép...).
-3. SỬ DỤNG CLASS CỦA TAILWIND để làm cho các hàng CÓ MÀU XEN KẼ (zebra striping: ví dụ class "odd:bg-slate-800 even:bg-slate-900") giúp dễ đọc. Dòng tiêu đề bảng dùng "bg-slate-950 font-bold".
-4. Bảng phải bo góc đẹp (rounded-lg overflow-hidden) và có viền (border border-slate-700).
-5. Code trả về BẮT BUỘC PHẢI LÀ HTML SẠCH (bắt đầu bằng <div class="overflow-x-auto"><table>...), tuyệt đối không bọc trong markdown \`\`\`html.
-6. KHÔNG cần viết thêm lời chào hỏi, CHỈ XUẤT RA HTML của cái bảng.`;
-
-                const modelSelect = document.getElementById('aiModelSelect');
-                const selectedModel = modelSelect ? modelSelect.value : 'gemini-3.1-flash-lite';
-                const isGroq = !selectedModel.includes('gemini');
-                
-                let payload;
-                if (isGroq) {
-                    payload = {
-                        model: selectedModel,
-                        messages: [
-                            { role: "system", content: "Bạn là chuyên gia ngôn ngữ học. Trả lời bằng mã HTML sạch." },
-                            { role: "user", content: prompt }
-                        ],
-                        temperature: 0.4
-                    };
-                } else {
-                    payload = {
-                        contents: [{ parts: [{ text: prompt }] }],
-                        generationConfig: { temperature: 0.4 }
-                    };
-                }
-                
-                let cleanHtml = "";
-                let lastErr = null;
-                const startIndex = (window.toeicLastKeyIndex !== undefined) ? (window.toeicLastKeyIndex + 1) : 0;
-                const keysArray = apiKey.split(',').filter(k => k.trim());
-
-                for (let i = 0; i < keysArray.length; i++) {
-                    let kIndex = (startIndex + i) % keysArray.length;
-                    let currentApiKey = keysArray[kIndex].trim();
-                    const apiUrl = isGroq 
-                        ? 'https://api.groq.com/openai/v1/chat/completions' 
-                        : `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${currentApiKey}`;
-                    
-                    const headers = { 'Content-Type': 'application/json' };
-                    if (isGroq) headers['Authorization'] = `Bearer ${currentApiKey}`;
-
-                    try {
-                        const res = await fetch(apiUrl, { method: 'POST', headers: headers, body: JSON.stringify(payload) });
-                        if (!res.ok) {
-                            const errText = await res.text();
-                            throw new Error(`API lỗi ${res.status}: ${errText}`);
-                        }
-                        const data = await res.json();
-                        
-                        let textResponse = "";
-                        if (isGroq) {
-                            textResponse = data.choices?.[0]?.message?.content || "";
-                        } else {
-                            textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
-                        }
-                        
-                        cleanHtml = textResponse.replace(/^```html/i, '').replace(/^```/i, '').replace(/```$/i, '').trim();
-                        window.toeicLastKeyIndex = kIndex; 
-                        break;
-                    } catch (err) {
-                        lastErr = err;
-                        console.warn(`Key ${currentApiKey} thất bại, thử key khác...`, err);
-                    }
-                }
-
-                if (!cleanHtml) {
-                    throw new Error(lastErr ? lastErr.message : "Tất cả API Key đều thất bại.");
-                }
-                
-                content.innerHTML = cleanHtml;
-                
-                const dlBtn = document.querySelector('#grammarModal .fa-download, #grammarModal .fa-file-excel')?.parentNode;
-                if (dlBtn) {
-                    dlBtn.innerHTML = `<i class="fa-solid fa-file-excel text-emerald-400"></i> Tải File Excel (CSV)`;
-                    dlBtn.onclick = downloadVocabExcel;
-                }
-                
-            } catch (err) {
-                console.error(err);
-                content.innerHTML = `<p class="text-rose-400 text-center"><i class="fa-solid fa-triangle-exclamation"></i> Có lỗi khi tạo bộ từ vựng: ${err.message}</p>`;
-            }
-        }
-
-        function downloadVocabExcel() {
-            const table = document.getElementById('grammarContent').querySelector('table');
-            if (!table) {
-                alert("Không tìm thấy bảng từ vựng để tải về!");
-                return;
-            }
-            let csv = '\uFEFF'; // BOM cho Excel đọc tiếng Việt UTF-8
-            const rows = table.querySelectorAll('tr');
-            rows.forEach(row => {
-                const cols = row.querySelectorAll('th, td');
-                const rowData = [];
-                cols.forEach(col => {
-                    let text = col.innerText.replace(/"/g, '""');
-                    rowData.push(`"${text}"`);
-                });
-                csv += rowData.join(',') + '\n';
-            });
-            
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Tu_Vung_TOEIC_Part${selectedPart}.csv`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-
 
         /* TEACHER ANALYZER ENGINE */
         function renderTeacherAnalysis() {
@@ -2973,16 +2663,15 @@ Mục 3: 💡 Bẫy ETS & Mẹo Nhớ Lâu
   - Phân tích các bẫy lừa hoặc sự nhầm lẫn thường gặp ở từ này.
 
 --- NẾU LÀ CÂU NGỮ PHÁP (Part 5/6) hoặc ĐỌC HIỂU (Part 7): ---
-Mục 1: 📐 Đi Sâu Vào Trọng Tâm Ngữ Pháp
-  - Tuyệt đối bỏ qua việc mổ xẻ cấu trúc S-V-O. Hãy đi thẳng vào vấn đề: Chỗ trống này đang kiểm tra chủ điểm ngữ pháp gì?
-  - Giải thích cực sâu về chủ điểm ngữ pháp đó (công thức, ý nghĩa, hoàn cảnh sử dụng). BẮT BUỘC phải đưa ra ví dụ minh họa kèm dịch nghĩa.
-  - Phân tích mở rộng các phần ngữ pháp liên quan hoặc các cấu trúc tương tự dễ gây nhầm lẫn.
+Mục 1: 📐 Mổ Xẻ Cấu Trúc (Phân tích S-V-O)
+  - Viết lại câu và chẻ nhỏ từng thành phần S (Chủ ngữ), V (Động từ chính), O (Tân ngữ).
+  - Phân tích chỗ trống thuộc thành phần nào, bị chi phối bởi từ nào đứng trước/sau nó. Giải thích bản chất ngữ pháp cực kỳ dễ hiểu.
 
 Mục 2: ❌ Tại Sao 3 Đáp Án Kia Sai?
   - Phải giải thích chi tiết lỗi sai chí mạng của 3 đáp án còn lại. Tại sao về mặt ngữ pháp không thể ráp nó vào câu?
 
 Mục 3: ⚡ Cốt Lõi Vấn Đề & Mẹo Giải Nhanh
-  - Tóm tắt lại công thức kinh điển để giải quyết bài toán này. BẮT BUỘC trình bày dạng Bảng (Table) gồm: Cấu trúc | Cách dùng | Ví dụ (kèm dịch).
+  - Tóm tắt lại công thức kinh điển để giải quyết bài toán này. BẮT BUỘC cứ mỗi khi nhắc đến một cấu trúc/công thức ngữ pháp thì PHẢI cho ngay 1 ví dụ tiếng Anh (kèm dịch nghĩa) để minh họa. Tốt nhất là trình bày dạng Bảng (Table) gồm: Cấu trúc | Cách dùng | Ví dụ.
   - Chỉ ra "Dấu hiệu vàng" - nhìn vào chữ nào là biết ngay đáp án để tiết kiệm thời gian thi.`;
 
             const userPrompt = `Câu hỏi số: ${q.question_number || (activeQuestionIndex + 1)}

@@ -540,7 +540,36 @@
                                 class="bg-slate-900/80 border border-slate-700 text-slate-300 text-[10px] uppercase tracking-wider px-2 py-1 rounded-md font-bold">Đa
                                 đoạn</span>
                         </button>
+                        <button onclick="selectPart('topic')" id="partBtn_topic"
+                            class="part-btn border border-slate-700/60 bg-slate-800/30 hover:bg-slate-700/40 text-left px-4 py-3.5 rounded-xl transition-all duration-300 flex items-center justify-between group shadow-sm">
+                            <div>
+                                <span
+                                    class="font-bold text-brand-300 block text-sm group-hover:text-brand-200 transition-colors">Theo
+                                    Chủ Đề</span>
+                                <span class="text-xs text-slate-400">Theme-based Practice</span>
+                            </div>
+                            <span
+                                class="bg-slate-900/80 border border-slate-700 text-slate-300 text-[10px] uppercase tracking-wider px-2 py-1 rounded-md font-bold">Mới</span>
+                        </button>
                     </div>
+                </div>
+
+                <!-- TOPIC SELECTOR (Hidden by default) -->
+                <div id="topicSelectionContainer" class="hidden space-y-2 mt-2">
+                    <label class="block text-sm font-semibold text-slate-300">Chọn Chủ Đề</label>
+                    <select id="practiceTopicSelect" onchange="handleTopicChange()"
+                        class="w-full bg-slate-900/80 border border-slate-700/50 rounded-xl px-3 py-2.5 text-sm text-slate-200 font-semibold focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all custom-scrollbar">
+                        <option value="" disabled selected>-- Danh sách chủ đề --</option>
+                    </select>
+                </div>
+
+                <!-- SUB-TOPIC SELECTOR (Hidden by default) -->
+                <div id="subTopicSelectionContainer" class="hidden space-y-2 mt-2">
+                    <label class="block text-sm font-semibold text-slate-300">Phần Trọng Tâm (Tùy chọn)</label>
+                    <select id="practiceSubTopicSelect"
+                        class="w-full bg-slate-900/80 border border-slate-700/50 rounded-xl px-3 py-2.5 text-sm text-slate-200 font-semibold focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all custom-scrollbar">
+                        <option value="all">Tất cả phần trọng tâm (Mặc định)</option>
+                    </select>
                 </div>
 
                 <!-- TEST SIZE CONFIGURATION -->
@@ -910,6 +939,41 @@
     </main>
 
     <script>
+        const TOPICS_DATA = [
+            // Ngữ pháp
+            { id: "grammar1", name: "Ngữ pháp: Danh từ" },
+            { id: "grammar2", name: "Ngữ pháp: Đại từ" },
+            { id: "grammar3", name: "Ngữ pháp: Tính từ" },
+            { id: "grammar4", name: "Ngữ pháp: Trạng từ" },
+            { id: "grammar5", name: "Ngữ pháp: Động từ" },
+            { id: "grammar6", name: "Ngữ pháp: Thì (Tenses)" },
+            { id: "grammar7", name: "Ngữ pháp: Động từ khiếm khuyết (Modal Verbs)" },
+            { id: "grammar8", name: "Ngữ pháp: Giới từ" },
+            { id: "grammar9", name: "Ngữ pháp: Thể bị động (Passive Voice)" },
+            { id: "grammar10", name: "Ngữ pháp: Phân từ (V-ing / V-ed)" },
+            { id: "grammar11", name: "Ngữ pháp: Liên từ (Conjunctions)" },
+            { id: "grammar12", name: "Ngữ pháp: Mệnh đề trạng ngữ" },
+            { id: "grammar13", name: "Ngữ pháp: Danh động từ (Gerund)" },
+
+            // Từ vựng
+            { id: "vocab_all", name: "Từ vựng: Tổng hợp toàn bộ chủ đề" }
+        ];
+
+        const ALL_VOCAB_WORDS = [
+            { topic: "Cuộc sống công sở", words: ["evaluation", "productivity", "job performance", "incentive pay", "accept responsibility", "on duty", "a routine task", "a considerable contribution", "sales result", "a remarkable achievement", "minimum wage", "take a leave", "night shift", "benefit", "ask for a transfer", "receive a promotion", "early retirement", "colleague", "supervisor", "executive", "v.v..."] },
+            { topic: "Công ty, Doanh nghiệp", words: ["strategy", "operation", "management", "policy", "department", "Human Resources", "administration", "accounting", "sale", "headquarters", "a competitive market", "negotiation", "global competition", "a new project", "close a contract", "cancellation", "contract extension", "an annual budget", "finance", "make a profit", "v.v..."] },
+            { topic: "Mua sắm", words: ["online order", "make a purchase", "in bulk", "an annual subscription", "payment", "in installments", "credit card", "offer a discount", "expiration date", "a one-year warranty", "same-day delivery", "track a shipment", "delivery charge", "by courier", "confirm receipt", "serious damage", "claim a refund", "out of stock", "replacement parts", "compensation", "v.v..."] },
+            { topic: "Bất động sản, Tài chính", words: ["convenient location", "easy accessibility", "in the proximity", "give an estimate", "property prices", "pay a rent", "lose a deposit", "lease contract", "real estate agency", "tenant", "bank account", "mortgage rates", "apply for a loan", "a travel expense", "consumer spending", "cash reimbursement", "investment", "raise a fund", "a shareholder meeting", "first-quarter revenue", "v.v..."] },
+            { topic: "Xin việc, Tuyển dụng", words: ["apply for a job", "attend a job fair", "contact the HR", "graduate from the university", "meet the requirements", "complete the form", "submit an application", "demonstrate your skill", "practice for an interview", "predict interview questions", "post a job opening", "accept the application", "schedule an interview", "review a resume", "organize an interview", "conduct an interview", "interview job candidates", "hire an intern", "offer a job", "consider him for a position", "v.v..."] },
+            { topic: "Hoạt động doanh nghiệp, Phân phối", words: ["obtain the funds", "establish a company", "expand the business", "acquire a company", "merge with a rival bank", "reorganize the structure", "dismiss the staff", "bid for a contract", "outsource the work", "enter into negotiations", "manufacture cars", "construct a building", "provide financing", "cater a banquet", "publish books", "design the website", "recruit employees", "retail the sportswear", "distribute the products", "ship the goods", "v.v..."] },
+            { topic: "Dịch vụ khách hàng, Thư viện, Cửa hàng", words: ["borrow books", "request a new book", "charge a late fee", "pay a fine", "write a script", "edit a journal", "reserve a meeting room", "subscribe to a magazine", "cancel the subscription", "renew the subscription", "sell items", "operate a store", "raise the price", "improve customer service", "maintain a good reputation", "apologize for the inconvenience", "return the products", "exchange an item", "complain about the service", "v.v..."] },
+            { topic: "Công tác, Sự kiện từ thiện", words: ["manager's approval", "book accommodation", "make a reservation", "travel arrangements", "the travel itinerary", "schedule conflict", "agenda", "an awards ceremony", "annual conference", "give a presentation", "proceeds", "make a donation", "the main sponsor", "volunteer", "a voluntary organization", "generous support", "a rewarding experience", "a charity event", "hold a fundraiser", "benefit the local community", "v.v..."] },
+            { topic: "Sản phẩm mới, Tri ân", words: ["introduce a new logo", "release a new car", "include new features", "promote a new product", "increase brand awareness", "attract customer", "advertise our service", "launch a TV ad campaign", "hold a promotional event", "implement marketing strategy", "appreciate customers", "express appreciation", "win a prize", "give a complimentary voucher", "redeem the coupon", "serve free snacks", "reduce the price", "save money", "buy 1 get 1 free", "receive a discount", "v.v..."] },
+            { topic: "Đánh giá sản phẩm", words: ["a leading brand", "innovative products", "attractive design", "the latest version", "be comparable to", "can be customized", "be compatible with", "fragile items", "too complicated to use", "defective goods", "a popular model", "extremely successful", "a noticeable sales increase", "remarkable development", "outstanding performance", "efficient software systems", "cost-effective", "in various colors", "reliable service", "for practical use", "v.v..."] },
+            { topic: "Tần suất, Thời gian", words: ["often", "always", "usually", "normally", "generally", "periodically", "regularly", "rarely", "hardly", "occasionally", "later", "currently", "as originally", "have already", "previously", "recently", "initially", "promptly", "urgently", "immediately", "v.v..."] },
+            { topic: "Mức độ, Quyết định", words: ["completely", "extremely", "considerably", "heavily", "fairly", "fell sharply", "dramatically increased", "rise steadily", "slightly reduced", "gradually improved", "consistently excellent", "still good", "work cooperatively", "haven't decided yet", "may be employed permanently", "will choose carefully", "officially announce", "have to move abroad", "inform her accordingly", "finally reached an agreement", "v.v..."] }
+        ];
+
         /* STATE VARIABLES */
         let apiKey = '';
         let selectedPart = '5';
@@ -940,6 +1004,18 @@
         /* ON LOAD INITIALIZATION */
         window.onload = function () {
             applyStoredTheme();
+
+            // Populate Topics
+            const topicSelect = document.getElementById('practiceTopicSelect');
+            if (topicSelect) {
+                TOPICS_DATA.forEach(t => {
+                    const opt = document.createElement('option');
+                    opt.value = t.id;
+                    opt.textContent = t.name;
+                    topicSelect.appendChild(opt);
+                });
+            }
+
             const savedModel = localStorage.getItem('toeic_ai_model');
             if (savedModel && document.querySelector(`#aiModelSelect option[value="${savedModel}"]`)) {
                 document.getElementById('aiModelSelect').value = savedModel;
@@ -1183,6 +1259,62 @@
                 } else {
                     testSizeContainer.style.display = 'block';
                 }
+            }
+
+            const topicContainer = document.getElementById('topicSelectionContainer');
+            const subTopicContainer = document.getElementById('subTopicSelectionContainer');
+            if (topicContainer) {
+                if (partNum === 'topic') {
+                    topicContainer.classList.remove('hidden');
+                    if (typeof handleTopicChange === 'function') handleTopicChange();
+                } else {
+                    topicContainer.classList.add('hidden');
+                    if (subTopicContainer) subTopicContainer.classList.add('hidden');
+                }
+            }
+        }
+
+        function handleTopicChange() {
+            const topic = document.getElementById('practiceTopicSelect').value;
+            const subTopicContainer = document.getElementById('subTopicSelectionContainer');
+            const subTopicSelect = document.getElementById('practiceSubTopicSelect');
+            if (!subTopicContainer || !subTopicSelect) return;
+
+            subTopicSelect.innerHTML = '<option value="all">Tất cả phần trọng tâm (Mặc định)</option>';
+            let hasSubTopics = false;
+
+            if (topic === 'grammar1') {
+                subTopicSelect.innerHTML += `
+                    <option value="pos">1. Vị trí danh từ</option>
+                    <option value="suffix">2. Dấu hiệu nhận biết (Hậu tố)</option>
+                    <option value="count">3. Danh từ đếm được và không đếm được</option>
+                    <option value="plural">4. Danh từ số ít và số nhiều</option>
+                    <option value="compound">5. Danh từ ghép (Compound nouns)</option>
+                `;
+                hasSubTopics = true;
+            } else if (topic === 'grammar2') {
+                subTopicSelect.innerHTML += `
+                    <option value="personal_reflexive">1. Bảng đại từ (Chủ ngữ, Tính từ sở hữu, Tân ngữ, Đại từ sở hữu, Đại từ phản thân)</option>
+                    <option value="demonstrative">2. Đại từ chỉ định (This/That/These/Those)</option>
+                    <option value="indefinite">3. Đại từ bất định (Anybody, Everybody, Nobody, Somebody, Anyone, Everyone, No one, Someone, Anything, Everything, Nothing, Something)</option>
+                    <option value="quantity">4. Đại từ bất định chỉ số lượng (some, any, most, all, none, both, several, each, many, much + of the)</option>
+                `;
+                hasSubTopics = true;
+            } else if (topic === 'grammar3') {
+                subTopicSelect.innerHTML += `
+                    <option value="pos">1. Vị trí tính từ</option>
+                    <option value="suffix">2. Phân biệt đuôi tính từ</option>
+                    <option value="participle">3. Tính từ phân từ (-ing / -ed)</option>
+                    <option value="confusing">4. Các cặp tính từ dễ nhầm lẫn</option>
+                    <option value="quantity">5. Tính từ chỉ số lượng</option>
+                `;
+                hasSubTopics = true;
+            }
+
+            if (hasSubTopics && selectedPart === 'topic') {
+                subTopicContainer.classList.remove('hidden');
+            } else {
+                subTopicContainer.classList.add('hidden');
             }
         }
 
@@ -1489,6 +1621,14 @@
                 return;
             }
 
+            if (selectedPart === 'topic') {
+                const topicSelect = document.getElementById('practiceTopicSelect');
+                if (!topicSelect.value) {
+                    alert("Vui lòng chọn một chủ đề để luyện tập.");
+                    return;
+                }
+            }
+
             // Hide previous screens and show loader
             document.getElementById('welcomeScreen').classList.add('hidden');
             document.getElementById('examContainer').classList.add('hidden');
@@ -1500,7 +1640,7 @@
             generateBtn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin"></i> Đang tải đề...`;
 
             let qCount = 5;
-            if (selectedPart === '5') {
+            if (selectedPart === '5' || selectedPart === 'topic') {
                 qCount = (testSize === 'mini') ? 5 : 30;
             } else if (selectedPart === '6') {
                 qCount = (testSize === 'mini') ? 1 : 4;
@@ -1524,6 +1664,8 @@
                 maxChunkSize = 1;
             } else if (selectedPart === '7') {
                 maxChunkSize = 1;
+            } else if (selectedPart === 'topic') {
+                maxChunkSize = isGroq ? 2 : 5;
             }
 
             let tasksConfig = [];
@@ -1544,7 +1686,113 @@
                 let vocabCount = 0;
 
                 let description = "";
-                if (selectedPart === '5') {
+                if (selectedPart === 'topic') {
+                    const topicSelect = document.getElementById('practiceTopicSelect');
+                    const selectedTopicData = TOPICS_DATA.find(t => t.id === topicSelect.value);
+                    const topicName = selectedTopicData.name;
+
+                    if (topicSelect.value.startsWith('grammar')) {
+                        const subTopicSelectEl = document.getElementById('practiceSubTopicSelect');
+                        const selectedSubTopic = subTopicSelectEl && !document.getElementById('subTopicSelectionContainer').classList.contains('hidden') ? subTopicSelectEl.value : 'all';
+
+                        let extraGrammarInstruction = "";
+                        if (topicSelect.value === 'grammar1') {
+                            const p1 = "1. Vị trí danh từ: Đứng sau mạo từ (a/an/the), đứng sau tính từ, hoặc làm tân ngữ đứng sau động từ.";
+                            const p2 = "2. Dấu hiệu nhận biết (Hậu tố): Phân biệt các đuôi danh từ chỉ sự vật/sự việc (-ment, -ness, -ance, -ence, -tion, -sion, -ship, -ism, -ice, -age, -hood, -ure, -ry, -ty) và đuôi chỉ người (-or, -er, -ee).";
+                            const p3 = "3. Danh từ đếm được và không đếm được: Kiểm tra kiến thức sử dụng danh từ đếm được (teacher, student, town...) và danh từ không đếm được (coffee, money, information, luggage, equipment...).";
+                            const p4 = "4. Danh từ số ít và số nhiều: Bẫy danh từ đếm được số ít không được đứng một mình (bắt buộc phải có a/an/the/my...). Quy tắc thêm s/es (buses, watches, tomatoes, knives, families...) và danh từ bất quy tắc (children, men, women, v.v...).";
+                            const p5 = "5. Danh từ ghép (Compound nouns): Kiểm tra các cụm danh từ ghép thường gặp trong TOEIC (application form, bank statement, budget report, customer satisfaction, office supplies, product manual, travel itinerary, assembly line, sales result, safety standards, v.v...). (Có thể tự do mở rộng thêm các danh từ ghép khác, NHƯNG BẮT BUỘC PHẢI LÀ TỪ VỰNG THƯỜNG GẶP TRONG BÀI THI TOEIC).";
+
+                            if (selectedSubTopic === 'all') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG CHO CHỦ ĐỀ DANH TỪ: Bắt buộc các câu hỏi phải phủ đều các mảng kiến thức sau:\n${p1}\n${p2}\n${p3}\n${p4}\n${p5}`;
+                            } else if (selectedSubTopic === 'pos') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p1}`;
+                            } else if (selectedSubTopic === 'suffix') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p2}`;
+                            } else if (selectedSubTopic === 'count') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p3}`;
+                            } else if (selectedSubTopic === 'plural') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p4}`;
+                            } else if (selectedSubTopic === 'compound') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p5}`;
+                            }
+                        } else if (topicSelect.value === 'grammar2') {
+                            const p1 = "1. Bảng đại từ (Nhân xưng, Sở hữu, Phản thân): Bẫy điền khuyết dựa theo NGÔI (thứ nhất, hai, ba), SỐ LƯỢNG (ít, nhiều), GIỚI TÍNH (nam, nữ, vật). Phân biệt cực kỳ rõ ràng vị trí của: Chủ ngữ (I, we, you, he, she, it, they), Tân ngữ (me, us, you, him, her, it, them), Tính từ sở hữu + Noun (my, our, your, his, her, its, their), Đại từ sở hữu đóng vai trò Noun (mine, ours, yours, his, hers, theirs), và Đại từ phản thân (myself, ourselves, yourself, yourselves, himself, herself, itself, themselves - dùng làm tân ngữ cùng chủ thể hoặc để nhấn mạnh 'by oneself/on one\\'s own').";
+                            const p2 = "2. Đại từ chỉ định: Phân biệt this/that (số ít) và these/those (số nhiều), đặc biệt là 'those' dùng để thay thế cho danh từ số nhiều đã nhắc đến hoặc cấu trúc 'those who' (những người mà).";
+                            const p3 = "3. Đại từ bất định (Người/Vật): Phân biệt và bẫy chia động từ số ít với các đại từ như anyone, everybody, nothing, something, v.v...";
+                            const p4 = "4. Đại từ bất định chỉ số lượng (+ of the): Bẫy đi với danh từ số nhiều (many, both, several, each + of the + Ns) và đi với danh từ không đếm được (much + of the + N). Dùng chung (some, any, all, most, none).";
+
+                            if (selectedSubTopic === 'all') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG CHO CHỦ ĐỀ ĐẠI TỪ: Bắt buộc các câu hỏi phải phủ đều các mảng kiến thức sau:\n${p1}\n${p2}\n${p3}\n${p4}`;
+                            } else if (selectedSubTopic === 'personal_reflexive') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p1}`;
+                            } else if (selectedSubTopic === 'demonstrative') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p2}`;
+                            } else if (selectedSubTopic === 'indefinite') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p3}`;
+                            } else if (selectedSubTopic === 'quantity') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p4}`;
+                            }
+                        } else if (topicSelect.value === 'grammar3') {
+                            const p1 = "1. Vị trí tính từ: Đứng trước danh từ (Adj + N), hoặc đứng sau động từ liên kết (be/become/remain + Adj), hoặc bổ ngữ cho tân ngữ (keep/find/consider/make/leave + O + Adj).";
+                            const p2 = "2. Phân biệt đuôi tính từ: -able, -ous, -ive, -ful, -y, -less, -ic, -al. Đặc biệt bẫy các tính từ có đuôi -ly (timely, costly, friendly, likely, daily, monthly).";
+                            const p3 = "3. Tính từ phân từ (-ing / -ed): Phân biệt tính từ chủ động mang đuôi -ing (lasting, missing, existing, outstanding, rewarding, pending, leading, v.v...) và tính từ bị động mang đuôi -ed (complicated, experienced, distinguished, accomplished, crowded, limited, renowned, qualified, v.v...). (Có thể tự do mở rộng thêm các từ TOEIC khác).";
+                            const p4 = "4. Các cặp tính từ dễ nhầm lẫn: considerate/considerable, confident/confidential, favorite/favorable, managerial/manageable, proficient/profitable, responsive/responsible, reliant/reliable, respective/respectful, successive/successful, v.v... (Có thể tự do mở rộng thêm các cặp từ TOEIC khác).";
+                            const p5 = "5. Tính từ chỉ số lượng: each/every/another (+ N số ít đếm được), some/most/all/other (+ N số nhiều/không đếm được), many/few/several/both (+ N số nhiều), much/little (+ N không đếm được), no/any (dùng chung).";
+
+                            if (selectedSubTopic === 'all') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG CHO CHỦ ĐỀ TÍNH TỪ: Bắt buộc các câu hỏi phải phủ đều các mảng kiến thức sau:\n${p1}\n${p2}\n${p3}\n${p4}\n${p5}`;
+                            } else if (selectedSubTopic === 'pos') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p1}`;
+                            } else if (selectedSubTopic === 'suffix') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p2}`;
+                            } else if (selectedSubTopic === 'participle') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p3}`;
+                            } else if (selectedSubTopic === 'confusing') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p4}`;
+                            } else if (selectedSubTopic === 'quantity') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p5}`;
+                            }
+                        }
+                        description = `Sinh đúng ${taskQCount} câu hỏi trắc nghiệm độc lập (Part 5 TOEIC format). BẮT BUỘC TẤT CẢ CÁC CÂU HỎI PHẢI LÀ CÂU HỎI NGỮ PHÁP TẬP TRUNG HOÀN TOÀN VÀO CHỦ ĐIỂM: "${topicName}". \nYÊU CẦU ĐẶC BIỆT: Đây là dạng bài ôn tập ngữ pháp chuyên sâu. Không trộn lẫn từ vựng, chỉ tập trung kiểm tra cấu trúc và ngữ pháp của "${topicName}".${extraGrammarInstruction}`;
+                    } else {
+                        let availableVocabIndices = [];
+                        try {
+                            availableVocabIndices = JSON.parse(localStorage.getItem('toeicAvailableVocabIndices') || "[]");
+                        } catch (e) {
+                            availableVocabIndices = [];
+                        }
+
+                        if (availableVocabIndices.length < taskQCount) {
+                            let allIndices = Array.from({ length: ALL_VOCAB_WORDS.length }, (_, i) => i);
+                            for (let i = allIndices.length - 1; i > 0; i--) {
+                                const j = Math.floor(Math.random() * (i + 1));
+                                [allIndices[i], allIndices[j]] = [allIndices[j], allIndices[i]];
+                            }
+                            // Merge with any remaining to ensure we have enough, removing duplicates if necessary
+                            // A simple overwrite is fine because ALL_VOCAB_WORDS.length (12) > max taskQCount (5)
+                            availableVocabIndices = allIndices;
+                        }
+
+                        let selectedVocabTopics = [];
+                        for (let i = 0; i < taskQCount; i++) {
+                            let idx = availableVocabIndices.shift();
+                            selectedVocabTopics.push(ALL_VOCAB_WORDS[idx]);
+                        }
+                        localStorage.setItem('toeicAvailableVocabIndices', JSON.stringify(availableVocabIndices));
+
+                        let topicInstructions = "";
+                        selectedVocabTopics.forEach((t, idx) => {
+                            topicInstructions += `\nCâu ${idx + 1}: Chủ đề "${t.topic}". Các từ vựng gợi ý: [ ${t.words.join(", ")} ]`;
+                        });
+
+                        description = `Sinh đúng ${taskQCount} câu hỏi trắc nghiệm độc lập (Part 5 TOEIC format). BẮT BUỘC TẤT CẢ CÁC CÂU HỎI PHẢI LÀ CÂU HỎI TỪ VỰNG.
+YÊU CẦU ĐẶC BIỆT: Đây là bài ôn tập từ vựng tổng hợp chuẩn TOEIC. BẮT BUỘC bạn phải thiết kế MỖI CÂU HỎI THEO MỘT CHỦ ĐỀ RIÊNG BIỆT được chỉ định dưới đây. Bạn hãy ưu tiên sử dụng các từ vựng trong danh sách gợi ý của từng câu để làm ĐÁP ÁN ĐÚNG hoặc xây dựng thành CÂU HỎI. (Lưu ý chữ "v.v..." nghĩa là bạn hoàn toàn có thể thêm các từ vựng TOEIC mới ngoài danh sách).
+CHI TIẾT CHỦ ĐỀ TỪNG CÂU HỎI:${topicInstructions}
+
+Đảm bảo 4 lựa chọn A/B/C/D của mỗi câu phải là 4 TỪ KHÁC NHAU HOÀN TOÀN VỀ NGHĨA.`;
+                    }
+                } else if (selectedPart === '5') {
                     if (remainingVocabNeeded > 0) {
                         // Tính toán số câu từ vựng cho chunk này để phân bổ đều
                         vocabCount = Math.min(remainingVocabNeeded, Math.round(taskQCount / 6));
