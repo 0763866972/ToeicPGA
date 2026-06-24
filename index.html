@@ -1309,6 +1309,14 @@
                     <option value="quantity">5. Tính từ chỉ số lượng</option>
                 `;
                 hasSubTopics = true;
+            } else if (topic === 'grammar8') {
+                subTopicSelect.innerHTML += `
+                    <option value="time_point">1. Giới từ chỉ thời gian (thời điểm)</option>
+                    <option value="time_period">2. Giới từ chỉ thời gian (khoảng thời gian)</option>
+                    <option value="location_direction">3. Giới từ chỉ vị trí và phương hướng</option>
+                    <option value="others">4. Các giới từ khác và giới từ ghép</option>
+                `;
+                hasSubTopics = true;
             }
 
             if (hasSubTopics && selectedPart === 'topic') {
@@ -1752,6 +1760,23 @@
                                 extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p4}`;
                             } else if (selectedSubTopic === 'quantity') {
                                 extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p5}`;
+                            }
+                        } else if (topicSelect.value === 'grammar8') {
+                            const p1 = "1. Giới từ chỉ thời gian (thời điểm): Cách sử dụng at (thời điểm, giờ), on (ngày, thứ), in (tháng, năm, mùa, khoảng thời gian dài). Phân biệt from (điểm bắt đầu), since (từ một mốc thời gian trong quá khứ, thường đi với hiện tại hoàn thành), by (trước/chậm nhất là lúc nào), until (cho đến tận lúc nào).";
+                            const p2 = "2. Giới từ chỉ thời gian (khoảng thời gian): Phân biệt for (+ khoảng thời gian bằng số), during (+ danh từ chỉ sự kiện/sự việc). Cách dùng within (trong vòng bao lâu), throughout (trong suốt khoảng thời gian).";
+                            const p3 = "3. Giới từ chỉ vị trí/phương hướng: Chỉ vị trí (at, in, on, between, among, in front of, beside/next to, over/above, under/below, near/around). Chỉ phương hướng (to/toward, into, through, along, across). Đặc biệt chú ý phân biệt between (giữa 2) và among (giữa nhiều hơn 2).";
+                            const p4 = "4. Các giới từ khác và giới từ ghép: Giới từ chỉ phương tiện/mục đích (by, with, without, under, for, except, as). Giới từ chỉ sự liên quan (about, on, regarding, concerning, as to). Các giới từ ghép thường gặp (according to, because of, due to, instead of, in spite of, regardless of, on behalf of, prior to).";
+
+                            if (selectedSubTopic === 'all') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG CHO CHỦ ĐỀ GIỚI TỪ: Bắt buộc các câu hỏi phải phủ đều các mảng kiến thức sau:\n${p1}\n${p2}\n${p3}\n${p4}`;
+                            } else if (selectedSubTopic === 'time_point') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p1}`;
+                            } else if (selectedSubTopic === 'time_period') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p2}`;
+                            } else if (selectedSubTopic === 'location_direction') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p3}`;
+                            } else if (selectedSubTopic === 'others') {
+                                extraGrammarInstruction = `\n\nTRỌNG TÂM CHI TIẾT DÀNH RIÊNG: Bắt buộc 100% câu hỏi CHỈ TẬP TRUNG VÀO: \n${p4}`;
                             }
                         }
                         description = `Sinh đúng ${taskQCount} câu hỏi trắc nghiệm độc lập (Part 5 TOEIC format). BẮT BUỘC TẤT CẢ CÁC CÂU HỎI PHẢI LÀ CÂU HỎI NGỮ PHÁP TẬP TRUNG HOÀN TOÀN VÀO CHỦ ĐIỂM: "${topicName}". \nYÊU CẦU ĐẶC BIỆT: Đây là dạng bài ôn tập ngữ pháp chuyên sâu. Không trộn lẫn từ vựng, chỉ tập trung kiểm tra cấu trúc và ngữ pháp của "${topicName}".${extraGrammarInstruction}`;
