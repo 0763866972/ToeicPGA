@@ -504,6 +504,17 @@
                 <div class="space-y-2">
                     <label class="block text-sm font-semibold text-slate-300">Chọn Part Đề Thi</label>
                     <div class="grid grid-cols-1 gap-2">
+                        <button onclick="selectPart('2')" id="partBtn_2"
+                            class="part-btn border border-slate-700/60 bg-slate-800/30 hover:bg-slate-700/40 text-left px-4 py-3.5 rounded-xl transition-all duration-300 flex items-center justify-between group shadow-sm">
+                            <div>
+                                <span
+                                    class="font-bold text-brand-300 block text-sm group-hover:text-brand-200 transition-colors">Part
+                                    2</span>
+                                <span class="text-xs text-slate-400">Question & Response</span>
+                            </div>
+                            <span
+                                class="bg-slate-900/80 border border-slate-700 text-slate-300 text-[10px] uppercase tracking-wider px-2 py-1 rounded-md font-bold">Nghe</span>
+                        </button>
                         <button onclick="selectPart('5')" id="partBtn_5"
                             class="part-btn border border-brand-400 bg-brand-500/15 shadow-[0_0_15px_rgba(99,102,241,0.15)] ring-1 ring-brand-400 text-left px-4 py-3.5 rounded-xl transition-all duration-300 flex items-center justify-between group">
                             <div>
@@ -586,6 +597,24 @@
                             Chuẩn TOEIC
                         </button>
                     </div>
+                </div>
+                
+                <!-- DIFFICULTY SELECTOR FOR PART 2 (Hidden by default) -->
+                <div id="difficultyContainer" class="hidden space-y-2 mt-2">
+                    <label class="block text-sm font-semibold text-slate-300">Độ Khó (Part 2)</label>
+                    <select id="part2Difficulty"
+                        class="w-full bg-slate-900/80 border border-slate-700/50 rounded-xl px-3 py-2.5 text-sm text-slate-200 font-semibold focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all custom-scrollbar">
+                        <option value="easy">Dễ (Trực tiếp)</option>
+                        <option value="medium">Trung bình</option>
+                        <option value="hard">Khó (Trả lời gián tiếp)</option>
+                    </select>
+
+                    <label class="block text-sm font-semibold text-slate-300 mt-4">Số lượng câu (Part 2)</label>
+                    <select id="part2SizeSelect"
+                        class="w-full bg-slate-900/80 border border-slate-700/50 rounded-xl px-3 py-2.5 text-sm text-slate-200 font-semibold focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all custom-scrollbar">
+                        <option value="10">10 câu (Luyện tập)</option>
+                        <option value="25">25 câu (Chuẩn TOEIC)</option>
+                    </select>
                 </div>
             </div>
 
@@ -735,8 +764,22 @@
                                 class="bg-slate-800 hover:bg-slate-700 text-slate-300 p-2 rounded-lg transition-all">
                                 <i class="fa-solid fa-chevron-right"></i>
                             </button>
+                            <select id="audioSpeedSelect" onchange="currentAudioSpeed = parseFloat(this.value)" class="hidden bg-slate-100 border border-slate-200 text-slate-800 text-xs rounded-lg px-2 py-2 outline-none cursor-pointer hover:border-indigo-400 focus:ring-2 focus:ring-indigo-500 shadow-sm transition-all font-semibold ml-1">
+                                <option value="0.7">0.7x</option>
+                                <option value="0.8">0.8x</option>
+                                <option value="0.9">0.9x</option>
+                                <option value="1.0" selected>1.0x</option>
+                                <option value="1.1">1.1x</option>
+                                <option value="1.2">1.2x</option>
+                                <option value="1.3">1.3x</option>
+                                <option value="1.4">1.4x</option>
+                            </select>
+                            <button onclick="toggleHandsFreeMode()" id="handsFreeBtn" title="Học rảnh tay toàn bộ đề"
+                                class="hidden px-3 py-2 rounded-lg transition-all items-center gap-1.5 text-xs font-bold ml-1 shadow-sm bg-amber-100 hover:bg-amber-200 text-amber-700">
+                                <i class="fa-solid fa-ear-listen"></i> <span>Học rảnh tay</span>
+                            </button>
                             <button onclick="downloadExamAsHTML()" title="Tải đề về dạng HTML"
-                                class="bg-emerald-700 hover:bg-emerald-600 text-white px-3 py-2 rounded-lg transition-all flex items-center gap-1.5 text-xs font-bold ml-1">
+                                class="bg-emerald-600 hover:bg-emerald-500 text-slate-900 px-3 py-2 rounded-lg transition-all flex items-center gap-1.5 text-xs font-bold ml-1 shadow-sm">
                                 <i class="fa-solid fa-file-arrow-down"></i> Tải HTML
                             </button>
                         </div>
@@ -1252,12 +1295,22 @@
             activeBtn.classList.add('border-brand-400', 'bg-brand-500/15', 'shadow-[0_0_15px_rgba(99,102,241,0.15)]', 'ring-1', 'ring-brand-400');
 
             const testSizeContainer = document.getElementById('testSizeContainer');
+            const difficultyContainer = document.getElementById('difficultyContainer');
+            
             if (testSizeContainer) {
-                if (partNum === '7') {
+                if (partNum === '7' || partNum === '2') {
                     testSizeContainer.style.display = 'none';
-                    setTestSize('mini');
+                    if (partNum === '7') setTestSize('mini');
                 } else {
                     testSizeContainer.style.display = 'block';
+                }
+            }
+            
+            if (difficultyContainer) {
+                if (partNum === '2') {
+                    difficultyContainer.classList.remove('hidden');
+                } else {
+                    difficultyContainer.classList.add('hidden');
                 }
             }
 
@@ -1647,8 +1700,14 @@
             generateBtn.disabled = true;
             generateBtn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin"></i> Đang tải đề...`;
 
+            const selectedModel = document.getElementById('aiModelSelect').value;
+            const isGroq = !selectedModel.includes('gemini');
+
             let qCount = 5;
-            if (selectedPart === '5' || selectedPart === 'topic') {
+            if (selectedPart === '2') {
+                const p2Size = document.getElementById('part2SizeSelect');
+                qCount = p2Size ? parseInt(p2Size.value) : (isGroq ? 3 : 10);
+            } else if (selectedPart === '5' || selectedPart === 'topic') {
                 qCount = (testSize === 'mini') ? 5 : 30;
             } else if (selectedPart === '6') {
                 qCount = (testSize === 'mini') ? 1 : 4;
@@ -1662,11 +1721,12 @@
             updateLoadingProgress(`Khởi động Giáo viên AI...`, 10);
             document.getElementById('loadingSubText').innerHTML = `Đang phân tích cấu trúc đề thi và chuẩn bị tài nguyên biên soạn.`;
 
-            const selectedModel = document.getElementById('aiModelSelect').value;
-            const isGroq = !selectedModel.includes('gemini');
+            // Duplicate variable declarations removed
 
             let maxChunkSize = 5;
-            if (selectedPart === '5') {
+            if (selectedPart === '2') {
+                maxChunkSize = isGroq ? 3 : 15;
+            } else if (selectedPart === '5') {
                 maxChunkSize = isGroq ? 2 : 5;
             } else if (selectedPart === '6') {
                 maxChunkSize = 1;
@@ -1694,7 +1754,22 @@
                 let vocabCount = 0;
 
                 let description = "";
-                if (selectedPart === 'topic') {
+                if (selectedPart === '2') {
+                    const diff = document.getElementById('part2Difficulty').value;
+                    let diffText = "";
+                    if (diff === 'easy') diffText = "Các câu hỏi và đáp án ở mức độ dễ, câu trả lời TRỰC TIẾP vào câu hỏi (Ví dụ: hỏi Where thì trả lời địa điểm).";
+                    else if (diff === 'medium') diffText = "Độ khó trung bình, kết hợp trả lời trực tiếp và một số câu hỏi có bẫy đồng âm.";
+                    else if (diff === 'hard') diffText = "Mức độ KHÓ. 100% các câu hỏi BẮT BUỘC có đáp án là câu trả lời GIÁN TIẾP (Indirect Response). Ví dụ: Hỏi 'When is the meeting?' -> Trả lời 'I haven't checked my calendar yet.' Tuyệt đối không trả lời trực tiếp bằng thời gian hay địa điểm. Tuy nhiên vẫn phải đảm bảo chuẩn form TOEIC Part 2.";
+                    
+                    description = `Sinh đúng ${taskQCount} câu hỏi nghe Part 2 (Question & Response). 
+${diffText}
+BẮT BUỘC ĐỂ ĐẢM BẢO CHUẨN FORM PART 2:
+- Cung cấp kịch bản (transcript) lời đọc đầy đủ của câu hỏi vào trường "question_text". TRONG QUESTION_TEXT TUYỆT ĐỐI KHÔNG ĐƯỢC CÓ CHỖ TRỐNG '___'. Hãy viết thành một câu hoàn chỉnh.
+- Chỉ có 3 lựa chọn (A, B, C) cho mỗi câu. Tùy chọn D để giá trị là chuỗi rỗng "".
+- correct_answer chỉ được mang giá trị A, B hoặc C. BẮT BUỘC: Vị trí đáp án đúng (A, B hoặc C) PHẢI ĐƯỢC XÁO TRỘN NGẪU NHIÊN liên tục trong bài, không được để tất cả đều là A.
+- Phần giải thích (why_correct) phải dịch nghĩa tiếng Việt.
+- Đối với các đáp án sai (wrong_options_grammar_analysis): CHỈ CẦN DỊCH NGHĨA tiếng Việt của đáp án đó vào trường why_faulty. TUYỆT ĐỐI KHÔNG giải thích dài dòng, không phân tích bản chất hay ngữ pháp.`;
+                } else if (selectedPart === 'topic') {
                     const topicSelect = document.getElementById('practiceTopicSelect');
                     const selectedTopicData = TOPICS_DATA.find(t => t.id === topicSelect.value);
                     const topicName = selectedTopicData.name;
@@ -1960,8 +2035,8 @@ TUYỆT ĐỐI TUÂN THỦ: TẤT CẢ CÁC MỤC GIẢI THÍCH, PHÂN TÍCH, D�
       "questions": [
         {
           "question_number": [Số thứ tự câu hỏi tăng dần từ 1],
-          "question_text": "Nội dung câu hỏi đầy đủ. QUY TẮC CỨNG: BẮT BUỘC PHẢI CHỨA CHỖ TRỐNG '___' (3 dấu gạch dưới) ĐỂ HỌC VIÊN ĐIỀN VÀO. TUYỆT ĐỐI KHÔNG để lộ đáp án đúng (dù đáp án nằm ở đầu câu hay giữa câu). Nếu không có chỗ trống '___', ĐỀ SẼ BỊ VỨT ĐI.",
-          "options": { "A": "Đáp án A", "B": "Đáp án B", "C": "Đáp án C", "D": "Đáp án D" },
+          "question_text": "Nội dung câu hỏi đầy đủ. QUY TẮC CỨNG: Nếu là Part 5, 6, 7 BẮT BUỘC PHẢI CHỨA CHỖ TRỐNG '___' (3 dấu gạch dưới) ĐỂ HỌC VIÊN ĐIỀN VÀO. Nếu là Part 2 thì KHÔNG CÓ CHỖ TRỐNG, chỉ ghi ra kịch bản (transcript) lời đọc.",
+          "options": { "A": "Đáp án A", "B": "Đáp án B", "C": "Đáp án C", "D": "Đáp án D (Nếu là Part 2, hãy để chuỗi rỗng \\"\\")" },
           "correct_answer": "Đáp án đúng (chỉ ghi A, B, C hoặc D)",
           "sentence_structure_analysis": "${selectedPart === '7' ? 'Phân tích kỹ lưỡng loại câu hỏi (ví dụ: Câu hỏi Chi tiết, Suy luận, Tìm ý chính, Từ vựng ngữ cảnh). Giải thích sơ lược chiến thuật làm dạng câu này.' : 'MỔ XẺ CẤU TRÚC CÂU: Phân tích thành phần câu thật trực quan sử dụng chuẩn viết tắt [S] (Chủ ngữ), [V] (Động từ chính), [O] (Tân ngữ), [M] (Trạng từ/Trạng ngữ/Cụm từ bổ trợ). Đối với [M], BẮT BUỘC phải ghi chú rõ trong ngoặc đơn là nó đang bổ trợ cho từ/cụm từ nào trong câu (ví dụ chỉ thời gian, địa điểm, mục đích, bổ trợ cho động từ chính v.v.). Ví dụ: [S] The manager / [V] will review / [O] the report / [M] tomorrow (bổ trợ thời gian cho will review). Sau đó giải thích từ loại cần điền.'}",
           "vietnamese_translation": "${selectedPart === '7' ? 'Dịch nghĩa câu hỏi và 4 đáp án sang tiếng Việt. BẮT BUỘC chèn ký tự xuống dòng (\\\\n) trước mỗi đáp án A, B, C, D để tách biệt.' : 'Dịch nghĩa toàn bộ câu hỏi (bao gồm đáp án đúng đã được điền vào chỗ trống) sang tiếng Việt thật tự nhiên.'}",
@@ -2089,11 +2164,91 @@ LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
                     }
                 });
 
-                // Re-index question numbers sequentially & sanitize hallucinated answers
+                // Re-index question numbers sequentially, enforce random distribution, & sanitize answers
                 let globalNum = 1;
+                let lastAnswer1 = null;
+                let lastAnswer2 = null;
+                let ansPool = [];
+
                 mergedData.passages.forEach(passage => {
                     passage.questions.forEach(q => {
                         q.question_number = globalNum++;
+                        
+                        // --- SHUFFLE OPTIONS LOGIC ---
+                        const isPart2 = selectedPart === '2';
+                        const optionsList = isPart2 ? ['A', 'B', 'C'] : ['A', 'B', 'C', 'D'];
+                        
+                        if (ansPool.length === 0) {
+                            // Create a balanced pool
+                            ansPool = isPart2 ? ['A','B','C','A','B','C','A','B','C'] : ['A','B','C','D','A','B','C','D'];
+                            // Shuffle pool
+                            for (let i = ansPool.length - 1; i > 0; i--) {
+                                const j = Math.floor(Math.random() * (i + 1));
+                                [ansPool[i], ansPool[j]] = [ansPool[j], ansPool[i]];
+                            }
+                        }
+                        
+                        let targetAns = null;
+                        for (let i = 0; i < ansPool.length; i++) {
+                            if (!(ansPool[i] === lastAnswer1 && ansPool[i] === lastAnswer2)) {
+                                targetAns = ansPool.splice(i, 1)[0];
+                                break;
+                            }
+                        }
+                        if (!targetAns) {
+                            targetAns = ansPool.pop();
+                        }
+                        
+                        lastAnswer2 = lastAnswer1;
+                        lastAnswer1 = targetAns;
+
+                        let originalCorrect = q.correct_answer;
+                        if (!optionsList.includes(originalCorrect)) originalCorrect = 'A'; // fallback
+                        
+                        if (q.options) {
+                            let correctText = q.options[originalCorrect] || '';
+                            let wrongPairs = [];
+                            for (let key of optionsList) {
+                                if (key !== originalCorrect) {
+                                    wrongPairs.push({
+                                        text: q.options[key] || '',
+                                        analysis: (q.explanation && q.explanation.wrong_options_grammar_analysis) ? q.explanation.wrong_options_grammar_analysis[`option_${key}`] : undefined
+                                    });
+                                }
+                            }
+                            
+                            // Shuffle wrong pairs
+                            for (let i = wrongPairs.length - 1; i > 0; i--) {
+                                const j = Math.floor(Math.random() * (i + 1));
+                                [wrongPairs[i], wrongPairs[j]] = [wrongPairs[j], wrongPairs[i]];
+                            }
+                            
+                            q.correct_answer = targetAns;
+                            let wIdx = 0;
+                            
+                            if (q.explanation && !q.explanation.wrong_options_grammar_analysis) {
+                                q.explanation.wrong_options_grammar_analysis = {};
+                            }
+                            
+                            for (let key of optionsList) {
+                                if (key === targetAns) {
+                                    q.options[key] = correctText;
+                                    if (q.explanation && q.explanation.wrong_options_grammar_analysis) {
+                                        delete q.explanation.wrong_options_grammar_analysis[`option_${key}`];
+                                    }
+                                } else {
+                                    let pair = wrongPairs[wIdx++];
+                                    q.options[key] = pair.text;
+                                    if (q.explanation && q.explanation.wrong_options_grammar_analysis && pair.analysis) {
+                                        q.explanation.wrong_options_grammar_analysis[`option_${key}`] = pair.analysis;
+                                    } else if (q.explanation && q.explanation.wrong_options_grammar_analysis) {
+                                        delete q.explanation.wrong_options_grammar_analysis[`option_${key}`];
+                                    }
+                                }
+                            }
+                        }
+                        // --- END SHUFFLE OPTIONS LOGIC ---
+
                         // Dọn dẹp lỗi AI: Xóa đáp án đúng nếu AI lỡ viết liền ngay sau chỗ trống
                         if (q.question_text && q.question_text.includes('___')) {
                             let correctOptText = q.options[q.correct_answer];
@@ -2329,7 +2484,9 @@ LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
             // Display components
             document.getElementById('loadingScreen').classList.add('hidden');
             document.getElementById('examContainer').classList.remove('hidden');
-            document.getElementById('partBadge').innerText = `PART ${data.part}`;
+            const partBadge = document.getElementById('partBadge');
+            partBadge.innerText = `PART ${data.part}`;
+            partBadge.className = "bg-blue-300 text-blue-800 text-xs font-extrabold px-3 py-1.5 rounded-lg shadow-sm tracking-widest";
 
             // Build navigation grid
             buildNavigationGrid();
@@ -2348,11 +2505,97 @@ LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
                 btn.className = "w-8 h-8 rounded-lg border border-slate-700 hover:border-slate-500 bg-slate-800/60 font-semibold text-xs text-slate-300 flex items-center justify-center shrink-0 transition-all duration-150";
                 btn.innerText = q.question_number || (idx + 1);
                 btn.onclick = () => {
+                    stopHandsFree();
                     activeQuestionIndex = idx;
                     renderActiveQuestion();
                 };
                 grid.appendChild(btn);
             });
+        }
+
+        let currentAudioSpeed = 1.0;
+        let isHandsFreeMode = false;
+        let handsFreeSession = 0;
+
+        function stopHandsFree() {
+            if (isHandsFreeMode) {
+                isHandsFreeMode = false;
+                handsFreeSession = 0;
+                renderActiveQuestion();
+            }
+        }
+
+        async function toggleHandsFreeMode() {
+            isHandsFreeMode = !isHandsFreeMode;
+            renderActiveQuestion();
+
+            if (isHandsFreeMode) {
+                handsFreeSession = Date.now();
+                const sessionId = handsFreeSession;
+                
+                currentAudioSession = 0;
+                window.speechSynthesis.cancel();
+
+                while (isHandsFreeMode && handsFreeSession === sessionId) {
+                    const q = flatQuestions[activeQuestionIndex];
+                    
+                    const speedSelect = document.getElementById('audioSpeedSelect');
+                    const rate = speedSelect ? (parseFloat(speedSelect.value) || 1.0) : 1.0;
+                    const voices = window.speechSynthesis.getVoices();
+                    const googleVoice = voices.find(v => v.name.includes('Google') && v.lang.includes('en'));
+
+                    function speak(text) {
+                        return new Promise(resolve => {
+                            if (!isHandsFreeMode || handsFreeSession !== sessionId) return resolve();
+                            const utterance = new SpeechSynthesisUtterance(text);
+                            utterance.lang = 'en-US';
+                            utterance.rate = rate;
+                            if (googleVoice) utterance.voice = googleVoice;
+                            utterance.onend = resolve;
+                            utterance.onerror = resolve;
+                            window.speechSynthesis.speak(utterance);
+                        });
+                    }
+
+                    function sleep(ms) {
+                        return new Promise(r => setTimeout(r, ms));
+                    }
+
+                    if (!isHandsFreeMode || handsFreeSession !== sessionId) break;
+                    await speak(q.question_text);
+                    await sleep(500);
+
+                    if (!isHandsFreeMode || handsFreeSession !== sessionId) break;
+                    await speak("A.");
+                    await speak(q.options.A);
+                    await sleep(500);
+
+                    if (!isHandsFreeMode || handsFreeSession !== sessionId) break;
+                    await speak("B.");
+                    await speak(q.options.B);
+                    await sleep(500);
+
+                    if (!isHandsFreeMode || handsFreeSession !== sessionId) break;
+                    await speak("C.");
+                    await speak(q.options.C);
+                    await sleep(500);
+
+                    if (!isHandsFreeMode || handsFreeSession !== sessionId) break;
+                    await speak(`${q.correct_answer} is correct.`);
+                    await sleep(1500); 
+
+                    if (!isHandsFreeMode || handsFreeSession !== sessionId) break;
+
+                    activeQuestionIndex++;
+                    if (activeQuestionIndex >= flatQuestions.length) {
+                        activeQuestionIndex = 0;
+                    }
+                    renderActiveQuestion();
+                }
+            } else {
+                handsFreeSession = 0;
+                window.speechSynthesis.cancel();
+            }
         }
 
         function renderActiveQuestion() {
@@ -2376,13 +2619,62 @@ LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
             // 2. Question Info Updates
             document.getElementById('questionCounter').innerText = `Câu hỏi: ${activeQuestionIndex + 1} / ${flatQuestions.length}`;
             document.getElementById('activeQNum').innerText = q.question_number || (activeQuestionIndex + 1);
-            document.getElementById('activeQText').innerText = q.question_text;
+            
+            const handsFreeBtn = document.getElementById('handsFreeBtn');
+            const topSpeedSelect = document.getElementById('audioSpeedSelect');
+            if (handsFreeBtn && selectedPart === '2') {
+                if (topSpeedSelect) {
+                    topSpeedSelect.classList.remove('hidden');
+                    topSpeedSelect.classList.add('inline-block');
+                }
+                const allAnswered = Object.keys(userAnswers).length === flatQuestions.length;
+                if (allAnswered) {
+                    handsFreeBtn.classList.remove('hidden');
+                    handsFreeBtn.classList.add('flex');
+                    if (isHandsFreeMode) {
+                        handsFreeBtn.className = "flex px-3 py-2 rounded-lg transition-all items-center gap-1.5 text-xs font-bold ml-1 shadow-sm bg-amber-500 hover:bg-amber-600 text-white";
+                        handsFreeBtn.innerHTML = `<i class="fa-solid fa-pause"></i> <span>Dừng học</span>`;
+                    } else {
+                        handsFreeBtn.className = "flex px-3 py-2 rounded-lg transition-all items-center gap-1.5 text-xs font-bold ml-1 shadow-sm bg-amber-100 hover:bg-amber-200 text-amber-700";
+                        handsFreeBtn.innerHTML = `<i class="fa-solid fa-ear-listen"></i> <span>Học rảnh tay</span>`;
+                    }
+                } else {
+                    handsFreeBtn.classList.add('hidden');
+                    handsFreeBtn.classList.remove('flex');
+                }
+            } else if (handsFreeBtn) {
+                handsFreeBtn.classList.add('hidden');
+                handsFreeBtn.classList.remove('flex');
+                if (topSpeedSelect) {
+                    topSpeedSelect.classList.add('hidden');
+                    topSpeedSelect.classList.remove('inline-block');
+                }
+            }
+            
+            let activeQTextHtml = q.question_text;
+            if (selectedPart === '2') {
+                activeQTextHtml = `<div class="flex items-center gap-2 mb-2">` +
+                                  `<button onclick="playPart2Audio()" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 font-bold px-3 py-1.5 rounded-lg shadow-sm text-sm transition-all flex items-center gap-1.5"><i class="fa-solid fa-volume-high"></i> Đọc Audio</button>` +
+                                  `</div>` +
+                                  `<span id="part2Transcript" class="${userAnswers[activeQuestionIndex] ? '' : 'hidden'} text-slate-300 font-medium">${q.question_text}</span>`;
+                document.getElementById('activeQText').innerHTML = activeQTextHtml;
+            } else {
+                document.getElementById('activeQText').innerText = q.question_text;
+            }
 
             // 3. Option Values Update
-            document.getElementById('text_A').innerText = q.options.A || '';
-            document.getElementById('text_B').innerText = q.options.B || '';
-            document.getElementById('text_C').innerText = q.options.C || '';
-            document.getElementById('text_D').innerText = q.options.D || '';
+            const hideText = selectedPart === '2' && !userAnswers[activeQuestionIndex];
+            document.getElementById('text_A').innerText = hideText ? 'Lắng nghe Audio...' : (q.options.A || '');
+            document.getElementById('text_B').innerText = hideText ? 'Lắng nghe Audio...' : (q.options.B || '');
+            document.getElementById('text_C').innerText = hideText ? 'Lắng nghe Audio...' : (q.options.C || '');
+            document.getElementById('text_D').innerText = hideText ? '' : (q.options.D || '');
+
+            const optionBtnD = document.getElementById('optionBtn_D');
+            if (selectedPart === '2' || !q.options.D || q.options.D.trim() === '') {
+                optionBtnD.style.display = 'none';
+            } else {
+                optionBtnD.style.display = 'flex';
+            }
 
             const optionsContainer = document.getElementById('optionsGridContainer');
             if (optionsContainer) {
@@ -2426,9 +2718,86 @@ LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
             });
         }
 
+        let currentAudioSession = 0;
+
+        function playPart2Audio() {
+            stopHandsFree();
+            const q = flatQuestions[activeQuestionIndex];
+            if (!q) return;
+            
+            window.speechSynthesis.cancel();
+            currentAudioSession = Date.now();
+            const sessionId = currentAudioSession;
+            
+            const speedSelect = document.getElementById('audioSpeedSelect');
+            const rate = speedSelect ? (parseFloat(speedSelect.value) || 0.9) : 0.9;
+            
+            const voices = window.speechSynthesis.getVoices();
+            const googleVoice = voices.find(v => v.name.includes('Google') && v.lang.includes('en'));
+
+            function speakText(text) {
+                return new Promise(resolve => {
+                    if (currentAudioSession !== sessionId) return resolve();
+                    
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'en-US';
+                    utterance.rate = rate;
+                    if (googleVoice) utterance.voice = googleVoice;
+                    
+                    utterance.onend = resolve;
+                    utterance.onerror = resolve;
+                    
+                    window.speechSynthesis.speak(utterance);
+                });
+            }
+
+            function sleep(ms) {
+                return new Promise(r => setTimeout(r, ms));
+            }
+
+            (async function() {
+                if (currentAudioSession !== sessionId) return;
+                await speakText(q.question_text);
+                
+                if (currentAudioSession !== sessionId) return;
+                await sleep(500);
+                
+                if (currentAudioSession !== sessionId) return;
+                await speakText("A.");
+                await speakText(q.options.A);
+                
+                if (currentAudioSession !== sessionId) return;
+                await sleep(500);
+
+                if (currentAudioSession !== sessionId) return;
+                await speakText("B.");
+                await speakText(q.options.B);
+                
+                if (currentAudioSession !== sessionId) return;
+                await sleep(500);
+
+                if (currentAudioSession !== sessionId) return;
+                await speakText("C.");
+                await speakText(q.options.C);
+            })();
+        }
+
+        // Kích hoạt nạp voices trên Chrome sớm
+        if (typeof window.speechSynthesis !== 'undefined') {
+            window.speechSynthesis.onvoiceschanged = function() {
+                window.speechSynthesis.getVoices();
+            };
+        }
+
         /* SELECTION CONTROL */
         function selectAnswer(ans) {
             if (userAnswers[activeQuestionIndex]) return; // Block double action
+            
+            // Dừng đọc nếu đang đọc Part 2 hoặc đang học rảnh tay
+            stopHandsFree();
+            currentAudioSession = 0;
+            window.speechSynthesis.cancel();
+            
             userAnswers[activeQuestionIndex] = ans;
 
             const q = flatQuestions[activeQuestionIndex];
@@ -2450,6 +2819,14 @@ LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
         function displaySelectedAnswer(userAns) {
             const q = flatQuestions[activeQuestionIndex];
             const correctAns = q.correct_answer;
+
+            if (selectedPart === '2') {
+                const ts = document.getElementById('part2Transcript');
+                if (ts) ts.classList.remove('hidden');
+                document.getElementById('text_A').innerText = q.options.A || '';
+                document.getElementById('text_B').innerText = q.options.B || '';
+                document.getElementById('text_C').innerText = q.options.C || '';
+            }
 
             const keys = ['A', 'B', 'C', 'D'];
             keys.forEach(k => {
@@ -2480,6 +2857,9 @@ LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
         }
 
         function navigateQuestion(dir) {
+            stopHandsFree();
+            currentAudioSession = 0;
+            window.speechSynthesis.cancel();
             if (dir === 'prev' && activeQuestionIndex > 0) {
                 activeQuestionIndex--;
                 renderActiveQuestion();
@@ -2536,7 +2916,15 @@ LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
             }
 
             // 1. Structure Highlight Processor
-            document.getElementById('structureAnalysisBox').innerHTML = highlightSyntaxTokens(q.sentence_structure_analysis);
+            const structBox = document.getElementById('structureAnalysisBox');
+            if (selectedPart === '2') {
+                structBox.classList.add('hidden');
+                document.getElementById('label_CuPhap').parentElement.classList.add('hidden');
+            } else {
+                structBox.classList.remove('hidden');
+                document.getElementById('label_CuPhap').parentElement.classList.remove('hidden');
+                structBox.innerHTML = highlightSyntaxTokens(q.sentence_structure_analysis);
+            }
 
             // 1.5 Vietnamese Translation
             let transText = q.vietnamese_translation || 'Chưa có bản dịch.';
@@ -2590,6 +2978,11 @@ LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
             // Collect and iterate through all non-correct options
             const correctKey = q.correct_answer;
             const wrongKeys = ['A', 'B', 'C', 'D'].filter(k => k !== correctKey);
+            
+            if (selectedPart === '2') {
+                const dIndex = wrongKeys.indexOf('D');
+                if (dIndex > -1) wrongKeys.splice(dIndex, 1);
+            }
 
             wrongKeys.forEach(k => {
                 const optKey = `option_${k}`;
@@ -2599,16 +2992,29 @@ LƯU Ý QUAN TRỌNG VÀ NGHIÊM NGẶT:
 
                 const row = document.createElement('div');
                 row.className = "py-3 flex flex-col md:flex-row md:items-start gap-2 text-sm";
-                row.innerHTML = `
-                    <div class="flex items-center gap-2 shrink-0 md:w-1/4">
-                        <span class="w-6 h-6 rounded bg-rose-500/10 border border-rose-500/20 text-rose-400 font-bold font-mono text-xs flex items-center justify-center">${k}</span>
-                        <span class="font-semibold text-slate-300 font-mono text-xs truncate max-w-[120px]" title="${optValue}">${optValue}</span>
-                    </div>
-                    <div class="flex-1 space-y-1">
-                        <div class="text-xs text-indigo-400 font-semibold"><i class="fa-solid fa-microscope text-[10px]"></i> Bản chất: <span class="text-slate-300 font-normal italic">${data.nature}</span></div>
-                        <p class="text-xs text-slate-400 leading-relaxed">${formatVocabExplanation(data.why_faulty)}</p>
-                    </div>
-                `;
+                
+                if (selectedPart === '2') {
+                    row.innerHTML = `
+                        <div class="flex items-center gap-2 shrink-0 md:w-1/4">
+                            <span class="w-6 h-6 rounded bg-rose-500/10 border border-rose-500/20 text-rose-400 font-bold font-mono text-xs flex items-center justify-center">${k}</span>
+                            <span class="font-semibold text-slate-300 font-mono text-xs truncate max-w-[120px]" title="${optValue}">${optValue}</span>
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <p class="text-xs text-slate-400 leading-relaxed">${formatVocabExplanation(data.why_faulty)}</p>
+                        </div>
+                    `;
+                } else {
+                    row.innerHTML = `
+                        <div class="flex items-center gap-2 shrink-0 md:w-1/4">
+                            <span class="w-6 h-6 rounded bg-rose-500/10 border border-rose-500/20 text-rose-400 font-bold font-mono text-xs flex items-center justify-center">${k}</span>
+                            <span class="font-semibold text-slate-300 font-mono text-xs truncate max-w-[120px]" title="${optValue}">${optValue}</span>
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <div class="text-xs text-indigo-400 font-semibold"><i class="fa-solid fa-microscope text-[10px]"></i> Bản chất: <span class="text-slate-300 font-normal italic">${data.nature}</span></div>
+                            <p class="text-xs text-slate-400 leading-relaxed">${formatVocabExplanation(data.why_faulty)}</p>
+                        </div>
+                    `;
+                }
                 container.appendChild(row);
             });
         }
